@@ -14,7 +14,7 @@ var META = {
 // 不寫死年份，每次重新產生頁面都會自動跟著資料往前滾動。
 var CUR_YEAR = Number(META.aumAsOf.slice(0, 4));
 var YEARS = [String(CUR_YEAR - 2), String(CUR_YEAR - 1), String(CUR_YEAR)];
-var WINDOW_START = (CUR_YEAR - 1) + '-01-01';
+var WINDOW_START = YEARS[0] + '-01-01'; // 跟逐年新基金長條圖同一個 3 年回溯窗，起點對齊 YEARS[0]
 var WINDOW_END = META.aumAsOf;
 
 var BANK_SHORT = {
