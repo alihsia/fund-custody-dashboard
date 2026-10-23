@@ -380,8 +380,7 @@ function renderYearPanel(){
 })();
 renderYearPanel();
 
-// --- 新基金依產品類型 (WINDOW_START ~ WINDOW_END) + pie ---
-var windowFunds = FUNDS.filter(function(f){ return f.inc && f.inc >= WINDOW_START && f.inc <= WINDOW_END; });
+// WINDOW_START/WINDOW_END 仍用於「自己查」的一鍵範例篩選（新案期間、今年新基金）
 var WINDOW_LABEL = WINDOW_START.slice(0,7) + '～' + WINDOW_END.slice(0,7);
 document.getElementById('presetCurYear').textContent = YEARS[2] + ' 年新基金';
 document.getElementById('presetWindow').textContent = '新案期間（' + WINDOW_LABEL + '）';
@@ -429,7 +428,6 @@ function renderCategoryTable(funds, tableElId, titleElId, titleText){
     });
   });
 }
-renderCategoryTable(windowFunds, 'catTable', 'catTableTitle', '新基金依產品類型｜' + WINDOW_LABEL + '（共 ' + windowFunds.length + ' 檔）');
 renderCategoryTable(FUNDS, 'allCatTable', 'allCatTableTitle', '全市場依產品類型｜目前存續基金（共 ' + FUNDS.length + ' 檔）');
 
 function renderPie(funds, svgId, legendId, centerSubtext){
@@ -494,7 +492,6 @@ function renderPie(funds, svgId, legendId, centerSubtext){
     ]));
   });
 }
-renderPie(windowFunds, 'pieSvg', 'pieLegend', '新案期間規模');
 renderPie(FUNDS, 'allPieSvg', 'allPieLegend', '全市場規模');
 
 // ======================================================================
