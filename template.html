@@ -1,0 +1,444 @@
+<meta charset="utf-8">
+<title>基金保管市場看板</title>
+<style>
+  :root{
+    --bg:#F4F5F2;
+    --surface:#FFFFFF;
+    --surface-2:#FAFAF8;
+    --surface-sunken:#EEF1EE;
+    --ink:#12181B;
+    --ink-2:#52605F;
+    --ink-muted:#8B9593;
+    --accent:#0E6B5C;
+    --accent-ink:#ffffff;
+    --accent-soft:#E3F0EC;
+    --accent-soft-ink:#0E6B5C;
+    --line:#DDE3E0;
+    --line-strong:#C7D0CC;
+    --good:#0ca30c;
+    --chip-bg:#FFFFFF;
+    --series-1:#2a78d6;
+    --series-2:#eb6834;
+    --series-3:#1baf7a;
+    --shadow: 0 1px 2px rgba(18,24,27,0.04), 0 4px 16px rgba(18,24,27,0.05);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1413;
+      --surface:#161D1C;
+      --surface-2:#1B2322;
+      --surface-sunken:#101615;
+      --ink:#F2F4F2;
+      --ink-2:#B9C2BF;
+      --ink-muted:#78827F;
+      --accent:#35A98D;
+      --accent-ink:#06231D;
+      --accent-soft:rgba(53,169,141,0.16);
+      --accent-soft-ink:#6CCBB2;
+      --line:#2A3331;
+      --line-strong:#3A4442;
+      --good:#2fbf2f;
+      --chip-bg:#1B2322;
+      --series-1:#3987e5;
+      --series-2:#d95926;
+      --series-3:#199e70;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1413;
+    --surface:#161D1C;
+    --surface-2:#1B2322;
+    --surface-sunken:#101615;
+    --ink:#F2F4F2;
+    --ink-2:#B9C2BF;
+    --ink-muted:#78827F;
+    --accent:#35A98D;
+    --accent-ink:#06231D;
+    --accent-soft:rgba(53,169,141,0.16);
+    --accent-soft-ink:#6CCBB2;
+    --line:#2A3331;
+    --line-strong:#3A4442;
+    --good:#2fbf2f;
+    --chip-bg:#1B2322;
+    --series-1:#3987e5;
+    --series-2:#d95926;
+    --series-3:#199e70;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family: "PingFang TC","Microsoft JhengHei","Noto Sans TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-feature-settings:"tnum" 1;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .num{ font-variant-numeric: tabular-nums; }
+  a{ color: var(--accent); }
+
+  .page{ max-width:1180px; margin:0 auto; padding:0 20px 64px; }
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:24px;
+    padding:28px 0 20px;
+    flex-wrap:wrap;
+  }
+  .brand{ display:flex; gap:12px; align-items:flex-start; }
+  .brand-mark{
+    width:38px; height:38px; border-radius:9px; flex:none; margin-top:2px;
+    background: linear-gradient(155deg, var(--accent), #0a4a40);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:16px; font-weight:700; letter-spacing:0.02em;
+  }
+  .brand h1{ margin:0; font-size:21px; font-weight:700; letter-spacing:0.01em; text-wrap:balance; }
+  .brand p{ margin:3px 0 0; font-size:12.5px; color:var(--ink-muted); }
+  .meta-chips{ display:flex; gap:8px; flex-wrap:wrap; max-width:520px; }
+  .chip{
+    font-size:12px; color:var(--ink-2); background:var(--surface);
+    border:1px solid var(--line); border-radius:999px; padding:5px 11px;
+    white-space:nowrap;
+  }
+  .chip b{ color:var(--ink); font-weight:600; }
+  .chip.accent{ background:var(--accent-soft); color:var(--accent-soft-ink); border-color:transparent; }
+
+  /* ---------- section nav ---------- */
+  .section-nav{
+    position:sticky; top:0; z-index:40;
+    display:flex; gap:4px; padding:10px 0; margin-bottom:8px;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;
+  }
+  .section-nav a{
+    text-decoration:none; color:var(--ink-2); font-size:13.5px; font-weight:600;
+    padding:7px 14px; border-radius:8px; white-space:nowrap;
+  }
+  .section-nav a:hover{ background:var(--surface-2); color:var(--ink); }
+  .section-nav a.active{ background:var(--accent); color:var(--accent-ink); }
+
+  section.block{ padding:40px 0 8px; border-bottom:1px solid var(--line); scroll-margin-top:64px; }
+  section.block:last-of-type{ border-bottom:none; }
+  .block-head{ margin-bottom:18px; }
+  .eyebrow{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:700; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .eyebrow::before{ content:""; width:16px; height:2px; background:var(--accent); border-radius:2px; }
+  .block-head h2{ margin:0 0 6px; font-size:22px; font-weight:700; text-wrap:balance; }
+  .block-head p{ margin:0; font-size:13.5px; color:var(--ink-2); max-width:640px; }
+
+  /* ---------- cards / grid ---------- */
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    box-shadow: var(--shadow);
+  }
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .stat-tile{ padding:18px 20px; }
+  .stat-tile .label{ font-size:12.5px; color:var(--ink-muted); margin-bottom:10px; display:flex; justify-content:space-between; }
+  .stat-tile .value{ font-size:28px; font-weight:700; letter-spacing:-0.01em; }
+  .stat-tile .sub{ font-size:12px; color:var(--ink-muted); margin-top:4px; }
+
+  .two-col{ display:grid; grid-template-columns: 1.1fr 1fr; gap:16px; align-items:start; }
+
+  /* ---------- toggle ---------- */
+  .toggle{
+    display:inline-flex; background:var(--surface-sunken); border-radius:10px; padding:3px;
+    border:1px solid var(--line);
+  }
+  .toggle button{
+    appearance:none; border:none; background:transparent; cursor:pointer;
+    font-size:13px; font-weight:600; color:var(--ink-2); padding:7px 16px; border-radius:8px;
+    font-family:inherit;
+  }
+  .toggle button.active{ background:var(--accent); color:var(--accent-ink); }
+
+  /* ---------- bar list ---------- */
+  .bar-list{ padding:16px 18px 10px; }
+  .bar-row{ display:grid; grid-template-columns:20px 84px 1fr 100px; gap:10px; align-items:center; padding:7px 0; }
+  .bar-row .rank{ font-size:12px; color:var(--ink-muted); text-align:right; }
+  .bar-row .name{ font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bar-track{ position:relative; height:16px; background:var(--surface-sunken); border-radius:5px; overflow:hidden; }
+  .bar-fill{ position:absolute; left:0; top:0; bottom:0; border-radius:5px; background:var(--accent); transition:width .35s ease; }
+  .bar-row .val{ font-size:12.5px; color:var(--ink-2); text-align:right; white-space:nowrap; }
+  .bar-row .val b{ color:var(--ink); font-weight:700; }
+  .show-all-btn{
+    display:block; width:calc(100% - 36px); margin:6px 18px 14px; padding:8px; text-align:center;
+    background:transparent; border:1px dashed var(--line-strong); border-radius:8px; color:var(--ink-2);
+    font-size:12.5px; cursor:pointer; font-family:inherit; font-weight:600;
+  }
+  .show-all-btn:hover{ color:var(--ink); border-color:var(--ink-muted); }
+
+  /* ---------- compare panel ---------- */
+  .compare-panel{ padding:16px 18px 18px; }
+  .compare-panel h3{ margin:0 0 10px; font-size:13px; font-weight:700; color:var(--ink-2); }
+  .bank-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+  .bank-chip{
+    font-size:12.5px; font-family:inherit; font-weight:600; cursor:pointer;
+    padding:6px 11px; border-radius:8px; border:1px solid var(--line); background:var(--chip-bg); color:var(--ink-2);
+  }
+  .bank-chip.selected{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .bank-chip:disabled{ opacity:.35; cursor:not-allowed; }
+  .hint{ font-size:11.5px; color:var(--ink-muted); margin:-8px 0 14px; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  thead th{
+    text-align:right; font-size:11.5px; color:var(--ink-muted); font-weight:600;
+    padding:0 8px 8px; border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  thead th:first-child, tbody td:first-child{ text-align:left; }
+  tbody td{ padding:9px 8px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr.market-row{ background:var(--surface-2); font-weight:700; }
+  tbody tr.market-row td{ border-top:1px solid var(--line-strong); }
+  .rank-pill{ font-size:11px; color:var(--ink-muted); font-weight:500; }
+  .table-scroll{ overflow-x:auto; }
+  .table-note{ font-size:11.5px; color:var(--ink-muted); padding:10px 2px 0; line-height:1.6; }
+
+  /* ---------- year bars (new funds) ---------- */
+  .year-bars{ display:flex; gap:18px; align-items:flex-end; height:170px; padding:18px 18px 8px; }
+  .year-bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; height:100%; justify-content:flex-end; }
+  .year-bar-col .amt{ font-size:19px; font-weight:700; }
+  .year-bar-col .bar{ width:56%; min-width:40px; border-radius:6px 6px 3px 3px; background:var(--surface-sunken); position:relative; }
+  .year-bar-col .bar .fill{ position:absolute; left:0; right:0; bottom:0; border-radius:6px 6px 3px 3px; background:var(--accent); }
+  .year-bar-col .yr{ font-size:12.5px; color:var(--ink-2); font-weight:600; }
+  .year-bar-col.current .bar .fill{ background: linear-gradient(180deg, var(--accent), var(--series-1)); }
+
+  .year-tabs{ display:flex; gap:6px; margin-bottom:10px; }
+  .year-tabs button{
+    font-family:inherit; font-size:12.5px; font-weight:700; padding:6px 13px; border-radius:999px;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer;
+  }
+  .year-tabs button.active{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+  .panel-pad{ padding:16px 18px 18px; }
+  .panel-title{ font-size:13px; font-weight:700; color:var(--ink-2); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;}
+
+  .footnote-box{
+    margin-top:12px; padding:10px 13px; background:var(--accent-soft); color:var(--accent-soft-ink);
+    border-radius:9px; font-size:12px; line-height:1.6;
+  }
+
+  /* category table + pie */
+  .cat-wrap{ display:grid; grid-template-columns: 1.3fr 1fr; gap:16px; margin-top:16px; }
+  .cat-bar-cell{ display:flex; align-items:center; gap:8px; }
+  .cat-bar-cell .mini-track{ width:70px; height:7px; border-radius:4px; background:var(--surface-sunken); overflow:hidden; }
+  .cat-bar-cell .mini-fill{ height:100%; background:var(--accent); border-radius:4px; }
+  .pie-wrap{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:18px; }
+  .pie-legend{ display:flex; flex-direction:column; gap:8px; width:100%; max-width:230px; }
+  .pie-legend-row{ display:flex; align-items:center; justify-content:space-between; font-size:12.5px; }
+  .pie-legend-row .lk{ display:flex; align-items:center; gap:7px; color:var(--ink-2); }
+  .dot{ width:9px; height:9px; border-radius:3px; flex:none; }
+  .pie-legend-row .lv{ font-weight:700; color:var(--ink); }
+
+  /* ---------- lookup / section4 ---------- */
+  .filter-card{ padding:16px 18px; display:flex; flex-direction:column; gap:12px; }
+  .filter-row{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+  .field label{ display:block; font-size:11.5px; color:var(--ink-muted); margin-bottom:5px; font-weight:600; }
+  .field select, .field input{
+    width:100%; font-family:inherit; font-size:13px; color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:8px 9px;
+  }
+  .field select:focus, .field input:focus{ outline:2px solid var(--accent); outline-offset:1px; }
+  .preset-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .preset-btn{
+    font-family:inherit; font-size:12px; font-weight:600; padding:6px 12px; border-radius:999px;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer;
+  }
+  .preset-btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .preset-btn.clear{ color:var(--ink-muted); }
+
+  .result-bar{ display:flex; justify-content:space-between; align-items:center; margin:16px 2px 10px; flex-wrap:wrap; gap:10px; }
+  .result-count{ font-size:13.5px; color:var(--ink-2); }
+  .result-count b{ color:var(--accent); font-weight:700; }
+  .dl-btn{
+    font-family:inherit; font-size:12.5px; font-weight:700; padding:8px 14px; border-radius:8px;
+    border:none; background:var(--accent); color:var(--accent-ink); cursor:pointer;
+  }
+  .dl-btn:hover{ opacity:.92; }
+  .by-custodian-line{ font-size:12px; color:var(--ink-muted); margin:0 2px 12px; }
+  .lookup-table-wrap{ max-height:560px; overflow:auto; border:1px solid var(--line); border-radius:12px; }
+  .lookup-table-wrap table{ font-size:12.5px; }
+  .lookup-table-wrap thead th{ position:sticky; top:0; background:var(--surface); z-index:2; }
+  .name-cell{ text-align:left !important; max-width:260px; overflow:hidden; text-overflow:ellipsis; }
+  .tag{ display:inline-block; font-size:11px; padding:2px 7px; border-radius:999px; background:var(--surface-sunken); color:var(--ink-2); }
+
+  footer.page-footer{ padding:28px 2px 0; font-size:11.5px; color:var(--ink-muted); line-height:1.8; }
+
+  @media (max-width:860px){
+    .stat-grid{ grid-template-columns:repeat(2,1fr); }
+    .two-col{ grid-template-columns:1fr; }
+    .cat-wrap{ grid-template-columns:1fr; }
+    .filter-row{ grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+
+<div class="page">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">保</div>
+      <div>
+        <h1>基金保管市場看板</h1>
+        <p>境內基金｜中華民國證券投資信託暨顧問商業同業公會公開資料</p>
+      </div>
+    </div>
+    <div class="meta-chips" id="metaChips"></div>
+  </div>
+
+  <nav class="section-nav">
+    <a href="#overview">市場總覽</a>
+    <a href="#share">存量市占</a>
+    <a href="#newfunds">新案流向</a>
+    <a href="#lookup">自己查</a>
+  </nav>
+
+  <main>
+    <section class="block" id="overview">
+      <div class="block-head">
+        <div class="eyebrow">01 · 全市場</div>
+        <h2>基金保管市場：全貌</h2>
+        <p>查詢全市場規模、檔數與保管行、投信家數。資料每月更新，僅使用公開資料。</p>
+      </div>
+      <div class="stat-grid" id="statGrid"></div>
+    </section>
+
+    <section class="block" id="share">
+      <div class="block-head">
+        <div class="eyebrow">02 · 存量市占</div>
+        <h2>保管行排名：換一種算法，名次就不同</h2>
+        <p>依規模或依檔數排序，結果會不一樣。右側可挑選最多三家保管行，與全市場比較。</p>
+      </div>
+      <div style="margin-bottom:14px;">
+        <div class="toggle" id="shareToggle">
+          <button data-metric="aum" class="active">依規模</button>
+          <button data-metric="count">依檔數</button>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="bar-list" id="shareBarList"></div>
+          <button class="show-all-btn" id="shareShowAllBtn">顯示全部 23 家</button>
+        </div>
+        <div class="card compare-panel">
+          <h3>三種算法剩兩種（已移除保管費）｜點選要比較的保管行（最多 3 家）</h3>
+          <div class="bank-chips" id="bankChips"></div>
+          <div class="table-scroll">
+            <table id="compareTable"></table>
+          </div>
+          <div class="table-note">括號內為名次；並列者名次相同。規模＝月底基金規模（新台幣）；投信客戶＝該保管行承作之投信家數。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="newfunds">
+      <div class="block-head">
+        <div class="eyebrow">03 · 新案：誰拿到新基金</div>
+        <h2>新基金：年度分布與保管行流向</h2>
+        <p>全市場逐年新基金檔數，以及各年度前三名保管行的承接狀況。</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="panel-title" style="padding:16px 18px 0;">全市場｜逐年新基金檔數</div>
+          <div class="year-bars" id="yearBars"></div>
+          <div class="table-note" style="padding:0 18px 16px;" id="yearBarsNote">僅計目前仍存續的基金；成立日採「基金」成立日（不採級別成立日，避免老基金新增級別被誤算成新基金）。</div>
+        </div>
+        <div class="card panel-pad">
+          <div class="panel-title">
+            <span id="yearTableTitle">—</span>
+            <div class="year-tabs" id="yearTabs"></div>
+          </div>
+          <div class="table-scroll">
+            <table id="yearTopTable"></table>
+          </div>
+          <div class="footnote-box" id="yearFootnote"></div>
+        </div>
+      </div>
+
+      <div class="cat-wrap">
+        <div class="card panel-pad">
+          <div class="panel-title"><span id="catTableTitle">新基金依產品類型</span></div>
+          <div class="table-scroll">
+            <table id="catTable"></table>
+          </div>
+        </div>
+        <div class="card pie-wrap">
+          <div class="panel-title" style="width:100%;">新基金結構｜主動式 ETF／被動式 ETF／傳統基金</div>
+          <svg id="pieSvg" width="168" height="168" viewBox="0 0 168 168"></svg>
+          <div class="pie-legend" id="pieLegend"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="lookup">
+      <div class="block-head">
+        <div class="eyebrow">04 · 自己查</div>
+        <h2>投信 × 保管行明細</h2>
+        <p>查看個別保管行項下各檔基金規模，或做投信競爭力分析。</p>
+      </div>
+
+      <div class="card filter-card">
+        <div class="filter-row">
+          <div class="field">
+            <label>投信</label>
+            <select id="fCompany"><option value="">全部</option></select>
+          </div>
+          <div class="field">
+            <label>保管行</label>
+            <select id="fCustodian"><option value="">全部</option></select>
+          </div>
+          <div class="field">
+            <label>產品類型</label>
+            <select id="fCategory"><option value="">全部類型</option></select>
+          </div>
+          <div class="field">
+            <label>成立日（起）</label>
+            <input type="date" id="fFrom" />
+          </div>
+          <div class="field">
+            <label>成立日（迄）</label>
+            <input type="date" id="fTo" />
+          </div>
+        </div>
+        <div class="filter-row" style="grid-template-columns:1fr;">
+          <div class="field">
+            <label>基金名稱關鍵字</label>
+            <input type="text" id="fKeyword" placeholder="例如：主動式、ETF、科技" />
+          </div>
+        </div>
+        <div class="preset-row">
+          <span style="font-size:11.5px;color:var(--ink-muted);font-weight:600;">一鍵範例：</span>
+          <button class="preset-btn" data-preset="curyear" id="presetCurYear">今年新基金</button>
+          <button class="preset-btn" data-preset="active-etf">主動式 ETF</button>
+          <button class="preset-btn" data-preset="window" id="presetWindow">新案期間</button>
+          <button class="preset-btn clear" data-preset="clear">清除條件</button>
+        </div>
+      </div>
+
+      <div class="result-bar">
+        <div class="result-count" id="resultCount"></div>
+        <button class="dl-btn" id="downloadCsv">下載 CSV</button>
+      </div>
+      <div class="by-custodian-line" id="byCustodianLine"></div>
+      <div class="lookup-table-wrap">
+        <table id="lookupTable"></table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    資料來源：中華民國證券投資信託暨顧問商業同業公會（sitca.org.tw）公開資料，僅使用公開資料整理，不含保管費資訊。
+    同一基金之不同級別僅計 1 檔；基金規模為新台幣（含外幣基金折合）。本頁為內部商機研判用途，非投資建議。
+  </footer>
+</div>
+
+<script id="fund-data" type="application/json">__FUND_DATA__</script>
+<script>
+__JS_LOGIC__
+</script>
