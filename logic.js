@@ -388,10 +388,10 @@ document.getElementById('presetWindow').textContent = '新案期間（' + WINDOW
 document.getElementById('yearBarsNote').textContent =
   YEARS[2] + ' 年資料至 ' + Number(META.dataMonth.slice(5)) + ' 月。僅計目前仍存續的基金；成立日採「基金」成立日（不採級別成立日，避免老基金新增級別被誤算成新基金）。';
 
-(function renderCategoryTable(){
-  document.getElementById('catTableTitle').textContent = '新基金依產品類型｜' + WINDOW_LABEL + '（共 ' + windowFunds.length + ' 檔）';
+function renderCategoryTable(funds, tableElId, titleElId, titleText){
+  document.getElementById(titleElId).textContent = titleText;
   var byCat = {};
-  windowFunds.forEach(function(f){
+  funds.forEach(function(f){
     if (!byCat[f.c]) byCat[f.c] = { count:0, aum:0 };
     byCat[f.c].count += 1;
     byCat[f.c].aum += f.a;
@@ -399,7 +399,7 @@ document.getElementById('yearBarsNote').textContent =
   var maxCount = 0;
   CATEGORY_ORDER.forEach(function(c){ if (byCat[c]) maxCount = Math.max(maxCount, byCat[c].count); });
 
-  var table = document.getElementById('catTable');
+  var table = document.getElementById(tableElId);
   table.innerHTML = '';
   table.appendChild(el('thead', {}, [el('tr', {}, [
     el('th', {}, ['產品類型']), el('th', {}, ['檔數']), el('th', {}, ['現規模'])
@@ -428,20 +428,22 @@ document.getElementById('yearBarsNote').textContent =
       fills.forEach(function(pair){ pair[0].style.width = pair[1] + '%'; });
     });
   });
-})();
+}
+renderCategoryTable(windowFunds, 'catTable', 'catTableTitle', '新基金依產品類型｜' + WINDOW_LABEL + '（共 ' + windowFunds.length + ' 檔）');
+renderCategoryTable(FUNDS, 'allCatTable', 'allCatTableTitle', '全市場依產品類型｜目前存續基金（共 ' + FUNDS.length + ' 檔）');
 
-(function renderPie(){
+function renderPie(funds, svgId, legendId, centerSubtext){
   var groups = { '主動式ETF':{count:0,aum:0}, '被動式ETF':{count:0,aum:0}, '一般傳統基金':{count:0,aum:0} };
-  windowFunds.forEach(function(f){
+  funds.forEach(function(f){
     if (!groups[f.e]) groups[f.e] = {count:0,aum:0};
     groups[f.e].count += 1;
     groups[f.e].aum += f.a;
   });
-  var total = windowFunds.reduce(function(s,f){ return s+f.a; }, 0) || 1;
+  var total = funds.reduce(function(s,f){ return s+f.a; }, 0) || 1;
   var colors = { '主動式ETF':'var(--series-1)', '被動式ETF':'var(--series-2)', '一般傳統基金':'var(--series-3)' };
   var order = ['主動式ETF','被動式ETF','一般傳統基金'];
 
-  var svg = document.getElementById('pieSvg');
+  var svg = document.getElementById(svgId);
   var cx=84, cy=84, r=62, sw=26;
   var circumference = 2*Math.PI*r;
   var offsetAcc = 0;
@@ -479,10 +481,10 @@ document.getElementById('yearBarsNote').textContent =
   subText.setAttribute('x',cx); subText.setAttribute('y',cy+14);
   subText.setAttribute('text-anchor','middle');
   subText.setAttribute('font-size','10.5'); subText.setAttribute('fill','var(--ink-muted)');
-  subText.textContent = '新案期間規模';
+  subText.textContent = centerSubtext;
   svg.appendChild(subText);
 
-  var legend = document.getElementById('pieLegend');
+  var legend = document.getElementById(legendId);
   legend.innerHTML = '';
   order.forEach(function(key){
     var g = groups[key] || {count:0,aum:0};
@@ -491,7 +493,9 @@ document.getElementById('yearBarsNote').textContent =
       el('div', {class:'lv num'}, [g.count + ' 檔・' + fmtAUMShort(g.aum) + '（' + fmtPct(g.aum/total) + '）'])
     ]));
   });
-})();
+}
+renderPie(windowFunds, 'pieSvg', 'pieLegend', '新案期間規模');
+renderPie(FUNDS, 'allPieSvg', 'allPieLegend', '全市場規模');
 
 // ======================================================================
 // Section 4 — 自己查
