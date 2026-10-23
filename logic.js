@@ -172,6 +172,7 @@ function renderShareBarList(){
   var max = src[0][shareMetric];
   var label = shareMetric === 'aum' ? '依規模：各保管行基金規模與市占（前 ' + n + ' 名）' : '依檔數：各保管行存續基金檔數與市占（前 ' + n + ' 名）';
   wrap.appendChild(el('div', {style:'font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px;'}, [label]));
+  var fills = [];
   for (var i=0;i<n;i++){
     var c = src[i];
     var pct = c[shareMetric] / total;
@@ -179,14 +180,22 @@ function renderShareBarList(){
     var valText = shareMetric === 'aum'
       ? fmtPct(pct) + '　' + fmtAUMShort(c.aum)
       : fmtPct(pct) + '　' + c.count + ' 檔';
+    var fill = el('div', {class:'bar-fill'});
+    fills.push([fill, widthPct]);
     wrap.appendChild(el('div', {class:'bar-row'}, [
       el('div', {class:'rank'}, [String(i+1)]),
       el('div', {class:'name', title:c.name}, [shortBank(c.name)]),
-      el('div', {class:'bar-track'}, [el('div', {class:'bar-fill', style:'width:'+widthPct+'%'})]),
+      el('div', {class:'bar-track'}, [fill]),
       el('div', {class:'val num'}, [valText])
     ]));
   }
   document.getElementById('shareShowAllBtn').textContent = shareShowAll ? '收合為前 10 名' : '顯示全部 ' + src.length + ' 家';
+  // 先掛載在 width:0，下一幀再設定目標寬度，讓切換依規模/依檔數時長條有動畫
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      fills.forEach(function(pair){ pair[0].style.width = pair[1] + '%'; });
+    });
+  });
 }
 
 document.getElementById('shareShowAllBtn').addEventListener('click', function(){
@@ -282,15 +291,24 @@ newFundsAll.forEach(function(f){
 (function renderYearBars(){
   var wrap = document.getElementById('yearBars');
   var max = Math.max.apply(null, YEARS.map(function(y){ return byYear[y].length; }));
+  var fills = [];
   YEARS.forEach(function(y){
     var n = byYear[y].length;
     var h = max ? (n/max*100) : 0;
+    var fill = el('div', {class:'fill'});
+    fills.push([fill, h]);
     var col = el('div', {class:'year-bar-col' + (y===YEARS[2]?' current':'')}, [
       el('div', {class:'amt num'}, [n + ' 檔']),
-      el('div', {class:'bar'}, [el('div', {class:'fill', style:'height:'+h+'%'})]),
+      el('div', {class:'bar'}, [fill]),
       el('div', {class:'yr'}, [y === YEARS[2] ? y+'*' : y])
     ]);
     wrap.appendChild(col);
+  });
+  // 先掛載在 height:0，下一幀再設定目標高度，讓 CSS transition 有起點可以動畫（grow-up）
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      fills.forEach(function(pair){ pair[0].style.height = pair[1] + '%'; });
+    });
   });
 })();
 
@@ -387,13 +405,16 @@ document.getElementById('yearBarsNote').textContent =
     el('th', {}, ['產品類型']), el('th', {}, ['檔數']), el('th', {}, ['現規模'])
   ])]));
   var tbody = el('tbody');
+  var fills = [];
   CATEGORY_ORDER.forEach(function(cat){
     var d = byCat[cat] || {count:0, aum:0};
     var w = maxCount ? (d.count/maxCount*100) : 0;
+    var fill = el('div', {class:'mini-fill'});
+    fills.push([fill, w]);
     tbody.appendChild(el('tr', {}, [
       el('td', {class:'name-cell'}, [
         el('div', {class:'cat-bar-cell'}, [
-          el('div', {class:'mini-track'}, [el('div',{class:'mini-fill', style:'width:'+w+'%'})]),
+          el('div', {class:'mini-track'}, [fill]),
           el('span', {}, [cat])
         ])
       ]),
@@ -402,6 +423,11 @@ document.getElementById('yearBarsNote').textContent =
     ]));
   });
   table.appendChild(tbody);
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      fills.forEach(function(pair){ pair[0].style.width = pair[1] + '%'; });
+    });
+  });
 })();
 
 (function renderPie(){
