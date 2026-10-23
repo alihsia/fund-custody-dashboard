@@ -431,9 +431,13 @@ document.getElementById('yearBarsNote').textContent =
 })();
 
 (function renderPie(){
-  var groups = { '主動式ETF':0, '被動式ETF':0, '一般傳統基金':0 };
-  windowFunds.forEach(function(f){ groups[f.e] = (groups[f.e]||0) + 1; });
-  var total = windowFunds.length || 1;
+  var groups = { '主動式ETF':{count:0,aum:0}, '被動式ETF':{count:0,aum:0}, '一般傳統基金':{count:0,aum:0} };
+  windowFunds.forEach(function(f){
+    if (!groups[f.e]) groups[f.e] = {count:0,aum:0};
+    groups[f.e].count += 1;
+    groups[f.e].aum += f.a;
+  });
+  var total = windowFunds.reduce(function(s,f){ return s+f.a; }, 0) || 1;
   var colors = { '主動式ETF':'var(--series-1)', '被動式ETF':'var(--series-2)', '一般傳統基金':'var(--series-3)' };
   var order = ['主動式ETF','被動式ETF','一般傳統基金'];
 
@@ -448,8 +452,8 @@ document.getElementById('yearBarsNote').textContent =
   svg.appendChild(bgCircle);
 
   order.forEach(function(key){
-    var v = groups[key] || 0;
-    var frac = v/total;
+    var g = groups[key] || {count:0,aum:0};
+    var frac = g.aum/total;
     var len = frac*circumference;
     var gap = Math.min(2, len*0.08);
     var circle = document.createElementNS(svgns,'circle');
@@ -469,22 +473,22 @@ document.getElementById('yearBarsNote').textContent =
   centerText.setAttribute('text-anchor','middle');
   centerText.setAttribute('font-size','20'); centerText.setAttribute('font-weight','700');
   centerText.setAttribute('fill','var(--ink)');
-  centerText.textContent = total + ' 檔';
+  centerText.textContent = fmtAUMShort(total);
   svg.appendChild(centerText);
   var subText = document.createElementNS(svgns,'text');
   subText.setAttribute('x',cx); subText.setAttribute('y',cy+14);
   subText.setAttribute('text-anchor','middle');
   subText.setAttribute('font-size','10.5'); subText.setAttribute('fill','var(--ink-muted)');
-  subText.textContent = '新案期間';
+  subText.textContent = '新案期間規模';
   svg.appendChild(subText);
 
   var legend = document.getElementById('pieLegend');
   legend.innerHTML = '';
   order.forEach(function(key){
-    var v = groups[key] || 0;
+    var g = groups[key] || {count:0,aum:0};
     legend.appendChild(el('div', {class:'pie-legend-row'}, [
       el('div', {class:'lk'}, [el('span',{class:'dot', style:'background:'+colors[key]}), key]),
-      el('div', {class:'lv num'}, [v + ' 檔 (' + fmtPct(v/total) + ')'])
+      el('div', {class:'lv num'}, [g.count + ' 檔・' + fmtAUMShort(g.aum) + '（' + fmtPct(g.aum/total) + '）'])
     ]));
   });
 })();
