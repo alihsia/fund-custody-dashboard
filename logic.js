@@ -106,7 +106,7 @@ var companyCount = Object.keys(companySet).length;
   var tiles = [
     ['全市場｜基金檔數', fmtInt(fundCount) + ' 檔', '同一基金不同級別僅計 1 檔'],
     ['全市場｜基金總規模', fmtAUM(totalAUM), '基準日 ' + META.aumAsOf],
-    ['全市場｜保管行家數', custodianCount + ' 家', companyCount + ' 家投信'],
+    ['全市場｜保管行家數', custodianCount + ' 家', '承作基金保管業務之銀行'],
     ['全市場｜投信家數', companyCount + ' 家', '有存續基金之經理公司']
   ];
   tiles.forEach(function(t){
@@ -392,8 +392,11 @@ function renderCategoryTable(funds, tableElId, titleElId, titleText){
     byCat[f.c].count += 1;
     byCat[f.c].aum += f.a;
   });
-  var maxCount = 0;
-  CATEGORY_ORDER.forEach(function(c){ if (byCat[c]) maxCount = Math.max(maxCount, byCat[c].count); });
+  var sortedCats = CATEGORY_ORDER.slice().sort(function(a,b){
+    return (byCat[b] ? byCat[b].aum : 0) - (byCat[a] ? byCat[a].aum : 0);
+  });
+  var maxAum = 0;
+  sortedCats.forEach(function(c){ if (byCat[c]) maxAum = Math.max(maxAum, byCat[c].aum); });
 
   var table = document.getElementById(tableElId);
   table.innerHTML = '';
@@ -402,9 +405,9 @@ function renderCategoryTable(funds, tableElId, titleElId, titleText){
   ])]));
   var tbody = el('tbody');
   var fills = [];
-  CATEGORY_ORDER.forEach(function(cat){
+  sortedCats.forEach(function(cat){
     var d = byCat[cat] || {count:0, aum:0};
-    var w = maxCount ? (d.count/maxCount*100) : 0;
+    var w = maxAum ? (d.aum/maxAum*100) : 0;
     var fill = el('div', {class:'mini-fill'});
     fills.push([fill, w]);
     tbody.appendChild(el('tr', {}, [
@@ -425,7 +428,7 @@ function renderCategoryTable(funds, tableElId, titleElId, titleText){
     });
   });
 }
-renderCategoryTable(FUNDS, 'allCatTable', 'allCatTableTitle', '全市場依產品類型｜目前存續基金（共 ' + FUNDS.length + ' 檔）');
+renderCategoryTable(FUNDS, 'allCatTable', 'allCatTableTitle', '目前存續基金（共 ' + fmtInt(FUNDS.length) + ' 檔）｜依產品類型');
 
 function renderPie(funds, svgId, legendId, centerSubtext){
   var groups = { '主動式ETF':{count:0,aum:0}, '被動式ETF':{count:0,aum:0}, '一般傳統基金':{count:0,aum:0} };
