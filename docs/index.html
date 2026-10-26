@@ -290,7 +290,8 @@
   .cat-bar-cell{ display:flex; align-items:center; gap:8px; }
   .cat-bar-cell .mini-track{ width:70px; height:7px; border-radius:4px; background:var(--surface-sunken); overflow:hidden; }
   .cat-bar-cell .mini-fill{ height:100%; background:linear-gradient(90deg, var(--sec1), var(--sec4)); border-radius:4px; width:0; transition:width .6s var(--ease-spring-soft); }
-  .pie-wrap{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:18px; }
+  .pie-wrap{ display:flex; flex-direction:column; align-items:stretch; padding:18px; }
+  .pie-wrap-body{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; }
   .pie-legend{ display:flex; flex-direction:column; gap:8px; width:100%; max-width:340px; }
   .pie-legend-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12.5px; }
   .pie-legend-row .lk{ display:flex; align-items:center; gap:7px; color:var(--ink-2); white-space:nowrap; flex:none; }
@@ -411,9 +412,11 @@
           </div>
         </div>
         <div class="card pie-wrap">
-          <div class="panel-title" style="width:100%;">市場結構｜主動式 ETF／被動式 ETF／傳統基金</div>
-          <svg id="allPieSvg" width="168" height="168" viewBox="0 0 168 168"></svg>
-          <div class="pie-legend" id="allPieLegend"></div>
+          <div class="panel-title">市場組成｜主要資金流向</div>
+          <div class="pie-wrap-body">
+            <svg id="allPieSvg" width="168" height="168" viewBox="0 0 168 168"></svg>
+            <div class="pie-legend" id="allPieLegend"></div>
+          </div>
         </div>
       </div>
     </section>
