@@ -353,10 +353,10 @@
 
   <nav class="section-nav">
     <a href="#overview">市場總覽</a>
+    <a href="#allfunds">市場結構</a>
     <a href="#share">存量市占</a>
     <a href="#newfunds">新案流向</a>
-    <a href="#allfunds">全市場結構</a>
-    <a href="#lookup">自己查</a>
+    <a href="#lookup">自訂條件查詢</a>
   </nav>
 
   <main>
@@ -369,9 +369,30 @@
       <div class="stat-grid" id="statGrid"></div>
     </section>
 
+    <section class="block" id="allfunds">
+      <div class="block-head">
+        <div class="eyebrow">02 · 市場結構</div>
+        <h2>全市場基金：產品類型與 ETF 屬性分布</h2>
+        <p>不限新案期間，涵蓋目前所有仍存續的基金，依產品類型與主動式／被動式 ETF／傳統基金分類。</p>
+      </div>
+      <div class="cat-wrap">
+        <div class="card panel-pad">
+          <div class="panel-title"><span id="allCatTableTitle">全市場依產品類型</span></div>
+          <div class="table-scroll">
+            <table id="allCatTable"></table>
+          </div>
+        </div>
+        <div class="card pie-wrap">
+          <div class="panel-title" style="width:100%;">市場結構｜主動式 ETF／被動式 ETF／傳統基金</div>
+          <svg id="allPieSvg" width="168" height="168" viewBox="0 0 168 168"></svg>
+          <div class="pie-legend" id="allPieLegend"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="block" id="share">
       <div class="block-head">
-        <div class="eyebrow">02 · 存量市占</div>
+        <div class="eyebrow">03 · 存量市占</div>
         <h2>保管行排名：換一種算法，名次就不同</h2>
         <p>依規模或依檔數排序，結果會不一樣。右側可挑選最多三家保管行，與全市場比較。</p>
       </div>
@@ -399,7 +420,7 @@
 
     <section class="block" id="newfunds">
       <div class="block-head">
-        <div class="eyebrow">03 · 新案：誰拿到新基金</div>
+        <div class="eyebrow">04 · 新案：誰拿到新基金</div>
         <h2>新基金：年度分布與保管行流向</h2>
         <p>全市場逐年新基金檔數，以及各年度前三名保管行的承接狀況。</p>
       </div>
@@ -422,30 +443,9 @@
       </div>
     </section>
 
-    <section class="block" id="allfunds">
-      <div class="block-head">
-        <div class="eyebrow">04 · 全市場結構</div>
-        <h2>全市場基金：產品類型與 ETF 屬性分布</h2>
-        <p>不限新案期間，涵蓋目前所有仍存續的基金，依產品類型與主動式／被動式 ETF／傳統基金分類。</p>
-      </div>
-      <div class="cat-wrap">
-        <div class="card panel-pad">
-          <div class="panel-title"><span id="allCatTableTitle">全市場依產品類型</span></div>
-          <div class="table-scroll">
-            <table id="allCatTable"></table>
-          </div>
-        </div>
-        <div class="card pie-wrap">
-          <div class="panel-title" style="width:100%;">全市場結構｜主動式 ETF／被動式 ETF／傳統基金</div>
-          <svg id="allPieSvg" width="168" height="168" viewBox="0 0 168 168"></svg>
-          <div class="pie-legend" id="allPieLegend"></div>
-        </div>
-      </div>
-    </section>
-
     <section class="block" id="lookup">
       <div class="block-head">
-        <div class="eyebrow">05 · 自己查</div>
+        <div class="eyebrow">05 · 自訂條件查詢</div>
         <h2>投信 × 保管行明細</h2>
         <p>查看個別保管行項下各檔基金規模，或做投信競爭力分析。</p>
       </div>
