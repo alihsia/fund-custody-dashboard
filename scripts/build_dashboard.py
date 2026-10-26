@@ -46,7 +46,6 @@ def build():
     meta = {
         "dataMonth": f"{ym[:4]}/{ym[4:6]}",
         "aumAsOf": month_end(ym),
-        "guildUpdate": today,
         "pageGenerated": today,
     }
 
@@ -63,7 +62,6 @@ def build():
 
     logic = logic.replace("__META_DATA_MONTH__", meta["dataMonth"])
     logic = logic.replace("__META_AUM_AS_OF__", meta["aumAsOf"])
-    logic = logic.replace("__META_GUILD_UPDATE__", meta["guildUpdate"])
     logic = logic.replace("__META_PAGE_GENERATED__", meta["pageGenerated"])
 
     fund_data_json = json.dumps(funds, ensure_ascii=False)

@@ -6,7 +6,6 @@ var FUNDS = JSON.parse(document.getElementById('fund-data').textContent);
 var META = {
   dataMonth: '__META_DATA_MONTH__',
   aumAsOf: '__META_AUM_AS_OF__',
-  guildUpdate: '__META_GUILD_UPDATE__',
   pageGenerated: '__META_PAGE_GENERATED__'
 };
 
@@ -81,8 +80,6 @@ function el(tag, attrs, children){
   var wrap = document.getElementById('metaChips');
   var items = [
     ['資料年月', META.dataMonth],
-    ['規模基準日', META.aumAsOf],
-    ['公會檔案更新日', META.guildUpdate],
     ['本頁資料產生', META.pageGenerated],
     ['只用公開資料', null]
   ];
