@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<title>商機捕手：基金保管</title>
+<title>基金保管市場看板</title>
 <style>
   :root{
     --bg:#F4F5F2;
@@ -101,6 +101,12 @@
     flex-wrap:wrap;
   }
   .brand{ display:flex; gap:12px; align-items:flex-start; }
+  .brand-mark{
+    width:38px; height:38px; border-radius:9px; flex:none; margin-top:2px;
+    background: linear-gradient(155deg, var(--accent), #0a4a40);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:16px; font-weight:700; letter-spacing:0.02em;
+  }
   .brand h1{ margin:0; font-size:21px; font-weight:700; letter-spacing:-0.012em; text-wrap:balance; }
   .brand p{ margin:3px 0 0; font-size:12.5px; letter-spacing:0.002em; color:var(--ink-muted); }
   .meta-chips{ display:flex; gap:8px; flex-wrap:wrap; max-width:520px; }
@@ -343,8 +349,9 @@
 <div class="page">
   <div class="topbar">
     <div class="brand">
+      <div class="brand-mark">保</div>
       <div>
-        <h1>商機捕手：基金保管</h1>
+        <h1>基金保管市場看板</h1>
         <p>境內基金｜中華民國證券投資信託暨顧問商業同業公會公開資料</p>
       </div>
     </div>
@@ -362,7 +369,7 @@
   <main>
     <section class="block" id="overview">
       <div class="block-head">
-        <div class="eyebrow">01 · 市場總覽</div>
+        <div class="eyebrow">01 · 全市場</div>
         <h2>基金保管市場：全貌</h2>
         <p>查詢全市場規模、檔數與保管行、投信家數。資料每月更新，僅使用公開資料。</p>
       </div>
@@ -515,6 +522,7 @@ var FUNDS = JSON.parse(document.getElementById('fund-data').textContent);
 var META = {
   dataMonth: '2026/09',
   aumAsOf: '2026-09-30',
+  guildUpdate: '2026-10-26',
   pageGenerated: '2026-10-26'
 };
 
@@ -589,6 +597,8 @@ function el(tag, attrs, children){
   var wrap = document.getElementById('metaChips');
   var items = [
     ['資料年月', META.dataMonth],
+    ['規模基準日', META.aumAsOf],
+    ['公會檔案更新日', META.guildUpdate],
     ['本頁資料產生', META.pageGenerated],
     ['只用公開資料', null]
   ];
