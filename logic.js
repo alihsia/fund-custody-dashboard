@@ -407,7 +407,9 @@ function renderCategoryTable(funds, tableElId, titleElId, titleText){
   var fills = [];
   sortedCats.forEach(function(cat){
     var d = byCat[cat] || {count:0, aum:0};
-    var w = maxAum ? (d.aum/maxAum*100) : 0;
+    // 線性比例是長條圖「長度＝規模」的基本承諾，不能用 log/sqrt 之類非線性壓縮去美化，
+    // 那樣會誤導相對大小。小類型只給一個「看得到」的最小寬度，數字仍以右側現規模欄為準。
+    var w = maxAum && d.aum > 0 ? Math.max(d.aum/maxAum*100, 4) : 0;
     var fill = el('div', {class:'mini-fill'});
     fills.push([fill, w]);
     tbody.appendChild(el('tr', {}, [
