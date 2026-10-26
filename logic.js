@@ -448,12 +448,31 @@ function renderPie(funds, svgId, legendId, centerSubtext){
   var circumference = 2*Math.PI*r;
   var offsetAcc = 0;
   var svgns = 'http://www.w3.org/2000/svg';
+
+  // 每一塊都用「淺色調→基礎色」的放射狀漸層，類別識別色不變，只是多一點層次感
+  var defs = document.createElementNS(svgns,'defs');
+  order.forEach(function(key, i){
+    var grad = document.createElementNS(svgns,'radialGradient');
+    var gradId = svgId + '-grad-' + i;
+    grad.setAttribute('id', gradId);
+    grad.setAttribute('cx','35%'); grad.setAttribute('cy','35%'); grad.setAttribute('r','75%');
+    var stop0 = document.createElementNS(svgns,'stop');
+    stop0.setAttribute('offset','0%');
+    stop0.setAttribute('style', 'stop-color:color-mix(in srgb, ' + colors[key] + ' 55%, white)');
+    var stop1 = document.createElementNS(svgns,'stop');
+    stop1.setAttribute('offset','100%');
+    stop1.setAttribute('style', 'stop-color:' + colors[key]);
+    grad.appendChild(stop0); grad.appendChild(stop1);
+    defs.appendChild(grad);
+  });
+  svg.appendChild(defs);
+
   var bgCircle = document.createElementNS(svgns,'circle');
   bgCircle.setAttribute('cx',cx); bgCircle.setAttribute('cy',cy); bgCircle.setAttribute('r',r);
   bgCircle.setAttribute('fill','none'); bgCircle.setAttribute('stroke','var(--surface-sunken)'); bgCircle.setAttribute('stroke-width',sw);
   svg.appendChild(bgCircle);
 
-  order.forEach(function(key){
+  order.forEach(function(key, i){
     var g = groups[key] || {count:0,aum:0};
     var frac = g.aum/total;
     var len = frac*circumference;
@@ -461,7 +480,7 @@ function renderPie(funds, svgId, legendId, centerSubtext){
     var circle = document.createElementNS(svgns,'circle');
     circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',r);
     circle.setAttribute('fill','none');
-    circle.setAttribute('stroke', colors[key]);
+    circle.setAttribute('stroke', 'url(#' + svgId + '-grad-' + i + ')');
     circle.setAttribute('stroke-width', sw);
     circle.setAttribute('stroke-dasharray', Math.max(0,len-gap) + ' ' + (circumference-(len-gap)));
     circle.setAttribute('stroke-dashoffset', -offsetAcc);
