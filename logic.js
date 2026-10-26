@@ -27,7 +27,7 @@ var BANK_SHORT = {
 function shortBank(n){ return BANK_SHORT[n] || n; }
 
 var CATEGORY_ORDER = [
-  '指數股票型ETF(含主動式ETF)','一般債券型','股票型','指數型','非投資等級債券型',
+  '被動式ETF','主動式ETF','一般債券型','股票型','指數型','非投資等級債券型',
   '平衡型','多重資產型','貨幣市場型','組合型','其他'
 ];
 
@@ -334,7 +334,7 @@ function renderYearPanel(){
   ])]));
   var tbody = el('tbody');
   top3.forEach(function(g, i){
-    var etfCount = g.items.filter(function(f){ return f.c === '指數股票型ETF(含主動式ETF)'; }).length;
+    var etfCount = g.items.filter(function(f){ return f.c === '被動式ETF' || f.c === '主動式ETF'; }).length;
     var activeEtfCount = g.items.filter(function(f){ return f.e === '主動式ETF'; }).length;
     var aum = g.items.reduce(function(s,f){ return s+f.a; }, 0);
     var rankLabel = i===0 ? '第 1' : (g.n === top3[i-1].n ? '並列第 '+rk[i] : '第 '+rk[i]);
@@ -598,8 +598,8 @@ document.querySelectorAll('.preset-btn').forEach(function(btn){
     } else if (p === 'active-etf'){
       document.getElementById('fFrom').value = '';
       document.getElementById('fTo').value = '';
-      document.getElementById('fCategory').value = '指數股票型ETF(含主動式ETF)';
-      document.getElementById('fKeyword').value = '主動式';
+      document.getElementById('fCategory').value = '主動式ETF';
+      document.getElementById('fKeyword').value = '';
     } else if (p === 'window'){
       document.getElementById('fFrom').value = WINDOW_START;
       document.getElementById('fTo').value = WINDOW_END;

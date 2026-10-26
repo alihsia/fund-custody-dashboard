@@ -1,11 +1,13 @@
 """把 fetch_sitca.py 抓回的 4 張表 (t1~t4 原始列) 整理成 dashboard 要用的 funds 清單。
 
-分類規則（10 類判斷順序）取自使用者的「基金分類對照表(已整理).xlsx」。
+分類規則（判斷順序）取自使用者的「基金分類對照表(已整理).xlsx」，並額外把原本
+「指數股票型ETF(含主動式ETF)」這一類拆成「被動式ETF」「主動式ETF」兩類獨立呈現
+（AH→被動式ETF、AL→主動式ETF），跟 etf_class() 的判斷式同步。
 輸出的每一檔基金是 dashboard 前端 (logic.js) 預期的精簡欄位格式：
   id  基金統編前8碼（去除級別後綴）
   n   基金名稱（取其中一個級別的名稱）
   tc  類型代號（該基金規模最大之級別的代號）
-  c   10 類分類
+  c   分類（見上方拆分說明）
   e   ETF 分類（主動式ETF / 被動式ETF / 一般傳統基金）
   mc  經理公司代號
   co  公司中文全名
@@ -43,8 +45,10 @@ def ymd(s):
 
 
 def classify(code):
-    if code.startswith("AH") or code.startswith("AL"):
-        return "指數股票型ETF(含主動式ETF)"
+    if code.startswith("AL"):
+        return "主動式ETF"
+    if code.startswith("AH"):
+        return "被動式ETF"
     if code.startswith("AE"):
         return "組合型"
     if code == "AC23":
