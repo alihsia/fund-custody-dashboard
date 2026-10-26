@@ -440,8 +440,15 @@ function renderPie(funds, svgId, legendId, centerSubtext){
     groups[f.e].aum += f.a;
   });
   var total = funds.reduce(function(s,f){ return s+f.a; }, 0) || 1;
-  var colors = { '主動式ETF':'var(--series-1)', '被動式ETF':'var(--series-2)', '一般傳統基金':'var(--series-3)' };
   var order = ['主動式ETF','被動式ETF','一般傳統基金'];
+  // 用色不是固定分類識別色，而是「佔比排名」：佔比最大的最深、最小的最淺，
+  // 同一色相的序列漸層（淺→深），所以哪個類別拿到哪個顏色完全看當月資料排名決定。
+  var rankSteps = ['var(--rank-large)', 'var(--rank-mid)', 'var(--rank-small)'];
+  var byRank = order.slice().sort(function(a,b){
+    return (groups[b] ? groups[b].aum : 0) - (groups[a] ? groups[a].aum : 0);
+  });
+  var colors = {};
+  byRank.forEach(function(key, i){ colors[key] = rankSteps[i]; });
 
   var svg = document.getElementById(svgId);
   var cx=84, cy=84, r=62, sw=26;
@@ -449,30 +456,12 @@ function renderPie(funds, svgId, legendId, centerSubtext){
   var offsetAcc = 0;
   var svgns = 'http://www.w3.org/2000/svg';
 
-  // 每一塊都用「淺色調→基礎色」的放射狀漸層，類別識別色不變，只是多一點層次感
-  var defs = document.createElementNS(svgns,'defs');
-  order.forEach(function(key, i){
-    var grad = document.createElementNS(svgns,'radialGradient');
-    var gradId = svgId + '-grad-' + i;
-    grad.setAttribute('id', gradId);
-    grad.setAttribute('cx','35%'); grad.setAttribute('cy','35%'); grad.setAttribute('r','75%');
-    var stop0 = document.createElementNS(svgns,'stop');
-    stop0.setAttribute('offset','0%');
-    stop0.setAttribute('style', 'stop-color:color-mix(in srgb, ' + colors[key] + ' 55%, white)');
-    var stop1 = document.createElementNS(svgns,'stop');
-    stop1.setAttribute('offset','100%');
-    stop1.setAttribute('style', 'stop-color:' + colors[key]);
-    grad.appendChild(stop0); grad.appendChild(stop1);
-    defs.appendChild(grad);
-  });
-  svg.appendChild(defs);
-
   var bgCircle = document.createElementNS(svgns,'circle');
   bgCircle.setAttribute('cx',cx); bgCircle.setAttribute('cy',cy); bgCircle.setAttribute('r',r);
   bgCircle.setAttribute('fill','none'); bgCircle.setAttribute('stroke','var(--surface-sunken)'); bgCircle.setAttribute('stroke-width',sw);
   svg.appendChild(bgCircle);
 
-  order.forEach(function(key, i){
+  order.forEach(function(key){
     var g = groups[key] || {count:0,aum:0};
     var frac = g.aum/total;
     var len = frac*circumference;
@@ -480,7 +469,7 @@ function renderPie(funds, svgId, legendId, centerSubtext){
     var circle = document.createElementNS(svgns,'circle');
     circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',r);
     circle.setAttribute('fill','none');
-    circle.setAttribute('stroke', 'url(#' + svgId + '-grad-' + i + ')');
+    circle.setAttribute('stroke', colors[key]);
     circle.setAttribute('stroke-width', sw);
     circle.setAttribute('stroke-dasharray', Math.max(0,len-gap) + ' ' + (circumference-(len-gap)));
     circle.setAttribute('stroke-dashoffset', -offsetAcc);
