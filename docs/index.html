@@ -372,6 +372,14 @@
     box-shadow: 0 1px 0 var(--line);
   }
   .name-cell{ text-align:left !important; max-width:260px; overflow:hidden; text-overflow:ellipsis; }
+  /* 自訂條件查詢表格文字欄一律置左、唯一的數字欄（現規模）置右，標頭跟著資料走，不要忽左忽右 */
+  #lookupTable th:nth-child(1), #lookupTable td:nth-child(1),
+  #lookupTable th:nth-child(2), #lookupTable td:nth-child(2),
+  #lookupTable th:nth-child(3),
+  #lookupTable th:nth-child(4), #lookupTable td:nth-child(4),
+  #lookupTable th:nth-child(5), #lookupTable td:nth-child(5){
+    text-align:left;
+  }
   .tag{
     display:inline-block; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:999px;
     background:var(--accent-soft); color:var(--accent-soft-ink);
