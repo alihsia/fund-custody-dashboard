@@ -529,6 +529,20 @@ function getFilters(){
   };
 }
 
+// 表格排序狀態：預設成立日由新到舊，點表頭可切換排序欄位／方向
+var lookupSort = { field: 'inc', dir: 'desc' };
+
+function sortLookupList(list){
+  var field = lookupSort.field, dir = lookupSort.dir, sign = dir === 'asc' ? 1 : -1;
+  list.sort(function(a,b){
+    var av = field === 'inc' ? (a.inc || '') : a.a;
+    var bv = field === 'inc' ? (b.inc || '') : b.a;
+    if (av < bv) return -1 * sign;
+    if (av > bv) return 1 * sign;
+    return 0;
+  });
+}
+
 function applyFilters(){
   var f = getFilters();
   var list = FUNDS.filter(function(x){
@@ -540,8 +554,33 @@ function applyFilters(){
     if (f.kw && x.n.indexOf(f.kw) === -1) return false;
     return true;
   });
-  list.sort(function(a,b){ return (b.inc||'') < (a.inc||'') ? -1 : (b.inc||'') > (a.inc||'') ? 1 : 0; });
+  sortLookupList(list);
   renderLookupResults(list);
+}
+
+function sortArrow(field){
+  if (lookupSort.field !== field) return '';
+  return lookupSort.dir === 'asc' ? ' ▲' : ' ▼';
+}
+
+function thSort(field, label, defaultDir){
+  var th = el('th', {
+    class: 'sortable' + (lookupSort.field === field ? ' sorted' : ''),
+    tabindex: '0',
+    role: 'button'
+  }, [label + sortArrow(field)]);
+  function toggle(){
+    if (lookupSort.field === field){
+      lookupSort.dir = lookupSort.dir === 'asc' ? 'desc' : 'asc';
+    } else {
+      lookupSort.field = field;
+      lookupSort.dir = defaultDir;
+    }
+    applyFilters();
+  }
+  th.addEventListener('click', toggle);
+  th.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); } });
+  return th;
 }
 
 function renderLookupResults(list){
@@ -552,15 +591,15 @@ function renderLookupResults(list){
   var byC = {};
   list.forEach(function(f){ if (f.cu) byC[f.cu] = (byC[f.cu]||0)+1; });
   var topC = Object.keys(byC).map(function(k){return {name:k,n:byC[k]};}).sort(function(a,b){return b.n-a.n;}).slice(0,6);
-  document.getElementById('byCustodianLine').textContent = topC.length
-    ? '依保管行：' + topC.map(function(c){ return shortBank(c.name)+' '+c.n; }).join('、') + (Object.keys(byC).length>6 ? ' …等 '+Object.keys(byC).length+' 家' : '')
-    : '';
+  document.getElementById('byCustodianLine').textContent = topC.length === 0 ? ''
+    : topC.length === 1 ? '依保管行：' + shortBank(topC[0].name)
+    : '依保管行：' + topC.map(function(c){ return shortBank(c.name)+' '+c.n; }).join('、') + (Object.keys(byC).length>6 ? ' …等 '+Object.keys(byC).length+' 家' : '');
 
   var table = document.getElementById('lookupTable');
   table.innerHTML = '';
   table.appendChild(el('thead', {}, [el('tr', {}, [
-    el('th', {}, ['成立日']), el('th', {}, ['投信']), el('th', {}, ['基金名稱']),
-    el('th', {}, ['產品類型']), el('th', {}, ['保管行']), el('th', {}, ['現規模（億）'])
+    thSort('inc', '成立日', 'desc'), el('th', {}, ['投信']), el('th', {}, ['基金名稱']),
+    el('th', {}, ['產品類型']), el('th', {}, ['保管行']), thSort('a', '現規模（億）', 'desc')
   ])]));
   var tbody = el('tbody');
   var MAX_ROWS = 500;

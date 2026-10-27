@@ -380,6 +380,13 @@
   #lookupTable th:nth-child(5), #lookupTable td:nth-child(5){
     text-align:left;
   }
+  #lookupTable th.sortable{
+    cursor:pointer; user-select:none; -webkit-user-select:none;
+    transition: color .15s var(--ease-spring);
+  }
+  #lookupTable th.sortable:hover{ color:var(--accent-soft-ink); }
+  #lookupTable th.sortable:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  #lookupTable th.sortable.sorted{ color:var(--accent-soft-ink); font-weight:700; }
   .tag{
     display:inline-block; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:999px;
     background:var(--accent-soft); color:var(--accent-soft-ink);
@@ -576,7 +583,7 @@
 
   <footer class="page-footer">
     資料來源：中華民國證券投資信託暨顧問商業同業公會（sitca.org.tw）公開資料，僅使用公開資料整理，不含保管費資訊。
-    同一基金之不同級別僅計 1 檔；基金規模為新台幣（含外幣基金折合）。本頁為內部商機研判用途，非投資建議。
+    同一基金之不同級別僅計 1 檔；基金規模為新台幣（含外幣基金折合）。<br>本頁為內部商機研判用途，非投資建議。
   </footer>
 </div>
 
