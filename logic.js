@@ -296,7 +296,7 @@ newFundsAll.forEach(function(f){
     fills.push([fill, h]);
     var col = el('div', {class:'year-bar-col' + (y===YEARS[2]?' current':'')}, [
       el('div', {class:'amt num'}, [n + ' 檔']),
-      el('div', {class:'bar'}, [fill]),
+      el('div', {class:'bar', title:y + '：' + n + ' 檔新基金'}, [fill]),
       el('div', {class:'yr'}, [y === YEARS[2] ? y+'*' : y])
     ]);
     wrap.appendChild(col);
