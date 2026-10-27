@@ -494,7 +494,7 @@ function renderPie(funds, svgId, legendId, centerSubtext){
 
   var legend = document.getElementById(legendId);
   legend.innerHTML = '';
-  order.forEach(function(key){
+  byRank.forEach(function(key){
     var g = groups[key] || {count:0,aum:0};
     legend.appendChild(el('div', {class:'pie-legend-row'}, [
       el('div', {class:'lk'}, [el('span',{class:'dot', style:'background:'+colors[key]}), key]),

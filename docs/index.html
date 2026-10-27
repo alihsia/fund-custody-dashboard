@@ -546,7 +546,7 @@ var FUNDS = JSON.parse(document.getElementById('fund-data').textContent);
 var META = {
   dataMonth: '2026/09',
   aumAsOf: '2026-09-30',
-  pageGenerated: '2026-10-26'
+  pageGenerated: '2026-10-27'
 };
 
 // 年度視窗一律從 META.aumAsOf（資料所屬年月的月底）動態推算，
@@ -1034,7 +1034,7 @@ function renderPie(funds, svgId, legendId, centerSubtext){
 
   var legend = document.getElementById(legendId);
   legend.innerHTML = '';
-  order.forEach(function(key){
+  byRank.forEach(function(key){
     var g = groups[key] || {count:0,aum:0};
     legend.appendChild(el('div', {class:'pie-legend-row'}, [
       el('div', {class:'lk'}, [el('span',{class:'dot', style:'background:'+colors[key]}), key]),
