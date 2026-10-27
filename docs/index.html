@@ -271,7 +271,7 @@
   .year-bar-col .yr{ font-size:12.5px; color:var(--ink-2); font-weight:600; }
   .year-bar-col.current .bar .fill{ background: linear-gradient(180deg, var(--sec1), var(--sec3)); }
 
-  .year-tabs{ display:flex; gap:6px; margin-bottom:10px; }
+  .year-tabs{ display:flex; gap:6px; }
   .year-tabs button{
     font-family:inherit; font-size:12.5px; font-weight:700; padding:6px 13px; border-radius:999px;
     border:1px solid var(--line); background:var(--surface); color:var(--ink-2); cursor:pointer;
@@ -280,7 +280,7 @@
   .year-tabs button.active{ background:var(--accent-grad); color:var(--accent-ink); border-color:transparent; }
   .year-tabs button:active{ transform:scale(0.93); }
   .panel-pad{ padding:16px 18px 18px; }
-  .panel-title{ font-size:13px; font-weight:700; color:var(--ink-2); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;}
+  .panel-title{ font-size:13px; font-weight:700; color:var(--ink-2); margin-bottom:10px; display:flex; justify-content:space-between; align-items:flex-start;}
 
   .footnote-box{
     margin-top:12px; padding:10px 13px; background:var(--accent-soft); color:var(--accent-soft-ink);
@@ -438,7 +438,7 @@
           <button class="show-all-btn" id="shareShowAllBtn">顯示全部 23 家</button>
         </div>
         <div class="card compare-panel">
-          <h3>三種算法剩兩種（已移除保管費）｜點選要比較的保管行（最多 3 家）</h3>
+          <h3>保管行競爭力比較</h3>
           <div class="bank-chips" id="bankChips"></div>
           <div class="table-scroll">
             <table id="compareTable"></table>
