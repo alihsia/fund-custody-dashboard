@@ -558,17 +558,16 @@ function applyFilters(){
   renderLookupResults(list);
 }
 
-function sortArrow(field){
-  if (lookupSort.field !== field) return '';
-  return lookupSort.dir === 'asc' ? ' ▲' : ' ▼';
-}
-
 function thSort(field, label, defaultDir){
+  var active = lookupSort.field === field;
+  var icon = el('span', {class:'sort-icon' + (active ? ' active' : '')},
+    [active ? (lookupSort.dir === 'asc' ? '▲' : '▼') : '⇅']);
   var th = el('th', {
-    class: 'sortable' + (lookupSort.field === field ? ' sorted' : ''),
+    class: 'sortable' + (active ? ' sorted' : ''),
     tabindex: '0',
-    role: 'button'
-  }, [label + sortArrow(field)]);
+    role: 'button',
+    title: '點擊切換排序：' + label
+  }, [label + ' ', icon]);
   function toggle(){
     if (lookupSort.field === field){
       lookupSort.dir = lookupSort.dir === 'asc' ? 'desc' : 'asc';

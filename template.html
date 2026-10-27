@@ -387,6 +387,12 @@
   #lookupTable th.sortable:hover{ color:var(--accent-soft-ink); }
   #lookupTable th.sortable:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   #lookupTable th.sortable.sorted{ color:var(--accent-soft-ink); font-weight:700; }
+  #lookupTable th.sortable .sort-icon{
+    display:inline-block; font-size:10px; margin-left:1px; color:var(--ink-muted); opacity:.65;
+    transition: opacity .15s var(--ease-spring), color .15s var(--ease-spring), transform .15s var(--ease-spring);
+  }
+  #lookupTable th.sortable:hover .sort-icon{ opacity:1; color:var(--accent-soft-ink); transform:scale(1.15); }
+  #lookupTable th.sortable .sort-icon.active{ font-size:11px; color:var(--accent-soft-ink); opacity:1; }
   .tag{
     display:inline-block; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:999px;
     background:var(--accent-soft); color:var(--accent-soft-ink);
@@ -422,6 +428,7 @@
     .year-bar-col .bar:hover .fill{ transform:none !important; filter:none !important; }
     tbody tr:hover .tag{ transform:none !important; }
     .tag{ transition:none !important; }
+    #lookupTable th.sortable:hover .sort-icon{ transform:none !important; }
   }
 </style>
 
