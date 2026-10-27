@@ -196,7 +196,7 @@
   }
   @keyframes rise-in{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
 
-  .two-col{ display:grid; grid-template-columns: 1.1fr 1fr; gap:16px; align-items:start; }
+  .two-col{ display:grid; grid-template-columns: 1.1fr 1fr; gap:16px; align-items:stretch; }
 
   /* ---------- toggle ---------- */
   .toggle{
@@ -261,7 +261,9 @@
   .table-note{ font-size:11.5px; color:var(--ink-muted); padding:10px 2px 0; line-height:1.6; }
 
   /* ---------- year bars (new funds) ---------- */
-  .year-bars{ display:flex; gap:18px; align-items:flex-end; height:170px; padding:18px 18px 8px; }
+  .year-bars{ display:flex; gap:18px; align-items:flex-end; min-height:170px; padding:18px 18px 8px; }
+  #yearBarsCard{ display:flex; flex-direction:column; }
+  #yearBarsCard .year-bars{ flex:1; }
   .year-bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; height:100%; justify-content:flex-end; }
   .year-bar-col .amt{ font-size:19px; font-weight:700; }
   .year-bar-col .bar{ flex:1; width:56%; min-width:40px; border-radius:6px 6px 3px 3px; background:var(--surface-sunken); position:relative; }
@@ -456,7 +458,7 @@
         <p>全市場逐年新基金檔數，以及各年度前三名保管行的承接狀況。</p>
       </div>
       <div class="two-col">
-        <div class="card">
+        <div class="card" id="yearBarsCard">
           <div class="panel-title" style="padding:16px 18px 0;">全市場｜逐年新基金檔數</div>
           <div class="year-bars" id="yearBars"></div>
           <div class="table-note" style="padding:0 18px 16px;" id="yearBarsNote">僅計目前仍存續的基金；成立日採「基金」成立日（不採級別成立日，避免老基金新增級別被誤算成新基金）。</div>
