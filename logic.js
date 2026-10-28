@@ -696,9 +696,10 @@ document.getElementById('downloadCsv').addEventListener('click', function(){
 applyFilters();
 
 // ======================================================================
-// Section 5 — 投信 × 保管行往來關係（依檔數／依現規模各取前五名）
+// Section 5 — 投信往來保管版圖（依檔數／依現規模各取前五名保管行）
 // ======================================================================
 (function renderRelations(){
+  var PREVIEW = 5;
   var byCo = {};
   FUNDS.forEach(function(f){
     if (!f.co || !f.cu) return;
@@ -717,40 +718,63 @@ applyFilters();
     };
   }).sort(function(a,b){ return b.aum-a.aum; });
 
-  function topList(items, total, valueOf, shareOf){
-    return el('ul', {class:'rel-list'}, items.map(function(it, i){
-      return el('li', {}, [
-        el('span', {class:'rk'}, [String(i+1)]),
-        el('span', {class:'bk'}, [it.name]),
-        el('span', {class:'vl'}, [valueOf(it) + '｜' + fmtPct(shareOf(it)/(total||1))])
-      ]);
-    }));
-  }
+  var cardsEl = document.getElementById('relCards');
+  var searchEl = document.getElementById('relSearch');
+  var toggleEl = document.getElementById('relToggle');
+  var countEl = document.getElementById('relCount');
+  var expanded = false;
+  var chevron = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>';
 
-  var table = document.getElementById('relTable');
-  var search = document.getElementById('relSearch');
-  function draw(){
-    var q = search.value.trim();
-    table.innerHTML = '';
-    table.appendChild(el('thead', {}, [el('tr', {}, [
-      el('th', {class:'rel-h'}, ['投信']), el('th', {}, ['檔數']), el('th', {}, ['現規模']),
-      el('th', {class:'rel-h'}, ['依檔數：前五名保管行']), el('th', {class:'rel-h'}, ['依現規模：前五名保管行'])
-    ])]));
-    var tbody = el('tbody');
-    var shown = rows.filter(function(r){ return !q || r.name.indexOf(q) !== -1; });
-    shown.forEach(function(r){
-      tbody.appendChild(el('tr', {}, [
-        el('td', {class:'name-cell rel-co'}, [r.name]),
-        el('td', {class:'num'}, [r.count + ' 檔']),
-        el('td', {class:'num'}, [fmtAUMShort(r.aum)]),
-        el('td', {}, [topList(r.byCount, r.count, function(it){ return it.count + ' 檔'; }, function(it){ return it.count; })]),
-        el('td', {}, [topList(r.byAum, r.aum, function(it){ return fmtAUMShort(it.aum); }, function(it){ return it.aum; })])
+  function column(title, hint, items, total, cls, valueOf, shareOf, fills){
+    var col = el('div', {class:'rel-col'}, [el('div', {class:'rel-col-title'}, [title + ' ', el('span', {}, [hint])])]);
+    items.forEach(function(it, i){
+      var share = shareOf(it) / (total || 1);
+      var fill = el('div', {class:'rel-fill ' + cls});
+      fills.push([fill, share * 100]);
+      col.appendChild(el('div', {class:'rel-row' + (i===0 ? ' top' : '')}, [
+        el('div', {class:'rel-rk'}, [String(i+1)]),
+        el('div', {style:'min-width:0;'}, [el('div', {class:'rel-bk'}, [it.name]), el('div', {class:'rel-track'}, [fill])]),
+        el('div', {class:'rel-val'}, [valueOf(it), el('small', {}, [fmtPct(share)])])
       ]));
     });
-    if (!shown.length) tbody.appendChild(el('tr', {}, [el('td', {colspan:'5'}, ['查無符合的投信'])]));
-    table.appendChild(tbody);
+    return col;
   }
-  search.addEventListener('input', draw);
+
+  function draw(){
+    var q = searchEl.value.trim();
+    var matched = rows.filter(function(r){ return !q || r.name.indexOf(q) !== -1; });
+    var showAll = expanded || !!q;
+    var shown = showAll ? matched : matched.slice(0, PREVIEW);
+    cardsEl.innerHTML = '';
+    var fills = [];
+    shown.forEach(function(r){
+      cardsEl.appendChild(el('div', {class:'card rel-card'}, [
+        el('div', {class:'rel-head'}, [
+          el('div', {class:'rel-name'}, [r.name]),
+          el('div', {class:'rel-meta'}, [
+            el('span', {class:'rel-chip', html:'<b>' + r.count + '</b> 檔'}),
+            el('span', {class:'rel-chip', html:'現規模 <b>' + fmtAUMShort(r.aum) + '</b>'}),
+            el('span', {class:'rel-chip', html:'往來 <b>' + r.nCust + '</b> 家保管行'})
+          ])
+        ]),
+        el('div', {class:'rel-body'}, [
+          column('依檔數', '前五名保管行', r.byCount, r.count, 'cnt', function(it){ return it.count + ' 檔'; }, function(it){ return it.count; }, fills),
+          column('依現規模', '前五名保管行', r.byAum, r.aum, 'aum', function(it){ return fmtAUMShort(it.aum); }, function(it){ return it.aum; }, fills)
+        ])
+      ]));
+    });
+    if (!matched.length) cardsEl.appendChild(el('div', {class:'rel-empty'}, ['查無符合的投信']));
+    countEl.innerHTML = '顯示 <b>' + shown.length + '</b>／' + matched.length + ' 家投信';
+    // 搜尋時一律列出全部符合者，不需要展開鈕；否則只有超過預覽數量才出現
+    toggleEl.hidden = !!q || matched.length <= PREVIEW;
+    toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    toggleEl.innerHTML = (expanded ? '收合，只看前 ' + PREVIEW + ' 家' : '展開全部 ' + matched.length + ' 家投信') + chevron;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ fills.forEach(function(p){ p[0].style.width = p[1].toFixed(1) + '%'; }); });
+    });
+  }
+  toggleEl.addEventListener('click', function(){ expanded = !expanded; draw(); });
+  searchEl.addEventListener('input', draw);
   draw();
 })();
 

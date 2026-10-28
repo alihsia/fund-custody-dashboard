@@ -186,14 +186,62 @@
   .eyebrow.c4{ color:var(--sec4-ink); } .eyebrow.c4::before{ background:linear-gradient(90deg, var(--sec4), var(--sec5)); }
   .eyebrow.c5{ color:var(--sec5-ink); } .eyebrow.c5::before{ background:linear-gradient(90deg, var(--sec5), var(--sec3)); }
   .eyebrow.c6{ color:var(--sec1-ink); } .eyebrow.c6::before{ background:linear-gradient(90deg, var(--sec5), var(--sec1)); }
-  .rel-list{ margin:0; padding:0; list-style:none; text-align:left; min-width:210px; }
-  .rel-list li{ display:flex; gap:8px; align-items:baseline; padding:2px 0; font-size:12.5px; white-space:nowrap; }
-  .rel-list .rk{ width:14px; color:var(--ink-muted); font-weight:700; font-variant-numeric:tabular-nums; }
-  .rel-list .bk{ flex:1; }
-  .rel-list .vl{ color:var(--ink-2); font-variant-numeric:tabular-nums; }
-  #relTable tbody td{ vertical-align:top; }
-  #relTable tbody td.rel-co{ font-weight:600; }
-  #relTable thead th.rel-h{ text-align:left; }
+  .rel-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+  .rel-bar .rel-search{ position:relative; flex:0 1 280px; min-width:200px; }
+  .rel-bar .rel-search input{
+    width:100%; padding:9px 12px 9px 34px; border:1px solid var(--line); border-radius:10px; background:var(--surface);
+    font-family:inherit; font-size:13px; color:var(--ink);
+    transition: border-color .25s var(--ease-spring-soft), outline-color .2s var(--ease-spring);
+  }
+  .rel-bar .rel-search input:hover{ border-color:var(--line-strong); }
+  .rel-bar .rel-search input:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+  .rel-bar .rel-search svg{ position:absolute; left:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--ink-muted); pointer-events:none; }
+  .rel-count{ font-size:12.5px; color:var(--ink-muted); }
+  .rel-count b{ color:var(--ink); font-weight:700; }
+  .rel-cards{ display:flex; flex-direction:column; gap:12px; }
+  .rel-card{ padding:16px 20px 18px; transition: box-shadow .3s var(--ease-spring-soft), border-color .3s var(--ease-spring-soft); }
+  .rel-card:hover{ box-shadow:var(--shadow-lift); border-color:var(--line-strong); }
+  .rel-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px 16px; flex-wrap:wrap; padding-bottom:12px; margin-bottom:14px; border-bottom:1px solid var(--line); }
+  .rel-name{ font-size:16.5px; font-weight:700; letter-spacing:-0.005em; }
+  .rel-meta{ display:flex; gap:6px; flex-wrap:wrap; }
+  .rel-chip{ font-size:12px; color:var(--ink-2); background:var(--surface-sunken); border-radius:999px; padding:3px 10px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .rel-chip b{ color:var(--ink); font-weight:700; }
+  .rel-body{ display:grid; grid-template-columns:1fr 1fr; gap:0 32px; }
+  .rel-col + .rel-col{ border-left:1px solid var(--line); padding-left:32px; }
+  .rel-col-title{ font-size:12px; font-weight:700; letter-spacing:0.02em; color:var(--ink-muted); margin-bottom:10px; }
+  .rel-col-title span{ font-weight:500; }
+  .rel-row{ display:grid; grid-template-columns:22px 1fr auto; column-gap:10px; align-items:center; padding:6px 0; }
+  .rel-rk{
+    width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:11.5px; font-weight:700; color:var(--ink-muted); background:var(--surface-sunken); font-variant-numeric:tabular-nums;
+  }
+  .rel-row.top .rel-rk{ color:#fff; background:var(--accent-grad); }
+  .rel-bk{ font-size:13px; line-height:1.3; margin-bottom:5px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rel-row.top .rel-bk{ font-weight:700; }
+  .rel-track{ height:5px; border-radius:3px; background:var(--surface-sunken); overflow:hidden; }
+  .rel-fill{ height:100%; width:0; border-radius:3px; transition:width .6s var(--ease-spring-soft); }
+  .rel-fill.cnt{ background:linear-gradient(90deg, var(--sec1), var(--sec3)); }
+  .rel-fill.aum{ background:linear-gradient(90deg, var(--sec3), var(--sec5)); }
+  .rel-val{ text-align:right; font-size:13px; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; line-height:1.3; }
+  .rel-val small{ display:block; font-size:11.5px; font-weight:500; color:var(--ink-muted); }
+  .rel-empty{ padding:28px 0; text-align:center; color:var(--ink-muted); font-size:13px; }
+  .rel-toggle{
+    display:flex; align-items:center; justify-content:center; gap:6px; width:100%; margin-top:12px; padding:11px;
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; color:var(--ink-2);
+    font-size:13.5px; font-weight:600; font-family:inherit; cursor:pointer; box-shadow:var(--shadow-sm);
+    transition: color .25s var(--ease-spring-soft), border-color .25s var(--ease-spring-soft), background .25s var(--ease-spring-soft), transform .12s var(--ease-spring);
+  }
+  .rel-toggle:hover{ color:var(--ink); border-color:var(--line-strong); background:var(--surface-2); }
+  .rel-toggle:active{ transform:scale(0.99); }
+  .rel-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .rel-toggle svg{ width:14px; height:14px; transition:transform .3s var(--ease-spring); }
+  .rel-toggle[aria-expanded="true"] svg{ transform:rotate(180deg); }
+  @media (max-width:720px){
+    .rel-body{ grid-template-columns:1fr; gap:18px 0; }
+    .rel-col + .rel-col{ border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:16px; }
+    .rel-card{ padding:14px 14px 16px; }
+  }
+  @media (prefers-reduced-motion: reduce){ .rel-fill, .rel-toggle svg{ transition:none; } }
   .block-head h2{
     margin:0 0 6px; font-size:25px; font-weight:700; letter-spacing:-0.016em; text-wrap:balance;
     background-image: var(--title-grad);
@@ -598,22 +646,20 @@
 
     <section class="block" id="relations">
       <div class="block-head">
-        <div class="eyebrow c5">05 · 往來關係</div>
+        <div class="eyebrow c5">05 · 投信往來保管版圖</div>
         <h2>投信 × 保管行往來關係</h2>
-        <p>各家投信往來最密切的前五名保管行，分別依基金檔數與現規模排序；百分比為占該投信的比重。</p>
+        <p>各家投信最倚重的保管行排名，檔數與規模兩種排名並陳。</p>
       </div>
-      <div class="card panel-pad">
-        <div class="filter-row" style="grid-template-columns:1fr;margin-bottom:10px;">
-          <div class="field">
-            <label>搜尋投信</label>
-            <input type="text" id="relSearch" placeholder="輸入投信名稱關鍵字" />
-          </div>
-        </div>
-        <div class="table-scroll">
-          <table id="relTable"></table>
-        </div>
-        <div class="table-note">投信依現規模由大到小排列。檔數相同時以規模大者排前，規模相同時以檔數多者排前。</div>
+      <div class="rel-bar">
+        <label class="rel-search">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
+          <input type="text" id="relSearch" placeholder="搜尋投信名稱" aria-label="搜尋投信名稱" />
+        </label>
+        <div class="rel-count" id="relCount"></div>
       </div>
+      <div class="rel-cards" id="relCards"></div>
+      <button type="button" class="rel-toggle" id="relToggle" aria-expanded="false" hidden></button>
+      <div class="table-note">投信依現規模由大到小排列；占比為占該投信全部基金的比重。檔數相同時以規模大者排前，規模相同時以檔數多者排前。</div>
     </section>
 
     <section class="block" id="lookup">
@@ -1377,9 +1423,10 @@ document.getElementById('downloadCsv').addEventListener('click', function(){
 applyFilters();
 
 // ======================================================================
-// Section 5 — 投信 × 保管行往來關係（依檔數／依現規模各取前五名）
+// Section 5 — 投信往來保管版圖（依檔數／依現規模各取前五名保管行）
 // ======================================================================
 (function renderRelations(){
+  var PREVIEW = 5;
   var byCo = {};
   FUNDS.forEach(function(f){
     if (!f.co || !f.cu) return;
@@ -1398,40 +1445,63 @@ applyFilters();
     };
   }).sort(function(a,b){ return b.aum-a.aum; });
 
-  function topList(items, total, valueOf, shareOf){
-    return el('ul', {class:'rel-list'}, items.map(function(it, i){
-      return el('li', {}, [
-        el('span', {class:'rk'}, [String(i+1)]),
-        el('span', {class:'bk'}, [it.name]),
-        el('span', {class:'vl'}, [valueOf(it) + '｜' + fmtPct(shareOf(it)/(total||1))])
-      ]);
-    }));
-  }
+  var cardsEl = document.getElementById('relCards');
+  var searchEl = document.getElementById('relSearch');
+  var toggleEl = document.getElementById('relToggle');
+  var countEl = document.getElementById('relCount');
+  var expanded = false;
+  var chevron = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>';
 
-  var table = document.getElementById('relTable');
-  var search = document.getElementById('relSearch');
-  function draw(){
-    var q = search.value.trim();
-    table.innerHTML = '';
-    table.appendChild(el('thead', {}, [el('tr', {}, [
-      el('th', {class:'rel-h'}, ['投信']), el('th', {}, ['檔數']), el('th', {}, ['現規模']),
-      el('th', {class:'rel-h'}, ['依檔數：前五名保管行']), el('th', {class:'rel-h'}, ['依現規模：前五名保管行'])
-    ])]));
-    var tbody = el('tbody');
-    var shown = rows.filter(function(r){ return !q || r.name.indexOf(q) !== -1; });
-    shown.forEach(function(r){
-      tbody.appendChild(el('tr', {}, [
-        el('td', {class:'name-cell rel-co'}, [r.name]),
-        el('td', {class:'num'}, [r.count + ' 檔']),
-        el('td', {class:'num'}, [fmtAUMShort(r.aum)]),
-        el('td', {}, [topList(r.byCount, r.count, function(it){ return it.count + ' 檔'; }, function(it){ return it.count; })]),
-        el('td', {}, [topList(r.byAum, r.aum, function(it){ return fmtAUMShort(it.aum); }, function(it){ return it.aum; })])
+  function column(title, hint, items, total, cls, valueOf, shareOf, fills){
+    var col = el('div', {class:'rel-col'}, [el('div', {class:'rel-col-title'}, [title + ' ', el('span', {}, [hint])])]);
+    items.forEach(function(it, i){
+      var share = shareOf(it) / (total || 1);
+      var fill = el('div', {class:'rel-fill ' + cls});
+      fills.push([fill, share * 100]);
+      col.appendChild(el('div', {class:'rel-row' + (i===0 ? ' top' : '')}, [
+        el('div', {class:'rel-rk'}, [String(i+1)]),
+        el('div', {style:'min-width:0;'}, [el('div', {class:'rel-bk'}, [it.name]), el('div', {class:'rel-track'}, [fill])]),
+        el('div', {class:'rel-val'}, [valueOf(it), el('small', {}, [fmtPct(share)])])
       ]));
     });
-    if (!shown.length) tbody.appendChild(el('tr', {}, [el('td', {colspan:'5'}, ['查無符合的投信'])]));
-    table.appendChild(tbody);
+    return col;
   }
-  search.addEventListener('input', draw);
+
+  function draw(){
+    var q = searchEl.value.trim();
+    var matched = rows.filter(function(r){ return !q || r.name.indexOf(q) !== -1; });
+    var showAll = expanded || !!q;
+    var shown = showAll ? matched : matched.slice(0, PREVIEW);
+    cardsEl.innerHTML = '';
+    var fills = [];
+    shown.forEach(function(r){
+      cardsEl.appendChild(el('div', {class:'card rel-card'}, [
+        el('div', {class:'rel-head'}, [
+          el('div', {class:'rel-name'}, [r.name]),
+          el('div', {class:'rel-meta'}, [
+            el('span', {class:'rel-chip', html:'<b>' + r.count + '</b> 檔'}),
+            el('span', {class:'rel-chip', html:'現規模 <b>' + fmtAUMShort(r.aum) + '</b>'}),
+            el('span', {class:'rel-chip', html:'往來 <b>' + r.nCust + '</b> 家保管行'})
+          ])
+        ]),
+        el('div', {class:'rel-body'}, [
+          column('依檔數', '前五名保管行', r.byCount, r.count, 'cnt', function(it){ return it.count + ' 檔'; }, function(it){ return it.count; }, fills),
+          column('依現規模', '前五名保管行', r.byAum, r.aum, 'aum', function(it){ return fmtAUMShort(it.aum); }, function(it){ return it.aum; }, fills)
+        ])
+      ]));
+    });
+    if (!matched.length) cardsEl.appendChild(el('div', {class:'rel-empty'}, ['查無符合的投信']));
+    countEl.innerHTML = '顯示 <b>' + shown.length + '</b>／' + matched.length + ' 家投信';
+    // 搜尋時一律列出全部符合者，不需要展開鈕；否則只有超過預覽數量才出現
+    toggleEl.hidden = !!q || matched.length <= PREVIEW;
+    toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    toggleEl.innerHTML = (expanded ? '收合，只看前 ' + PREVIEW + ' 家' : '展開全部 ' + matched.length + ' 家投信') + chevron;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ fills.forEach(function(p){ p[0].style.width = p[1].toFixed(1) + '%'; }); });
+    });
+  }
+  toggleEl.addEventListener('click', function(){ expanded = !expanded; draw(); });
+  searchEl.addEventListener('input', draw);
   draw();
 })();
 
