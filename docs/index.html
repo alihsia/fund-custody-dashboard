@@ -1052,13 +1052,20 @@ function renderCategoryTable(funds, tableElId, titleElId, titleText){
   var sortedCats = CATEGORY_ORDER.slice().sort(function(a,b){
     return (byCat[b] ? byCat[b].aum : 0) - (byCat[a] ? byCat[a].aum : 0);
   });
-  var maxAum = 0;
-  sortedCats.forEach(function(c){ if (byCat[c]) maxAum = Math.max(maxAum, byCat[c].aum); });
+  var maxAum = 0, totalCount = 0, totalAum = 0;
+  sortedCats.forEach(function(c){
+    if (!byCat[c]) return;
+    maxAum = Math.max(maxAum, byCat[c].aum);
+    totalCount += byCat[c].count;
+    totalAum += byCat[c].aum;
+  });
+  function pct(v, tot){ return tot ? (v/tot*100).toFixed(1) + '%' : '–'; }
 
   var table = document.getElementById(tableElId);
   table.innerHTML = '';
   table.appendChild(el('thead', {}, [el('tr', {}, [
-    el('th', {}, ['產品類型']), el('th', {}, ['檔數']), el('th', {}, ['現規模'])
+    el('th', {}, ['產品類型']), el('th', {}, ['檔數']), el('th', {}, ['檔數占比']),
+    el('th', {}, ['現規模']), el('th', {}, ['現規模占比'])
   ])]));
   var tbody = el('tbody');
   var fills = [];
@@ -1077,7 +1084,9 @@ function renderCategoryTable(funds, tableElId, titleElId, titleText){
         ])
       ]),
       el('td', {class:'num'}, [d.count + ' 檔']),
-      el('td', {class:'num'}, [fmtAUMShort(d.aum)])
+      el('td', {class:'num'}, [pct(d.count, totalCount)]),
+      el('td', {class:'num'}, [fmtAUMShort(d.aum)]),
+      el('td', {class:'num'}, [pct(d.aum, totalAum)])
     ]));
   });
   table.appendChild(tbody);
