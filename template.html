@@ -418,6 +418,40 @@
     transition: transform .15s var(--ease-spring);
   }
   tbody tr:hover .tag{ transform:scale(1.04); }
+  /* 產品類型固定配色：每個類別一個識別色，與規模排名無關 */
+  .tag.cat-etfpassive{ background:#F5DFDB; color:#973526; }
+  .tag.cat-etfactive{ background:#DBE7F5; color:#205FB6; }
+  .tag.cat-equity{ background:#F5EADB; color:#8A570F; }
+  .tag.cat-bond{ background:#DBF5E8; color:#157552; }
+  .tag.cat-index{ background:#E3F4F7; color:#006170; }
+  .tag.cat-highyield{ background:#F5DBE7; color:#AE326C; }
+  .tag.cat-balanced{ background:#E1DBF5; color:#543BB0; }
+  .tag.cat-multiasset{ background:#F0F5E5; color:#516E0C; }
+  .tag.cat-moneymarket{ background:#DEF5DB; color:#216B1F; }
+  .tag.cat-fof{ background:#F1DBF5; color:#963AA6; }
+  .tag.cat-other{ background:var(--surface-sunken); color:var(--ink-muted); }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .tag.cat-etfpassive{ background:rgba(218,97,78,0.16); color:#DA614E; }
+    :root:not([data-theme="light"]) .tag.cat-etfactive{ background:rgba(70,138,216,0.16); color:#468AD8; }
+    :root:not([data-theme="light"]) .tag.cat-equity{ background:rgba(195,124,24,0.16); color:#C37C18; }
+    :root:not([data-theme="light"]) .tag.cat-bond{ background:rgba(41,163,102,0.16); color:#29A366; }
+    :root:not([data-theme="light"]) .tag.cat-index{ background:rgba(19,154,174,0.16); color:#139AAE; }
+    :root:not([data-theme="light"]) .tag.cat-highyield{ background:rgba(215,96,152,0.16); color:#D76098; }
+    :root:not([data-theme="light"]) .tag.cat-balanced{ background:rgba(158,117,215,0.16); color:#9E75D7; }
+    :root:not([data-theme="light"]) .tag.cat-multiasset{ background:rgba(117,151,38,0.16); color:#759726; }
+    :root:not([data-theme="light"]) .tag.cat-moneymarket{ background:rgba(50,158,46,0.16); color:#329E2E; }
+    :root:not([data-theme="light"]) .tag.cat-fof{ background:rgba(209,97,200,0.16); color:#D161C8; }
+  }
+  :root[data-theme="dark"] .tag.cat-etfpassive{ background:rgba(218,97,78,0.16); color:#DA614E; }
+  :root[data-theme="dark"] .tag.cat-etfactive{ background:rgba(70,138,216,0.16); color:#468AD8; }
+  :root[data-theme="dark"] .tag.cat-equity{ background:rgba(195,124,24,0.16); color:#C37C18; }
+  :root[data-theme="dark"] .tag.cat-bond{ background:rgba(41,163,102,0.16); color:#29A366; }
+  :root[data-theme="dark"] .tag.cat-index{ background:rgba(19,154,174,0.16); color:#139AAE; }
+  :root[data-theme="dark"] .tag.cat-highyield{ background:rgba(215,96,152,0.16); color:#D76098; }
+  :root[data-theme="dark"] .tag.cat-balanced{ background:rgba(158,117,215,0.16); color:#9E75D7; }
+  :root[data-theme="dark"] .tag.cat-multiasset{ background:rgba(117,151,38,0.16); color:#759726; }
+  :root[data-theme="dark"] .tag.cat-moneymarket{ background:rgba(50,158,46,0.16); color:#329E2E; }
+  :root[data-theme="dark"] .tag.cat-fof{ background:rgba(209,97,200,0.16); color:#D161C8; }
 
   footer.page-footer{ padding:28px 2px 0; font-size:11.5px; letter-spacing:0.004em; color:var(--ink-muted); line-height:1.8; }
 

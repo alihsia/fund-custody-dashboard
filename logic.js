@@ -30,6 +30,12 @@ var CATEGORY_ORDER = [
   '被動式ETF','主動式ETF','一般債券型','股票型','指數型','非投資等級債券型',
   '平衡型','多重資產型','貨幣市場型','組合型','其他'
 ];
+var CATEGORY_CLASS = {
+  '被動式ETF':'cat-etfpassive', '主動式ETF':'cat-etfactive', '一般債券型':'cat-bond',
+  '股票型':'cat-equity', '指數型':'cat-index', '非投資等級債券型':'cat-highyield',
+  '平衡型':'cat-balanced', '多重資產型':'cat-multiasset', '貨幣市場型':'cat-moneymarket',
+  '組合型':'cat-fof', '其他':'cat-other'
+};
 
 // ---------- formatters ----------
 function fmtInt(n){ return Math.round(n).toLocaleString('en-US'); }
@@ -607,7 +613,7 @@ function renderLookupResults(list){
       el('td', {}, [f.inc || '—']),
       el('td', {}, [f.co || '—']),
       el('td', {class:'name-cell', title:f.n}, [f.n]),
-      el('td', {}, [el('span',{class:'tag'},[f.c])]),
+      el('td', {}, [el('span',{class:'tag ' + (CATEGORY_CLASS[f.c] || 'cat-other')},[f.c])]),
       el('td', {}, [shortBank(f.cu||'—')]),
       el('td', {class:'num'}, [(f.a/1e8).toFixed(1)])
     ]));
