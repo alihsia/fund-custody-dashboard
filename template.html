@@ -185,6 +185,15 @@
   .eyebrow.c3{ color:var(--sec3-ink); } .eyebrow.c3::before{ background:linear-gradient(90deg, var(--sec3), var(--sec4)); }
   .eyebrow.c4{ color:var(--sec4-ink); } .eyebrow.c4::before{ background:linear-gradient(90deg, var(--sec4), var(--sec5)); }
   .eyebrow.c5{ color:var(--sec5-ink); } .eyebrow.c5::before{ background:linear-gradient(90deg, var(--sec5), var(--sec3)); }
+  .eyebrow.c6{ color:var(--sec1-ink); } .eyebrow.c6::before{ background:linear-gradient(90deg, var(--sec5), var(--sec1)); }
+  .rel-list{ margin:0; padding:0; list-style:none; text-align:left; min-width:210px; }
+  .rel-list li{ display:flex; gap:8px; align-items:baseline; padding:2px 0; font-size:12.5px; white-space:nowrap; }
+  .rel-list .rk{ width:14px; color:var(--ink-muted); font-weight:700; font-variant-numeric:tabular-nums; }
+  .rel-list .bk{ flex:1; }
+  .rel-list .vl{ color:var(--ink-2); font-variant-numeric:tabular-nums; }
+  #relTable tbody td{ vertical-align:top; }
+  #relTable tbody td.rel-co{ font-weight:600; }
+  #relTable thead th.rel-h{ text-align:left; }
   .block-head h2{
     margin:0 0 6px; font-size:25px; font-weight:700; letter-spacing:-0.016em; text-wrap:balance;
     background-image: var(--title-grad);
@@ -501,6 +510,7 @@
     <a href="#allfunds">市場結構</a>
     <a href="#share">存量市占</a>
     <a href="#newfunds">新案流向</a>
+    <a href="#relations">往來關係</a>
     <a href="#lookup">自訂條件查詢</a>
   </nav>
 
@@ -586,10 +596,30 @@
       </div>
     </section>
 
+    <section class="block" id="relations">
+      <div class="block-head">
+        <div class="eyebrow c5">05 · 往來關係</div>
+        <h2>投信 × 保管行往來關係</h2>
+        <p>各家投信往來最密切的前五名保管行，分別依基金檔數與現規模排序；百分比為占該投信的比重。</p>
+      </div>
+      <div class="card panel-pad">
+        <div class="filter-row" style="grid-template-columns:1fr;margin-bottom:10px;">
+          <div class="field">
+            <label>搜尋投信</label>
+            <input type="text" id="relSearch" placeholder="輸入投信名稱關鍵字" />
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table id="relTable"></table>
+        </div>
+        <div class="table-note">投信依現規模由大到小排列。檔數相同時以規模大者排前，規模相同時以檔數多者排前。</div>
+      </div>
+    </section>
+
     <section class="block" id="lookup">
       <div class="block-head">
-        <div class="eyebrow c5">05 · 自訂條件查詢</div>
-        <h2>投信 × 保管行往來關係</h2>
+        <div class="eyebrow c6">06 · 自訂條件查詢</div>
+        <h2>投信 × 保管行明細</h2>
       </div>
 
       <div class="card filter-card">

@@ -696,6 +696,65 @@ document.getElementById('downloadCsv').addEventListener('click', function(){
 applyFilters();
 
 // ======================================================================
+// Section 5 — 投信 × 保管行往來關係（依檔數／依現規模各取前五名）
+// ======================================================================
+(function renderRelations(){
+  var byCo = {};
+  FUNDS.forEach(function(f){
+    if (!f.co || !f.cu) return;
+    var c = byCo[f.co] || (byCo[f.co] = { count:0, aum:0, cust:{} });
+    c.count += 1; c.aum += f.a;
+    var k = c.cust[f.cu] || (c.cust[f.cu] = { count:0, aum:0 });
+    k.count += 1; k.aum += f.a;
+  });
+  var rows = Object.keys(byCo).map(function(name){
+    var c = byCo[name];
+    var list = Object.keys(c.cust).map(function(cu){ return { name:cu, count:c.cust[cu].count, aum:c.cust[cu].aum }; });
+    return {
+      name:name, count:c.count, aum:c.aum, nCust:list.length,
+      byCount: list.slice().sort(function(a,b){ return b.count-a.count || b.aum-a.aum; }).slice(0,5),
+      byAum:   list.slice().sort(function(a,b){ return b.aum-a.aum || b.count-a.count; }).slice(0,5)
+    };
+  }).sort(function(a,b){ return b.aum-a.aum; });
+
+  function topList(items, total, valueOf, shareOf){
+    return el('ul', {class:'rel-list'}, items.map(function(it, i){
+      return el('li', {}, [
+        el('span', {class:'rk'}, [String(i+1)]),
+        el('span', {class:'bk'}, [it.name]),
+        el('span', {class:'vl'}, [valueOf(it) + '｜' + fmtPct(shareOf(it)/(total||1))])
+      ]);
+    }));
+  }
+
+  var table = document.getElementById('relTable');
+  var search = document.getElementById('relSearch');
+  function draw(){
+    var q = search.value.trim();
+    table.innerHTML = '';
+    table.appendChild(el('thead', {}, [el('tr', {}, [
+      el('th', {class:'rel-h'}, ['投信']), el('th', {}, ['檔數']), el('th', {}, ['現規模']),
+      el('th', {class:'rel-h'}, ['依檔數：前五名保管行']), el('th', {class:'rel-h'}, ['依現規模：前五名保管行'])
+    ])]));
+    var tbody = el('tbody');
+    var shown = rows.filter(function(r){ return !q || r.name.indexOf(q) !== -1; });
+    shown.forEach(function(r){
+      tbody.appendChild(el('tr', {}, [
+        el('td', {class:'name-cell rel-co'}, [r.name]),
+        el('td', {class:'num'}, [r.count + ' 檔']),
+        el('td', {class:'num'}, [fmtAUMShort(r.aum)]),
+        el('td', {}, [topList(r.byCount, r.count, function(it){ return it.count + ' 檔'; }, function(it){ return it.count; })]),
+        el('td', {}, [topList(r.byAum, r.aum, function(it){ return fmtAUMShort(it.aum); }, function(it){ return it.aum; })])
+      ]));
+    });
+    if (!shown.length) tbody.appendChild(el('tr', {}, [el('td', {colspan:'5'}, ['查無符合的投信'])]));
+    table.appendChild(tbody);
+  }
+  search.addEventListener('input', draw);
+  draw();
+})();
+
+// ======================================================================
 // section nav active state on scroll
 // ======================================================================
 (function(){
