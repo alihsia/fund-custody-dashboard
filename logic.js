@@ -85,15 +85,15 @@ function el(tag, attrs, children){
 (function renderMeta(){
   var wrap = document.getElementById('metaChips');
   var items = [
-    ['資料年月', META.dataMonth],
-    ['本頁資料產生', META.pageGenerated],
-    ['只用公開資料', null]
+    ['資料年月', META.dataMonth, ''],
+    ['本頁資料產生', META.pageGenerated, ''],
+    ['資料範圍', '只用公開資料', ' live']
   ];
   items.forEach(function(it){
-    var chip = el('span', {class:'chip' + (it[1]?'':' accent')}, [
-      it[1] ? it[0] + ' ' : it[0], it[1] ? el('b', {}, [it[1]]) : null
-    ]);
-    wrap.appendChild(chip);
+    wrap.appendChild(el('div', {class:'meta-item'}, [
+      el('div', {class:'k'}, [it[0]]),
+      el('div', {class:'v' + it[2]}, [it[1]])
+    ]));
   });
 })();
 
@@ -789,6 +789,10 @@ applyFilters();
     var activeIdx = 0;
     sections.forEach(function(s, i){ if (s && s.offsetTop <= pos) activeIdx = i; });
     navLinks.forEach(function(a,i){ a.classList.toggle('active', i===activeIdx); });
+    // 沒貼頂時導覽列完全透明、與頁首融為一體；貼頂後才換成霧面底
+    var shell = document.getElementById('navShell');
+    var top = document.querySelector('.topbar');
+    shell.classList.toggle('stuck', window.scrollY >= top.offsetTop + top.offsetHeight - 1);
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
