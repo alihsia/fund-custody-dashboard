@@ -124,31 +124,45 @@
   .page{ max-width:1180px; margin:0 auto; padding:0 20px 64px; }
 
   /* ---------- masthead ---------- */
+  .masthead{
+    position:relative; overflow:hidden; color:#fff;
+    border-radius:0 0 28px 28px;
+    background:
+      radial-gradient(ellipse 520px 300px at 88% -10%, rgba(255,196,140,0.34), transparent 70%),
+      radial-gradient(ellipse 620px 360px at 4% 120%, rgba(255,255,255,0.10), transparent 70%),
+      linear-gradient(118deg, #2B0F13 0%, #5A2024 38%, #8E3A3A 72%, #B8584B 100%);
+    box-shadow:0 18px 40px -24px rgba(90,32,36,0.55);
+  }
+  .masthead::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(180deg, rgba(255,255,255,0.08), transparent 38%);
+  }
+  .masthead-inner{ position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 20px; }
   .topbar{
     display:flex; align-items:flex-end; justify-content:space-between; gap:22px 48px;
-    padding:48px 0 30px; flex-wrap:wrap;
+    padding:52px 0 40px; flex-wrap:wrap;
   }
   .brand{ min-width:0; flex:1 1 360px; }
   .brand .kicker{
-    display:flex; align-items:center; gap:10px; margin-bottom:12px;
-    font-size:11.5px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);
+    display:flex; align-items:center; gap:10px; margin-bottom:14px;
+    font-size:11.5px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#F6CBA6;
   }
-  .brand .kicker::before{ content:""; width:22px; height:2px; border-radius:2px; background:var(--accent-grad); }
+  .brand .kicker::before{ content:""; width:24px; height:2px; border-radius:2px; background:linear-gradient(90deg, #F6CBA6, rgba(246,203,166,0.2)); }
   .brand h1{
-    margin:0; font-size:36px; font-weight:700; letter-spacing:-0.028em; line-height:1.12; text-wrap:balance; color:var(--ink);
+    margin:0; font-size:38px; font-weight:700; letter-spacing:-0.028em; line-height:1.12; text-wrap:balance; color:#fff;
   }
-  .brand p{ margin:10px 0 0; font-size:13.5px; letter-spacing:0.004em; color:var(--ink-muted); }
+  .brand p{ margin:12px 0 0; font-size:13.5px; letter-spacing:0.004em; color:rgba(255,255,255,0.68); }
   .meta-chips{ display:flex; gap:0; flex-wrap:wrap; }
-  .meta-item{ padding:2px 22px; border-left:1px solid var(--line); }
+  .meta-item{ padding:2px 22px; border-left:1px solid rgba(255,255,255,0.2); }
   .meta-item:first-child{ padding-left:0; border-left:none; }
   .meta-item:last-child{ padding-right:0; }
-  .meta-item .k{ font-size:11px; font-weight:600; letter-spacing:0.08em; color:var(--ink-muted); margin-bottom:4px; }
-  .meta-item .v{ font-size:14.5px; font-weight:650; letter-spacing:0.002em; color:var(--ink); font-variant-numeric:tabular-nums; white-space:nowrap; }
-  .meta-item .v.live::before{ content:""; display:inline-block; width:6px; height:6px; margin:0 7px 2px 0; border-radius:50%; background:var(--good); }
+  .meta-item .k{ font-size:11px; font-weight:600; letter-spacing:0.08em; color:rgba(255,255,255,0.6); margin-bottom:4px; }
+  .meta-item .v{ font-size:14.5px; font-weight:650; letter-spacing:0.002em; color:#fff; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .meta-item .v.live::before{ content:""; display:inline-block; width:6px; height:6px; margin:0 7px 2px 0; border-radius:50%; background:#5FE08A; box-shadow:0 0 0 3px rgba(95,224,138,0.22); }
 
   /* ---------- section nav ---------- */
   .nav-shell{
-    position:sticky; top:0; z-index:40;
+    position:sticky; top:0; z-index:40; margin-top:10px;
     border-bottom:1px solid var(--line);
     clip-path:inset(0 -100vmax);
     transition: background .3s var(--ease-spring-soft), box-shadow .3s var(--ease-spring-soft);
@@ -167,28 +181,30 @@
   .section-nav::-webkit-scrollbar{ display:none; }
   .section-nav a{
     position:relative; text-decoration:none; white-space:nowrap;
-    color:var(--ink-muted); font-size:14px; font-weight:600; letter-spacing:0.004em;
-    padding:15px 16px 14px;
+    color:var(--ink-muted); font-size:17px; font-weight:600; letter-spacing:0.004em;
+    padding:17px 18px 15px;
     transition: color .3s var(--ease-spring-soft);
   }
-  .section-nav a .n{ margin-right:7px; font-size:11px; font-weight:700; letter-spacing:0.04em; font-variant-numeric:tabular-nums; opacity:.55; }
+  .section-nav a .n{ margin-right:8px; font-size:14px; font-weight:700; letter-spacing:0.04em; font-variant-numeric:tabular-nums; opacity:.55; }
   .section-nav a::after{
-    content:""; position:absolute; left:16px; right:16px; bottom:0; height:2px; border-radius:2px;
+    content:""; position:absolute; left:18px; right:18px; bottom:0; height:3px; border-radius:2px;
     background:var(--accent-grad); transform:scaleX(0); transform-origin:left center;
     transition: transform .4s var(--ease-spring);
   }
   .section-nav a:hover{ color:var(--ink); }
-  .section-nav a.active{ color:var(--ink); }
+  .section-nav a.active{ color:var(--accent); }
   .section-nav a.active .n{ opacity:1; color:var(--accent); }
   .section-nav a.active::after{ transform:scaleX(1); }
   .section-nav a:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; border-radius:6px; }
   @media (max-width:720px){
-    .topbar{ padding:32px 0 22px; }
-    .brand h1{ font-size:27px; }
+    .topbar{ padding:34px 0 28px; }
+    .brand h1{ font-size:28px; }
+    .masthead{ border-radius:0 0 22px 22px; }
     .meta-chips{ gap:14px 0; }
     .meta-item{ padding:2px 16px; }
-    .section-nav a{ padding:13px 12px 12px; }
-    .section-nav a::after{ left:12px; right:12px; }
+    .section-nav a{ font-size:15px; padding:14px 13px 12px; }
+    .section-nav a .n{ font-size:12.5px; margin-right:6px; }
+    .section-nav a::after{ left:13px; right:13px; }
   }
   @media (prefers-reduced-motion: reduce){ .section-nav a::after, .nav-shell{ transition:none; } }
 
@@ -564,7 +580,8 @@
   }
 </style>
 
-<div class="page">
+<header class="masthead">
+ <div class="masthead-inner">
   <div class="topbar">
     <div class="brand">
       <div>
@@ -575,6 +592,10 @@
     </div>
     <div class="meta-chips" id="metaChips"></div>
   </div>
+ </div>
+</header>
+
+<div class="page">
 
   <div class="nav-shell" id="navShell">
     <nav class="section-nav" aria-label="頁面章節">

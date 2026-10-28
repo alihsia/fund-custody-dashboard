@@ -791,7 +791,7 @@ applyFilters();
     navLinks.forEach(function(a,i){ a.classList.toggle('active', i===activeIdx); });
     // 沒貼頂時導覽列完全透明、與頁首融為一體；貼頂後才換成霧面底
     var shell = document.getElementById('navShell');
-    var top = document.querySelector('.topbar');
+    var top = document.querySelector('.masthead');
     shell.classList.toggle('stuck', window.scrollY >= top.offsetTop + top.offsetHeight - 1);
   }
   window.addEventListener('scroll', onScroll, {passive:true});
