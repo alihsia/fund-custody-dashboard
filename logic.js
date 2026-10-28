@@ -628,10 +628,10 @@ function renderLookupResults(list){
     ]));
   });
   table.appendChild(tbody);
-  if (list.length > MAX_ROWS){
-    var note = el('div', {class:'table-note', style:'padding:10px;'}, ['僅顯示前 ' + MAX_ROWS + ' 筆（共 ' + list.length + ' 筆），請用篩選縮小範圍或下載 CSV 取得完整清單。']);
-    document.getElementById('lookupTable').parentNode.appendChild(note);
-  }
+  // 提示固定一個元素、每次重算只更新文字，避免每次篩選都疊一句
+  var limitNote = document.getElementById('lookupLimitNote');
+  limitNote.hidden = list.length <= MAX_ROWS;
+  limitNote.textContent = '僅顯示前 ' + MAX_ROWS + ' 筆（共 ' + fmtInt(list.length) + ' 筆），請用篩選縮小範圍或下載 CSV 取得完整清單。';
   currentLookupList = list;
 }
 
