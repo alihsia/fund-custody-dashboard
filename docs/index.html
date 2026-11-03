@@ -1,37 +1,38 @@
+<html lang="zh-Hant" data-theme="light">
 <meta charset="utf-8">
 <title>商機捕手：基金保管</title>
 <style>
   :root{
-    --bg:#F4F5F2;
+    --bg:#F5F5FA;
     --surface:#FFFFFF;
-    --surface-2:#FAFAF8;
-    --surface-sunken:#EEF1EE;
-    --ink:#12181B;
-    --ink-2:#52605F;
-    --ink-muted:#8B9593;
-    --accent:#A24646;
+    --surface-2:#FAFAFD;
+    --surface-sunken:#EFF0F8;
+    --ink:#1B1838;
+    --ink-2:#5B5F85;
+    --ink-muted:#8E91AE;
+    --accent:#6652E0;
     --accent-ink:#ffffff;
-    --accent-grad: linear-gradient(135deg, #A24646, #B85048);
-    --accent-soft:#FBEAE3;
-    --accent-soft-ink:#913426;
-    --line:#DDE3E0;
-    --line-strong:#C7D0CC;
+    --accent-grad: linear-gradient(135deg, #6A55E8, #5666E8);
+    --accent-soft:#ECE9FF;
+    --accent-soft-ink:#4B3BC4;
+    --line:#E1E3EE;
+    --line-strong:#CDD1E3;
     --good:#0ca30c;
     --chip-bg:#FFFFFF;
-    --rank-large:#935109;
-    --rank-mid:#E27E0E;
-    --rank-small:#EFA24C;
-    --sec1:#A24646; --sec1-ink:#913426;
-    --sec2:#DC6556; --sec2-ink:#914126;
-    --sec3:#ED885B; --sec3-ink:#914D26;
-    --sec4:#F69F67; --sec4-ink:#915A26;
-    --sec5:#FFB673; --sec5-ink:#916626;
+    --rank-large:#5B47D9;
+    --rank-mid:#7F91FA;
+    --rank-small:#C9C2FF;
+    --sec1:#5B47D9; --sec1-ink:#4B3BC4;
+    --sec2:#7458E8; --sec2-ink:#5B3FD0;
+    --sec3:#8F73F0; --sec3-ink:#6A47D0;
+    --sec4:#7F91FA; --sec4-ink:#3F5CD6;
+    --sec5:#6B8BFF; --sec5-ink:#2F55D4;
     --title-grad: linear-gradient(100deg, var(--sec1), var(--sec2));
-    --bg-wash: radial-gradient(ellipse 900px 620px at 4% -6%, color-mix(in srgb, var(--sec1) 13%, transparent), transparent 70%),
-      radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec3) 10%, transparent), transparent 70%);
-    --shadow: 0 1px 2px rgba(18,24,27,0.04), 0 4px 16px rgba(18,24,27,0.05);
-    --shadow-sm: 0 1px 1px rgba(18,24,27,0.03), 0 2px 8px rgba(18,24,27,0.04);
-    --shadow-lift: 0 2px 4px rgba(18,24,27,0.06), 0 10px 28px rgba(18,24,27,0.09);
+    --bg-wash: radial-gradient(ellipse 900px 620px at 4% -6%, color-mix(in srgb, var(--sec1) 10%, transparent), transparent 70%),
+      radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec4) 10%, transparent), transparent 70%);
+    --shadow: 0 1px 2px rgba(34,28,100,0.05), 0 4px 16px rgba(34,28,100,0.06);
+    --shadow-sm: 0 1px 1px rgba(34,28,100,0.04), 0 2px 8px rgba(34,28,100,0.05);
+    --shadow-lift: 0 2px 4px rgba(34,28,100,0.07), 0 10px 28px rgba(34,28,100,0.11);
     --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
     --ease-spring-soft: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -39,33 +40,33 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0E1413;
-      --surface:#161D1C;
-      --surface-2:#1B2322;
-      --surface-sunken:#101615;
-      --ink:#F2F4F2;
-      --ink-2:#B9C2BF;
-      --ink-muted:#78827F;
-      --accent:#E87462;
-      --accent-ink:#2B1410;
-      --accent-grad: linear-gradient(135deg, #E87462, #F0935F);
-      --accent-soft:rgba(232,116,98,0.16);
-      --accent-soft-ink:#F0A390;
-      --line:#2A3331;
-      --line-strong:#3A4442;
+      --bg:#0F0E1C;
+      --surface:#181730;
+      --surface-2:#1E1D3A;
+      --surface-sunken:#121126;
+      --ink:#F1F0FF;
+      --ink-2:#B9B8D6;
+      --ink-muted:#8280A6;
+      --accent:#A99BFF;
+      --accent-ink:#14102E;
+      --accent-grad: linear-gradient(135deg, #8E7BFF, #6F8CFF);
+      --accent-soft:rgba(169,155,255,0.16);
+      --accent-soft-ink:#C3B9FF;
+      --line:#2A2850;
+      --line-strong:#3A3868;
       --good:#2fbf2f;
-      --chip-bg:#1B2322;
-      --rank-large:#E27D1A;
-      --rank-mid:#F2A753;
-      --rank-small:#F9D0A2;
-      --sec1:#E87462; --sec1-ink:#E87462;
-      --sec2:#EC8562; --sec2-ink:#E88462;
-      --sec3:#F0935F; --sec3-ink:#E89362;
-      --sec4:#F4A468; --sec4-ink:#E8A362;
-      --sec5:#F8BB80; --sec5-ink:#E8B362;
+      --chip-bg:#1E1D3A;
+      --rank-large:#7C6BF0;
+      --rank-mid:#A99BFF;
+      --rank-small:#D3CEFF;
+      --sec1:#8E7BFF; --sec1-ink:#B3A6FF;
+      --sec2:#A08CFF; --sec2-ink:#BBA9FF;
+      --sec3:#96A3FF; --sec3-ink:#B0BAFF;
+      --sec4:#86A0FF; --sec4-ink:#A5BAFF;
+      --sec5:#7896FF; --sec5-ink:#9BB4FF;
       --title-grad: linear-gradient(100deg, var(--sec1), var(--sec2) 55%, var(--sec3));
       --bg-wash: radial-gradient(ellipse 900px 620px at 4% -6%, color-mix(in srgb, var(--sec1) 10%, transparent), transparent 70%),
-        radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec3) 8%, transparent), transparent 70%);
+        radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec4) 8%, transparent), transparent 70%);
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
       --shadow-sm: 0 1px 1px rgba(0,0,0,0.25), 0 3px 10px rgba(0,0,0,0.25);
       --shadow-lift: 0 3px 6px rgba(0,0,0,0.35), 0 16px 36px rgba(0,0,0,0.4);
@@ -73,33 +74,33 @@
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0E1413;
-    --surface:#161D1C;
-    --surface-2:#1B2322;
-    --surface-sunken:#101615;
-    --ink:#F2F4F2;
-    --ink-2:#B9C2BF;
-    --ink-muted:#78827F;
-    --accent:#E87462;
-    --accent-ink:#2B1410;
-    --accent-grad: linear-gradient(135deg, #E87462, #F0935F);
-    --accent-soft:rgba(232,116,98,0.16);
-    --accent-soft-ink:#F0A390;
-    --line:#2A3331;
-    --line-strong:#3A4442;
+    --bg:#0F0E1C;
+    --surface:#181730;
+    --surface-2:#1E1D3A;
+    --surface-sunken:#121126;
+    --ink:#F1F0FF;
+    --ink-2:#B9B8D6;
+    --ink-muted:#8280A6;
+    --accent:#A99BFF;
+    --accent-ink:#14102E;
+    --accent-grad: linear-gradient(135deg, #8E7BFF, #6F8CFF);
+    --accent-soft:rgba(169,155,255,0.16);
+    --accent-soft-ink:#C3B9FF;
+    --line:#2A2850;
+    --line-strong:#3A3868;
     --good:#2fbf2f;
-    --chip-bg:#1B2322;
-    --rank-large:#E27D1A;
-    --rank-mid:#F2A753;
-    --rank-small:#F9D0A2;
-    --sec1:#E87462; --sec1-ink:#E87462;
-    --sec2:#EC8562; --sec2-ink:#E88462;
-    --sec3:#F0935F; --sec3-ink:#E89362;
-    --sec4:#F4A468; --sec4-ink:#E8A362;
-    --sec5:#F8BB80; --sec5-ink:#E8B362;
+    --chip-bg:#1E1D3A;
+    --rank-large:#7C6BF0;
+    --rank-mid:#A99BFF;
+    --rank-small:#D3CEFF;
+    --sec1:#8E7BFF; --sec1-ink:#B3A6FF;
+    --sec2:#A08CFF; --sec2-ink:#BBA9FF;
+    --sec3:#96A3FF; --sec3-ink:#B0BAFF;
+    --sec4:#86A0FF; --sec4-ink:#A5BAFF;
+    --sec5:#7896FF; --sec5-ink:#9BB4FF;
     --title-grad: linear-gradient(100deg, var(--sec1), var(--sec2) 55%, var(--sec3));
     --bg-wash: radial-gradient(ellipse 900px 620px at 4% -6%, color-mix(in srgb, var(--sec1) 10%, transparent), transparent 70%),
-      radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec3) 8%, transparent), transparent 70%);
+      radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec4) 8%, transparent), transparent 70%);
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
     --shadow-sm: 0 1px 1px rgba(0,0,0,0.25), 0 3px 10px rgba(0,0,0,0.25);
     --shadow-lift: 0 3px 6px rgba(0,0,0,0.35), 0 16px 36px rgba(0,0,0,0.4);
@@ -123,42 +124,110 @@
 
   .page{ max-width:1180px; margin:0 auto; padding:0 20px 64px; }
 
-  /* ---------- masthead ---------- */
+  /* ---------- masthead（淺色幾何版） ---------- */
   .masthead{
-    position:relative; overflow:hidden; color:#fff;
+    --mh-ink:#1F1B45;
+    --mh-ink-2:#5B5F85;
+    --mh-kicker:#6652E0;
+    --mh-kicker-line:linear-gradient(90deg, #7C6BF0, rgba(124,107,240,0.15));
+    --mh-divider:rgba(70,60,160,0.16);
+    --mh-glass:rgba(255,255,255,0.62);
+    --mh-glass-line:rgba(110,96,230,0.16);
+    --mh-stroke:rgba(110,96,230,0.38);
+    --mh-art-line:rgba(110,96,230,0.5);
+    --mh-art-dot:rgba(110,96,230,0.45);
+    --mh-live:#1FA85A;
+    position:relative; overflow:hidden; color:var(--mh-ink);
     border-radius:0 0 28px 28px;
     background:
-      radial-gradient(ellipse 520px 300px at 88% -10%, rgba(255,196,140,0.34), transparent 70%),
-      radial-gradient(ellipse 620px 360px at 4% 120%, rgba(255,255,255,0.10), transparent 70%),
-      linear-gradient(118deg, #2B0F13 0%, #5A2024 38%, #8E3A3A 72%, #B8584B 100%);
-    box-shadow:0 18px 40px -24px rgba(90,32,36,0.55);
-  }
-  .masthead::after{
-    content:""; position:absolute; inset:0; pointer-events:none;
-    background:linear-gradient(180deg, rgba(255,255,255,0.08), transparent 38%);
+      radial-gradient(ellipse 560px 320px at 94% -8%, rgba(167,139,250,0.30), transparent 70%),
+      radial-gradient(ellipse 520px 300px at 0% 112%, rgba(125,160,255,0.22), transparent 70%),
+      linear-gradient(120deg, #F8F6FF 0%, #EFF1FF 52%, #E4EBFF 100%);
+    border-bottom:1px solid rgba(110,96,230,0.12);
+    box-shadow:0 18px 40px -28px rgba(80,70,200,0.38);
   }
   .masthead-inner{ position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 20px; }
-  .topbar{
-    display:flex; align-items:flex-end; justify-content:space-between; gap:22px 48px;
-    padding:52px 0 40px; flex-wrap:wrap;
+  .mh-art{
+    position:absolute; z-index:0; top:0; right:0; bottom:0; width:min(62%, 760px);
+    pointer-events:none;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 30%);
+            mask-image:linear-gradient(90deg, transparent 0%, #000 30%);
   }
-  .brand{ min-width:0; flex:1 1 360px; }
+  .mh-art svg{ width:100%; height:100%; display:block; }
+  .mh-art .glass{ stroke:var(--mh-stroke); stroke-width:1; }
+  .mh-art .artline{ stroke:var(--mh-art-line); stroke-width:1; fill:none; }
+  .mh-art .artdot{ fill:var(--mh-art-dot); }
+  .mh-art .float-a{ animation:mhFloat 7s ease-in-out infinite; }
+  .mh-art .float-b{ animation:mhFloat 8.5s ease-in-out -2s infinite; }
+  @keyframes mhFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-5px); } }
+
+  .topbar{
+    display:flex; flex-direction:column; align-items:flex-start; gap:26px;
+    padding:46px 0 36px;
+  }
+  .brand{ min-width:0; max-width:620px; }
   .brand .kicker{
     display:flex; align-items:center; gap:10px; margin-bottom:14px;
-    font-size:11.5px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#F6CBA6;
+    font-size:11.5px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--mh-kicker);
   }
-  .brand .kicker::before{ content:""; width:24px; height:2px; border-radius:2px; background:linear-gradient(90deg, #F6CBA6, rgba(246,203,166,0.2)); }
+  .brand .kicker::before{ content:""; width:24px; height:2px; border-radius:2px; background:var(--mh-kicker-line); }
   .brand h1{
-    margin:0; font-size:38px; font-weight:700; letter-spacing:-0.028em; line-height:1.12; text-wrap:balance; color:#fff;
+    margin:0; font-size:38px; font-weight:700; letter-spacing:-0.028em; line-height:1.12; text-wrap:balance; color:var(--mh-ink);
   }
-  .brand p{ margin:12px 0 0; font-size:13.5px; letter-spacing:0.004em; color:rgba(255,255,255,0.68); }
-  .meta-chips{ display:flex; gap:0; flex-wrap:wrap; }
-  .meta-item{ padding:2px 22px; border-left:1px solid rgba(255,255,255,0.2); }
+  .brand p{ margin:12px 0 0; font-size:13.5px; letter-spacing:0.004em; color:var(--mh-ink-2); }
+  .meta-chips{
+    display:flex; gap:0; flex-wrap:wrap;
+    padding:10px 20px; border-radius:14px;
+    background:var(--mh-glass); border:1px solid var(--mh-glass-line);
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    box-shadow:0 6px 20px -12px rgba(80,70,200,0.30);
+  }
+  .meta-item{ padding:2px 22px; border-left:1px solid var(--mh-divider); }
   .meta-item:first-child{ padding-left:0; border-left:none; }
   .meta-item:last-child{ padding-right:0; }
-  .meta-item .k{ font-size:11px; font-weight:600; letter-spacing:0.08em; color:rgba(255,255,255,0.6); margin-bottom:4px; }
-  .meta-item .v{ font-size:14.5px; font-weight:650; letter-spacing:0.002em; color:#fff; font-variant-numeric:tabular-nums; white-space:nowrap; }
-  .meta-item .v.live::before{ content:""; display:inline-block; width:6px; height:6px; margin:0 7px 2px 0; border-radius:50%; background:#5FE08A; box-shadow:0 0 0 3px rgba(95,224,138,0.22); }
+  .meta-item .k{ font-size:11px; font-weight:600; letter-spacing:0.08em; color:var(--mh-ink-2); margin-bottom:4px; }
+  .meta-item .v{ font-size:14.5px; font-weight:650; letter-spacing:0.002em; color:var(--mh-ink); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .meta-item .v.live::before{ content:""; display:inline-block; width:6px; height:6px; margin:0 7px 2px 0; border-radius:50%; background:var(--mh-live); box-shadow:0 0 0 3px rgba(31,168,90,0.20); }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .masthead{
+      --mh-ink:#F4F2FF; --mh-ink-2:rgba(236,233,255,0.66); --mh-kicker:#B8ACFF;
+      --mh-kicker-line:linear-gradient(90deg, #B8ACFF, rgba(184,172,255,0.15));
+      --mh-divider:rgba(255,255,255,0.18);
+      --mh-glass:rgba(255,255,255,0.06); --mh-glass-line:rgba(255,255,255,0.12);
+      --mh-stroke:rgba(190,180,255,0.42); --mh-art-line:rgba(190,180,255,0.55); --mh-art-dot:rgba(190,180,255,0.5);
+      --mh-live:#5FE08A;
+      background:
+        radial-gradient(ellipse 560px 320px at 94% -8%, rgba(139,92,246,0.34), transparent 70%),
+        radial-gradient(ellipse 520px 300px at 0% 112%, rgba(99,130,255,0.16), transparent 70%),
+        linear-gradient(120deg, #15132A 0%, #1C1A3A 55%, #231F4D 100%);
+      border-bottom-color:rgba(255,255,255,0.06);
+      box-shadow:0 18px 40px -26px rgba(10,8,40,0.7);
+    }
+  }
+  :root[data-theme="dark"] .masthead{
+    --mh-ink:#F4F2FF; --mh-ink-2:rgba(236,233,255,0.66); --mh-kicker:#B8ACFF;
+    --mh-kicker-line:linear-gradient(90deg, #B8ACFF, rgba(184,172,255,0.15));
+    --mh-divider:rgba(255,255,255,0.18);
+    --mh-glass:rgba(255,255,255,0.06); --mh-glass-line:rgba(255,255,255,0.12);
+    --mh-stroke:rgba(190,180,255,0.42); --mh-art-line:rgba(190,180,255,0.55); --mh-art-dot:rgba(190,180,255,0.5);
+    --mh-live:#5FE08A;
+    background:
+      radial-gradient(ellipse 560px 320px at 94% -8%, rgba(139,92,246,0.34), transparent 70%),
+      radial-gradient(ellipse 520px 300px at 0% 112%, rgba(99,130,255,0.16), transparent 70%),
+      linear-gradient(120deg, #15132A 0%, #1C1A3A 55%, #231F4D 100%);
+    border-bottom-color:rgba(255,255,255,0.06);
+    box-shadow:0 18px 40px -26px rgba(10,8,40,0.7);
+  }
+  @media (prefers-reduced-motion: reduce){ .mh-art .float-a, .mh-art .float-b{ animation:none; } }
+
+  @media (max-width:720px){
+    .mh-art{ width:100%; opacity:0.55; -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 55%); mask-image:linear-gradient(90deg, transparent 0%, #000 55%); }
+    .masthead .meta-chips{ display:grid; grid-template-columns:auto auto; justify-content:start; gap:14px 0; padding:12px 18px; }
+    .masthead .meta-item{ padding:2px 20px; }
+    .masthead .meta-item:nth-child(odd){ padding-left:0; border-left:none; }
+    .masthead .meta-item:nth-child(even){ padding-right:0; }
+  }
 
   /* ---------- section nav ---------- */
   .nav-shell{
@@ -581,6 +650,82 @@
 </style>
 
 <header class="masthead">
+ <div class="mh-art" aria-hidden="true">
+  <svg viewBox="0 0 720 320" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg" focusable="false">
+   <defs>
+    <linearGradient id="mhG1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D2CCFF" stop-opacity="0.85"/><stop offset="1" stop-color="#93A6FF" stop-opacity="0.55"/></linearGradient>
+    <linearGradient id="mhG2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#BFA9FF" stop-opacity="0.75"/><stop offset="1" stop-color="#7F8FFF" stop-opacity="0.45"/></linearGradient>
+    <linearGradient id="mhG3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A7B8FF" stop-opacity="0.65"/><stop offset="1" stop-color="#6F86FF" stop-opacity="0.35"/></linearGradient>
+    <linearGradient id="mhBar1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBB4FF"/><stop offset="1" stop-color="#B393FF"/></linearGradient>
+    <linearGradient id="mhBar2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDA9FF"/><stop offset="1" stop-color="#9A86FF"/></linearGradient>
+    <linearGradient id="mhBar3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A8A0FF"/><stop offset="1" stop-color="#6F86FF"/></linearGradient>
+    <linearGradient id="mhDa" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9A9FF"/><stop offset="1" stop-color="#A68BFF"/></linearGradient>
+    <linearGradient id="mhDb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8C9CFF"/><stop offset="1" stop-color="#5E78FF"/></linearGradient>
+    <linearGradient id="mhDc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D9D6FF"/></linearGradient>
+    <radialGradient id="mhGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#A78BFA" stop-opacity="0.38"/><stop offset="1" stop-color="#A78BFA" stop-opacity="0"/></radialGradient>
+    <filter id="mhBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="mhSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.5"/></filter>
+    <filter id="mhDrop" x="-30%" y="-30%" width="170%" height="190%"><feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#6A55F0" flood-opacity="0.30"/></filter>
+   </defs>
+
+   <!-- 光暈 -->
+   <ellipse cx="560" cy="205" rx="190" ry="125" fill="url(#mhGlow)"/>
+
+   <!-- 玻璃方塊群 -->
+   <rect x="-20" y="92" width="100" height="52" fill="url(#mhG3)" opacity="0.45" filter="url(#mhBlur)"/>
+   <rect class="glass" x="52" y="58" width="64" height="58" fill="url(#mhG3)" opacity="0.7"/>
+   <rect class="glass" x="26" y="104" width="96" height="104" fill="url(#mhG1)"/>
+   <rect class="glass" x="132" y="124" width="102" height="134" fill="url(#mhG2)"/>
+   <rect class="glass" x="70" y="186" width="82" height="58" fill="url(#mhG3)" opacity="0.55"/>
+   <rect class="glass" x="244" y="176" width="104" height="76" fill="url(#mhG2)"/>
+   <rect class="glass" x="196" y="208" width="62" height="52" fill="url(#mhG1)"/>
+   <rect class="glass" x="258" y="238" width="76" height="52" fill="url(#mhG3)"/>
+   <rect class="glass" x="162" y="252" width="62" height="44" fill="url(#mhG1)" opacity="0.8"/>
+
+   <!-- 細線、點陣、線框方塊 -->
+   <line class="artline" x1="92" y1="22" x2="92" y2="236"/>
+   <line class="artline" x1="146" y1="46" x2="146" y2="292"/>
+   <line class="artline" x1="304" y1="150" x2="304" y2="308"/>
+   <line class="artline" x1="118" y1="112" x2="206" y2="34"/>
+   <g class="artdot">
+    <circle cx="34" cy="262" r="1.5"/><circle cx="46" cy="262" r="1.5"/><circle cx="58" cy="262" r="1.5"/><circle cx="70" cy="262" r="1.5"/>
+    <circle cx="34" cy="274" r="1.5"/><circle cx="46" cy="274" r="1.5"/><circle cx="58" cy="274" r="1.5"/><circle cx="70" cy="274" r="1.5"/>
+    <circle cx="34" cy="286" r="1.5"/><circle cx="46" cy="286" r="1.5"/><circle cx="58" cy="286" r="1.5"/><circle cx="70" cy="286" r="1.5"/>
+   </g>
+   <g transform="translate(246 140)">
+    <g class="artline float-b">
+     <polygon points="14,0 28,8 28,24 14,32 0,24 0,8"/>
+     <polyline points="0,8 14,16 28,8"/><line x1="14" y1="16" x2="14" y2="32"/>
+    </g>
+   </g>
+
+   <!-- 圖示陰影 -->
+   <ellipse cx="500" cy="286" rx="78" ry="9" fill="#6A55F0" opacity="0.28" filter="url(#mhSoft)"/>
+   <ellipse cx="632" cy="290" rx="62" ry="8" fill="#5E78FF" opacity="0.26" filter="url(#mhSoft)"/>
+
+   <!-- 長條圖圖示 -->
+   <g filter="url(#mhDrop)"><g class="float-a">
+    <rect x="440" y="214" width="38" height="58" rx="8" fill="url(#mhBar1)"/>
+    <rect x="482" y="166" width="38" height="106" rx="8" fill="url(#mhBar2)"/>
+    <rect x="524" y="232" width="38" height="40" rx="8" fill="url(#mhBar3)"/>
+    <rect x="446" y="219" width="8" height="48" rx="4" fill="#fff" opacity="0.28"/>
+    <rect x="488" y="171" width="8" height="96" rx="4" fill="#fff" opacity="0.28"/>
+   </g></g>
+
+   <!-- 環圈圖圖示 -->
+   <g transform="translate(632 206)" filter="url(#mhDrop)">
+    <g class="float-b">
+     <g transform="rotate(-90)">
+      <circle r="52" fill="none" stroke="url(#mhDa)" stroke-width="30" stroke-dasharray="160 400" stroke-dashoffset="0"/>
+      <circle r="52" fill="none" stroke="url(#mhDb)" stroke-width="30" stroke-dasharray="106 400" stroke-dashoffset="-166"/>
+      <g transform="rotate(-54) translate(6 0) rotate(54)">
+       <circle r="52" fill="none" stroke="url(#mhDc)" stroke-width="30" stroke-dasharray="52 400" stroke-dashoffset="-278" opacity="0.95"/>
+      </g>
+     </g>
+    </g>
+   </g>
+  </svg>
+ </div>
  <div class="masthead-inner">
   <div class="topbar">
     <div class="brand">
