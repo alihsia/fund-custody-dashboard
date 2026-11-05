@@ -696,33 +696,50 @@ document.getElementById('downloadCsv').addEventListener('click', function(){
 applyFilters();
 
 // ======================================================================
-// Section 5 — 投信往來保管版圖（依檔數／依現規模各取前五名保管行）
+// Section 5 — 投信往來保管版圖（可在「投信→保管行」與「保管行→投信」間切換；各取檔數／現規模前五名）
 // ======================================================================
 (function renderRelations(){
   var PREVIEW = 5;
-  var byCo = {};
-  FUNDS.forEach(function(f){
-    if (!f.co || !f.cu) return;
-    var c = byCo[f.co] || (byCo[f.co] = { count:0, aum:0, cust:{} });
-    c.count += 1; c.aum += f.a;
-    var k = c.cust[f.cu] || (c.cust[f.cu] = { count:0, aum:0 });
-    k.count += 1; k.aum += f.a;
-  });
-  var rows = Object.keys(byCo).map(function(name){
-    var c = byCo[name];
-    var list = Object.keys(c.cust).map(function(cu){ return { name:cu, count:c.cust[cu].count, aum:c.cust[cu].aum }; });
-    return {
-      name:name, count:c.count, aum:c.aum, nCust:list.length,
-      byCount: list.slice().sort(function(a,b){ return b.count-a.count || b.aum-a.aum; }).slice(0,5),
-      byAum:   list.slice().sort(function(a,b){ return b.aum-a.aum || b.count-a.count; }).slice(0,5)
-    };
-  }).sort(function(a,b){ return b.aum-a.aum; });
+  // key＝卡片主角；sub＝卡片裡列出的前五名對象
+  var MODES = {
+    co: { key:'co', sub:'cu', keyName:'投信', subName:'保管行', unit:'家投信',
+          lead:'各家投信最倚重的保管行排名，檔數與規模兩種排名並陳。',
+          hint:'選一家投信，看它把基金交給哪些保管行',
+          note:'投信依現規模由大到小排列；占比為占該投信全部基金的比重。檔數相同時以規模大者排前，規模相同時以檔數多者排前。' },
+    cu: { key:'cu', sub:'co', keyName:'保管行', subName:'投信', unit:'家保管行',
+          lead:'各家保管行最主要承作的投信排名，檔數與規模兩種排名並陳。',
+          hint:'選一家保管行，看它主要承作哪些投信的基金',
+          note:'保管行依保管規模由大到小排列；占比為占該保管行保管之全部基金的比重。檔數相同時以規模大者排前，規模相同時以檔數多者排前。' }
+  };
 
+  function build(mode){
+    var m = MODES[mode], by = {};
+    FUNDS.forEach(function(f){
+      if (!f.co || !f.cu) return;
+      var k = f[m.key], s = f[m.sub];
+      var c = by[k] || (by[k] = { count:0, aum:0, subs:{} });
+      c.count += 1; c.aum += f.a;
+      var x = c.subs[s] || (c.subs[s] = { count:0, aum:0 });
+      x.count += 1; x.aum += f.a;
+    });
+    return Object.keys(by).map(function(name){
+      var c = by[name];
+      var list = Object.keys(c.subs).map(function(s){ return { name:s, count:c.subs[s].count, aum:c.subs[s].aum }; });
+      return {
+        name:name, count:c.count, aum:c.aum, nSub:list.length,
+        byCount: list.slice().sort(function(a,b){ return b.count-a.count || b.aum-a.aum; }).slice(0,5),
+        byAum:   list.slice().sort(function(a,b){ return b.aum-a.aum || b.count-a.count; }).slice(0,5)
+      };
+    }).sort(function(a,b){ return b.aum-a.aum; });
+  }
+  var DATA = { co: build('co'), cu: build('cu') };
+
+  var mode = 'co', expanded = false;
   var cardsEl = document.getElementById('relCards');
   var searchEl = document.getElementById('relSearch');
   var toggleEl = document.getElementById('relToggle');
   var countEl = document.getElementById('relCount');
-  var expanded = false;
+  var modeBtns = Array.prototype.slice.call(document.querySelectorAll('#relMode button'));
   var chevron = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>';
 
   function column(title, hint, items, total, cls, valueOf, shareOf, fills){
@@ -741,8 +758,9 @@ applyFilters();
   }
 
   function draw(){
+    var m = MODES[mode];
     var q = searchEl.value.trim();
-    var matched = rows.filter(function(r){ return !q || r.name.indexOf(q) !== -1; });
+    var matched = DATA[mode].filter(function(r){ return !q || r.name.indexOf(q) !== -1 || shortBank(r.name).indexOf(q) !== -1; });
     var showAll = expanded || !!q;
     var shown = showAll ? matched : matched.slice(0, PREVIEW);
     cardsEl.innerHTML = '';
@@ -753,26 +771,44 @@ applyFilters();
           el('div', {class:'rel-name'}, [r.name]),
           el('div', {class:'rel-meta'}, [
             el('span', {class:'rel-chip', html:'<b>' + r.count + '</b> 檔'}),
-            el('span', {class:'rel-chip', html:'現規模 <b>' + fmtAUMShort(r.aum) + '</b>'}),
-            el('span', {class:'rel-chip', html:'往來 <b>' + r.nCust + '</b> 家保管行'})
+            el('span', {class:'rel-chip', html:(mode==='co' ? '現規模 ' : '保管規模 ') + '<b>' + fmtAUMShort(r.aum) + '</b>'}),
+            el('span', {class:'rel-chip', html:'往來 <b>' + r.nSub + '</b> 家' + m.subName})
           ])
         ]),
         el('div', {class:'rel-body'}, [
-          column('依檔數', '前五名保管行', r.byCount, r.count, 'cnt', function(it){ return it.count + ' 檔'; }, function(it){ return it.count; }, fills),
-          column('依現規模', '前五名保管行', r.byAum, r.aum, 'aum', function(it){ return fmtAUMShort(it.aum); }, function(it){ return it.aum; }, fills)
+          column('依檔數', '前五名' + m.subName, r.byCount, r.count, 'cnt', function(it){ return it.count + ' 檔'; }, function(it){ return it.count; }, fills),
+          column('依現規模', '前五名' + m.subName, r.byAum, r.aum, 'aum', function(it){ return fmtAUMShort(it.aum); }, function(it){ return it.aum; }, fills)
         ])
       ]));
     });
-    if (!matched.length) cardsEl.appendChild(el('div', {class:'rel-empty'}, ['查無符合的投信']));
-    countEl.innerHTML = '顯示 <b>' + shown.length + '</b>／' + matched.length + ' 家投信';
+    if (!matched.length) cardsEl.appendChild(el('div', {class:'rel-empty'}, ['查無符合的' + m.keyName]));
+    document.getElementById('relLead').textContent = m.lead;
+    document.getElementById('relHint').textContent = m.hint;
+    document.getElementById('relNote').textContent = m.note;
+    searchEl.placeholder = '搜尋' + m.keyName + '名稱';
+    searchEl.setAttribute('aria-label', '搜尋' + m.keyName + '名稱');
+    countEl.innerHTML = '顯示 <b>' + shown.length + '</b>／' + matched.length + ' ' + m.unit;
     // 搜尋時一律列出全部符合者，不需要展開鈕；否則只有超過預覽數量才出現
     toggleEl.hidden = !!q || matched.length <= PREVIEW;
     toggleEl.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    toggleEl.innerHTML = (expanded ? '收合，只看前 ' + PREVIEW + ' 家' : '展開全部 ' + matched.length + ' 家投信') + chevron;
+    toggleEl.innerHTML = (expanded ? '收合，只看前 ' + PREVIEW + ' 家' : '展開全部 ' + matched.length + ' ' + m.unit) + chevron;
     requestAnimationFrame(function(){
       requestAnimationFrame(function(){ fills.forEach(function(p){ p[0].style.width = p[1].toFixed(1) + '%'; }); });
     });
   }
+  modeBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var next = btn.getAttribute('data-mode');
+      if (next === mode) return;
+      mode = next; expanded = false; searchEl.value = '';
+      modeBtns.forEach(function(b){
+        var on = b === btn;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      draw();
+    });
+  });
   toggleEl.addEventListener('click', function(){ expanded = !expanded; draw(); });
   searchEl.addEventListener('input', draw);
   draw();

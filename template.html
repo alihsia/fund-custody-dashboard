@@ -348,6 +348,14 @@
     .rel-card{ padding:14px 14px 16px; }
   }
   @media (prefers-reduced-motion: reduce){ .rel-fill, .rel-toggle svg{ transition:none; } }
+  .rel-sub{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin:0 2px 12px; flex-wrap:wrap; }
+  .rel-sub #relHint{ font-size:12.5px; color:var(--ink-muted); }
+  .rel-mode button{ padding:8px 18px; font-size:14px; }
+  @media (max-width:720px){
+    .rel-mode{ display:flex; width:100%; }
+    .rel-mode button{ flex:1; padding:9px 8px; font-size:13.5px; }
+    .rel-bar .rel-search{ flex:1 1 100%; }
+  }
   .block-head h2{
     margin:0 0 6px; font-size:25px; font-weight:700; letter-spacing:-0.016em; text-wrap:balance;
     background-image: var(--title-grad);
@@ -839,18 +847,22 @@
       <div class="block-head">
         <div class="eyebrow c5">05 · 投信往來保管版圖</div>
         <h2>投信 × 保管行往來關係</h2>
-        <p>各家投信最倚重的保管行排名，檔數與規模兩種排名並陳。</p>
+        <p id="relLead">各家投信最倚重的保管行排名，檔數與規模兩種排名並陳。</p>
       </div>
       <div class="rel-bar">
+        <div class="toggle rel-mode" id="relMode" role="group" aria-label="查詢視角">
+          <button type="button" data-mode="co" class="active" aria-pressed="true">以投信查保管行</button>
+          <button type="button" data-mode="cu" aria-pressed="false">以保管行查投信</button>
+        </div>
         <label class="rel-search">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg>
           <input type="text" id="relSearch" placeholder="搜尋投信名稱" aria-label="搜尋投信名稱" />
         </label>
-        <div class="rel-count" id="relCount"></div>
       </div>
+      <div class="rel-sub"><span id="relHint"></span><span class="rel-count" id="relCount"></span></div>
       <div class="rel-cards" id="relCards"></div>
       <button type="button" class="rel-toggle" id="relToggle" aria-expanded="false" hidden></button>
-      <div class="table-note">投信依現規模由大到小排列；占比為占該投信全部基金的比重。檔數相同時以規模大者排前，規模相同時以檔數多者排前。</div>
+      <div class="table-note" id="relNote"></div>
     </section>
 
     <section class="block" id="lookup">
