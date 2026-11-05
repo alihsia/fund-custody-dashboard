@@ -910,7 +910,6 @@ applyFilters();
     var M = data.filter(function(d){ return d.name === F; })[0], up = data[0], down = data[data.length-1];
     function cls(d){ return d.diff >= 0 ? 'pos' : 'neg'; }
 
-    document.getElementById('cmpTitle').textContent = byCnt ? '照家底該拿幾檔，實際拿了幾檔？' : '照家底該拿多少規模，實際拿了多少？';
     document.getElementById('cmpLead').textContent =
       '近 3 個年度新案＝' + FROM_YEAR + ' 年起（' + NEWFROM + ' 起）成立、目前仍存續的基金，與第四部分的年度區間一致。照各行現有' + what + '市占換算「應拿」，對照實際拿到多少。';
     var head = document.getElementById('cmpHeadline');
