@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="商機捕手">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>商機捕手：基金保管</title>
+<style>
+:root{--bg:#f3f4f7;--card:#fff;--ink:#16191f;--sub:#6b7280;--line:#e4e7ec;--chip:#eceff4;--navy:#1f3a5f;--red:#c8102e;--up:#0f8a4f;--down:#d0312d}
+@media (prefers-color-scheme:dark){:root{--bg:#0e1014;--card:#191c22;--ink:#eef0f3;--sub:#99a1ad;--line:#2a2f38;--chip:#242932;--navy:#8fb3e0;--red:#ff5a6e;--up:#3ccf86;--down:#ff6b5e}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
+body{font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink);-webkit-tap-highlight-color:transparent;font-size:15px;line-height:1.45}
+button,select,input{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+.app{max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+@media (min-width:600px){body{padding:24px 0}.app{border:1px solid var(--line);border-radius:28px;overflow:hidden;min-height:860px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.12)}}
+
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:calc(14px + env(safe-area-inset-top)) 16px 12px;border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-size:12px;color:var(--sub);letter-spacing:.04em}
+h1{font-size:21px;font-weight:700;margin-top:2px}
+.psub{font-size:12.5px;color:var(--sub);margin-top:2px}
+.fbtn{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:600;position:relative;white-space:nowrap}
+.fbtn svg{width:16px;height:16px}
+.badge[hidden]{display:none}
+.badge{position:absolute;top:-5px;right:-5px;background:var(--red);color:#fff;font-size:11px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 5px}
+.meta{display:inline-block;margin-top:6px;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--sub)}
+
+main{padding:14px 16px 8px}
+.sec{margin-top:18px}.sec:first-child{margin-top:0}
+.sh2{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+h2{font-size:16px;font-weight:700}
+.msg{font-size:14px;color:var(--sub);margin-bottom:10px}
+.msg b{color:var(--ink)}
+.box{background:var(--card);border-radius:16px;padding:14px;border:1px solid var(--line)}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 10px;min-width:0}
+.kl{font-size:11.5px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kv{font-size:18px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
+.kd{font-size:11.5px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.up{color:var(--up)!important}.down{color:var(--down)!important}
+
+.seg{display:inline-flex;background:var(--chip);border-radius:10px;padding:3px}
+.seg button{padding:5px 11px;border-radius:8px;font-size:13px;color:var(--sub);font-weight:600}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.seg.full{display:flex}.seg.full button{flex:1}
+
+.hbr{display:grid;grid-template-columns:96px 1fr 62px;align-items:center;gap:8px;margin:7px 0;font-size:13px}
+.hbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbt{height:10px;background:var(--chip);border-radius:5px;overflow:hidden}
+.hbf{height:100%;background:var(--navy);border-radius:5px;opacity:.55}
+.hbf.hl{background:var(--red);opacity:1}
+.hbf.mute{background:var(--sub);opacity:.3}
+.hbv{text-align:right;font-variant-numeric:tabular-nums;color:var(--sub)}
+.vb{display:flex;align-items:flex-end;height:150px;gap:5px;padding-top:6px}
+.vbc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.vbn{font-size:10.5px;color:var(--sub);margin-bottom:3px}
+.vbf{width:100%;background:var(--navy);opacity:.35;border-radius:4px 4px 0 0;min-height:2px}
+.vbf.hl{background:var(--red);opacity:1}
+.vbc.hl .vbn{color:var(--red);font-weight:700}
+.vbl{font-size:10.5px;color:var(--sub);margin-top:4px}
+
+.list{display:flex;flex-direction:column;gap:8px}
+.card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.card:active{transform:scale(.99)}
+.card.hl{border-color:var(--red);box-shadow:inset 3px 0 0 var(--red)}
+.rk{width:30px;height:30px;border-radius:9px;background:var(--chip);display:grid;place-items:center;font-weight:700;font-size:13.5px;flex:none}
+.rk.top{background:var(--navy);color:#fff}
+@media (prefers-color-scheme:dark){.rk.top{color:#0e1014}}
+.cm{flex:1;min-width:0}
+.cn{font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs{font-size:12.5px;color:var(--sub);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cr{text-align:right;flex:none}
+.cv{font-weight:700;font-variant-numeric:tabular-nums}
+.cd{font-size:12px;color:var(--sub);margin-top:1px}
+.tag{font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:5px;background:var(--red);color:#fff;margin-left:6px;vertical-align:2px}
+.more{width:100%;margin-top:8px;padding:11px;border-radius:12px;border:1px dashed var(--line);color:var(--navy);font-weight:600;font-size:14px}
+.pinlbl{font-size:12px;color:var(--sub);margin:12px 2px 6px}
+
+details.exp{margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+details.exp summary{list-style:none;padding:12px 14px;font-size:14px;font-weight:600;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+details.exp summary::-webkit-details-marker{display:none}
+details.exp summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--sub);border-bottom:2px solid var(--sub);transform:rotate(45deg);transition:.2s;margin-right:4px}
+details.exp[open] summary::after{transform:rotate(-135deg)}
+details.exp .eb{padding:0 14px 14px;font-size:13.5px;color:var(--sub)}
+details.exp .eb p+p{margin-top:6px}
+
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:600}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+@media (prefers-color-scheme:dark){.chip.on{color:#0e1014}}
+.chip.x::after{content:" ✕";opacity:.7}
+.picker{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;font-weight:650}
+.picker span{color:var(--sub);font-size:12.5px;font-weight:500}
+
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:30;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+@media (min-width:600px){nav{position:sticky;transform:none;left:auto}}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;font-size:11px;color:var(--sub);font-weight:600}
+.tab svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--red)}
+
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s;z-index:40}
+.ov.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);width:100%;max-width:480px;max-height:86vh;overflow:auto;background:var(--card);border-radius:22px 22px 0 0;z-index:50;transition:transform .3s cubic-bezier(.2,.8,.2,1);padding:0 16px calc(20px + env(safe-area-inset-bottom))}
+.sheet.open{transform:translate(-50%,0)}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:9px auto 4px}
+.shd{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0 12px;position:sticky;top:0;background:var(--card)}
+.shd b{font-size:17px}
+.shd button{width:30px;height:30px;border-radius:50%;background:var(--chip);font-size:13px;flex:none}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:12.5px;color:var(--sub);margin-bottom:5px;font-weight:600}
+.fld select,.fld input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);font-size:16px;-webkit-appearance:none;appearance:none;min-height:46px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btns{display:grid;grid-template-columns:1fr 2fr;gap:10px;margin-top:6px}
+.bp{padding:13px;border-radius:13px;background:var(--navy);color:#fff;font-weight:700}
+@media (prefers-color-scheme:dark){.bp{color:#0e1014}}
+.bs{padding:13px;border-radius:13px;background:var(--chip);font-weight:700}
+.stat{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.stat div{background:var(--bg);border-radius:12px;padding:10px;min-width:0}
+.stat span{display:block;font-size:11.5px;color:var(--sub)}
+.stat b{font-size:16px}
+.fullname{font-size:13px;color:var(--sub);margin:-4px 0 12px}
+.opt{display:flex;justify-content:space-between;align-items:center;width:100%;padding:13px 4px;border-bottom:1px solid var(--line);text-align:left}
+.opt.on{color:var(--red);font-weight:700}
+.opt.on::after{content:"✓"}
+.opt small{color:var(--sub);font-weight:400}
+.dl{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-weight:600;margin-top:10px;color:var(--ink);text-decoration:none}
+.empty{text-align:center;color:var(--sub);padding:30px 0;font-size:14px}
+.foot{font-size:11px;color:var(--sub);padding:18px 2px 6px;line-height:1.6}
+.foot a{color:var(--navy)}
+.install{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:13px}
+.install div{flex:1}
+.install b{display:block;font-size:13.5px}
+.install button{font-size:13px;font-weight:700;color:var(--navy)}
+.loading{display:grid;place-items:center;min-height:60vh;color:var(--sub);font-size:14px;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="hrow">
+      <div style="min-width:0">
+        <div class="brand">商機捕手｜基金保管</div>
+        <h1 id="ptitle">載入中</h1>
+      </div>
+      <button class="fbtn" id="fbtn" onclick="openFilter()" style="visibility:hidden">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        <span id="flabel">篩選</span><span class="badge" id="fbadge" hidden></span>
+      </button>
+    </div>
+    <div class="psub" id="psub"></div>
+    <span class="meta" id="meta">讀取公會公開資料中…</span>
+  </header>
+
+  <main id="main"><div class="loading">讀取資料中…</div></main>
+
+  <nav>
+    <button class="tab" data-p="overview" onclick="go('overview')"><svg viewBox="0 0 24 24"><path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>總覽</button>
+    <button class="tab" data-p="structure" onclick="go('structure')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6.5 6"/></svg>結構</button>
+    <button class="tab" data-p="newfunds" onclick="go('newfunds')"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>新案</button>
+    <button class="tab" data-p="relations" onclick="go('relations')"><svg viewBox="0 0 24 24"><circle cx="6" cy="7" r="3"/><circle cx="18" cy="17" r="3"/><path d="M8.5 9l7 6"/></svg>往來</button>
+    <button class="tab" data-p="lookup" onclick="go('lookup')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>查詢</button>
+  </nav>
+</div>
+
+<div class="ov" id="ov" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="grab"></div>
+  <div class="shd"><b id="stitle"></b><button onclick="closeSheet()" aria-label="關閉">✕</button></div>
+  <div id="sbody"></div>
+</div>
+
+<script>
+"use strict";
+/* ========== 常數（與桌機版 logic.js 一致） ========== */
+const BANK_SHORT={'中國信託商業銀行':'中國信託','第一商業銀行':'第一','彰化商業銀行':'彰化','永豐商業銀行':'永豐','玉山商業銀行':'玉山','華南商業銀行':'華南','兆豐國際商業銀行':'兆豐','合作金庫商業銀行':'合作金庫','臺灣銀行':'臺銀','臺灣中小企業銀行':'臺企銀','台北富邦商業銀行':'台北富邦','台新國際商業銀行':'台新','國泰世華商業銀行':'國泰世華','陽信商業銀行':'陽信','渣打國際商業銀行':'渣打','臺灣新光商業銀行':'臺灣新光','台中商業銀行':'台中','凱基商業銀行':'凱基','遠東國際商業銀行':'遠東','上海商業儲蓄銀行':'上海商銀','聯邦商業銀行':'聯邦','臺灣土地銀行':'土銀','元大商業銀行':'元大'};
+const CATEGORY_ORDER=['被動式ETF','主動式ETF','一般債券型','股票型','指數型','非投資等級債券型','平衡型','多重資產型','貨幣市場型','組合型','其他'];
+const DEFAULT_HERO='永豐';
+
+/* ========== 工具 ========== */
+const $=s=>document.querySelector(s);
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+const fmtA=v=>v>=10000?(v/10000).toFixed(2)+" 兆":v>=10?Math.round(v).toLocaleString("en-US")+" 億":v.toFixed(1)+" 億";
+const pct=(v,d=1)=>isFinite(v)?(v*100).toFixed(d)+"%":"–";
+const esc=s=>String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+const html=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sb=n=>BANK_SHORT[n]||n;
+function cleanName(n){
+  return n.replace(/[（(][^()（）]*(配息|本基金|風險|非投資等級|保本|不保證)[^()（）]*[)）]/g,"")
+    .replace(/\s+/g,"").replace(/[-－]+$/,"").trim()||n}
+function rankBy(list,key){const s=[...list].sort((a,b)=>b[key]-a[key]);let r=0,prev=null;return s.map((x,i)=>{if(x[key]!==prev){r=i+1;prev=x[key]}return Object.assign({},x,{rank:r})})}
+
+/* ========== 狀態與資料 ========== */
+let META,FUNDS,BL,BS,TOTAL,CUR,WIN_START,CUTOFF_MD,TRUSTS,BANKNAMES,RANKA={},RANKC={};
+const S={page:"overview",metric:"aum",showAll:{},hero:DEFAULT_HERO,nm:"count",relMode:"trust",relTrust:"",relBank:DEFAULT_HERO,
+  q:{trust:"",bank:"",cat:"",from:"",to:"",kw:""},qLimit:20};
+
+function init(d){
+  META=d.meta;
+  FUNDS=d.funds.filter(f=>f.cu).map((f,i)=>({i,id:f.id,name:cleanName(f.n),full:f.n,trust:f.co||"（未知）",bank:sb(f.cu),bankFull:f.cu,cat:f.c,etf:f.e,date:f.inc||"",year:f.inc?+f.inc.slice(0,4):0,size:f.a/1e8,nc:f.nc}));
+  CUR=Number(META.aumAsOf.slice(0,4));
+  WIN_START=(CUR-2)+"-01-01";
+  const curDates=FUNDS.filter(f=>f.year===CUR).map(f=>f.date).sort();
+  CUTOFF_MD=(curDates.length?curDates[curDates.length-1]:META.aumAsOf).slice(5);
+  BS={};
+  FUNDS.forEach(f=>{const b=BS[f.bank]||(BS[f.bank]={name:f.bank,full:f.bankFull,aum:0,count:0,clients:new Set(),newC:0,newA:0,yC:0,trusts:{},cats:{}});
+    b.aum+=f.size;b.count++;b.clients.add(f.trust);
+    const t=b.trusts[f.trust]||(b.trusts[f.trust]={c:0,a:0});t.c++;t.a+=f.size;
+    b.cats[f.cat]=(b.cats[f.cat]||0)+1;
+    if(f.date>=WIN_START){b.newC++;b.newA+=f.size}
+    if(f.year===CUR)b.yC++});
+  BL=Object.values(BS);
+  TOTAL={aum:sum(FUNDS,f=>f.size),count:FUNDS.length};
+  rankBy(BL,"aum").forEach(b=>RANKA[b.name]=b.rank);
+  rankBy(BL,"count").forEach(b=>RANKC[b.name]=b.rank);
+  BANKNAMES=rankBy(BL,"aum").map(b=>b.name);
+  const ta={};FUNDS.forEach(f=>ta[f.trust]=(ta[f.trust]||0)+f.size);
+  TRUSTS=Object.keys(ta).sort((a,b)=>ta[b]-ta[a]);
+  if(!BS[S.hero])S.hero=BANKNAMES[0];
+  if(!BS[S.relBank])S.relBank=BANKNAMES[0];
+  S.relTrust=TRUSTS[0];
+  try{const h=localStorage.getItem("fcd_hero");if(h&&BS[h])S.hero=h}catch(e){}
+  $("#meta").textContent=`資料月份 ${META.dataMonth}｜規模基準日 ${META.aumAsOf}｜更新 ${META.pageGenerated}`;
+  const p=(location.hash||"").slice(1);if(PAGES[p])S.page=p;
+  render();
+}
+
+/* ========== 元件 ========== */
+const kpis=a=>`<div class="kpis">${a.map(k=>`<div class="kpi"><div class="kl">${k.l}</div><div class="kv">${k.v}</div>${k.d?`<div class="kd ${k.c||""}">${k.d}</div>`:""}</div>`).join("")}</div>`;
+function hbars(rows,fmt){const max=Math.max(...rows.map(r=>r.v),1e-9);return rows.map(r=>`<div class="hbr"><div class="hbl">${html(r.l)}</div><div class="hbt"><div class="hbf ${r.hl?"hl":""} ${r.mute?"mute":""}" style="width:${Math.max(2,r.v/max*100)}%"></div></div><div class="hbv">${fmt(r.v)}</div></div>`).join("")}
+function vbars(rows){const max=Math.max(...rows.map(r=>r.v),1);return `<div class="vb">${rows.map(r=>`<div class="vbc ${r.hl?"hl":""}"><div class="vbn">${r.v}</div><div class="vbf ${r.hl?"hl":""}" style="height:${r.v/max*100}%"></div><div class="vbl">${r.l}</div></div>`).join("")}</div>`}
+const seg=(k,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button class="${S[k]===v?"on":""}" onclick="setS('${k}','${v}')">${l}</button>`).join("")}</div>`;
+const card=it=>`<button class="card ${it.hl?"hl":""}" onclick="${it.on||""}"><div class="rk ${it.rank<=3?"top":""}">${it.rank}</div><div class="cm"><div class="cn">${html(it.name)}${it.tag?`<span class="tag">${it.tag}</span>`:""}</div><div class="cs">${html(it.sub)}</div></div><div class="cr"><div class="cv">${it.val}</div><div class="cd ${it.cls||""}">${it.delta||""}</div></div></button>`;
+function cards(id,items,limit=5,pin){
+  const all=S.showAll[id],shown=all?items:items.slice(0,limit);let h=`<div class="list">${shown.map(card).join("")}</div>`;
+  if(pin&&!all){const p=items.find(x=>x.name===pin);if(p&&!shown.includes(p))h+=`<div class="pinlbl">本行位置</div><div class="list">${card(p)}</div>`}
+  if(items.length>limit)h+=`<button class="more" onclick="toggleAll('${id}')">${all?`收合，只看前 ${limit} 名`:`顯示全部 ${items.length} ${id.startsWith("relbank")?"家投信":"家"}`}</button>`;
+  return h}
+const exp=(t,b)=>`<details class="exp"><summary>${t}</summary><div class="eb">${b}</div></details>`;
+const signedN=(v,u)=>(v>0?"+":v<0?"−":"±")+(u==="億"?fmtA(Math.abs(v)):Math.round(Math.abs(v))+" 檔");
+
+/* ========== 頁面 ========== */
+const PAGES={
+overview:{title:"市場總覽",sub:"市場規模與保管行排名",
+ render(){
+  const key=S.metric,R=rankBy(BL,key),top5=R.slice(0,5),share=sum(top5,b=>b[key])/TOTAL[key],lead=R[0];
+  const hero=R.find(b=>b.name===S.hero),heroIn=top5.includes(hero);
+  const rows=top5.map(b=>({l:b.name,v:b[key]/TOTAL[key],hl:b.name===S.hero}));
+  if(!heroIn)rows.push({l:hero.name,v:hero[key]/TOTAL[key],hl:true});
+  rows.push({l:"其他",v:1-share-(heroIn?0:hero[key]/TOTAL[key]),mute:true});
+  const hhi=sum(BL,b=>Math.pow(b[key]/TOTAL[key]*100,2));
+  const newY=FUNDS.filter(f=>f.year===CUR).length;
+  const items=R.map(b=>({rank:b.rank,name:b.name,hl:b.name===S.hero,tag:b.name===S.hero?"本行":"",
+    sub:`${b.count} 檔・${fmtA(b.aum)}・${b.clients.size} 家投信`,val:key==="aum"?fmtA(b.aum):b.count+" 檔",
+    delta:"市占 "+pct(b[key]/TOTAL[key]),on:`openBank('${esc(b.name)}')`}));
+  return installBanner()+`<div class="sec">${kpis([
+    {l:"全市場規模",v:fmtA(TOTAL.aum),d:"基準日 "+META.aumAsOf.slice(5).replace("-","/")},
+    {l:"存續基金",v:TOTAL.count.toLocaleString("en-US")+" 檔",d:"今年新增 "+newY+" 檔"},
+    {l:(key==="aum"?"規模":"檔數")+"第一",v:lead.name,d:"市占 "+pct(lead[key]/TOTAL[key])}])}</div>
+  <div class="sec"><div class="sh2"><h2>前 5 大市占</h2>${seg("metric",[["aum","依規模"],["count","依檔數"]])}</div>
+   <div class="box"><p class="msg">前 5 大保管行合計拿下 <b>${pct(share)}</b> 的${key==="aum"?"基金規模":"基金檔數"}</p>${hbars(rows,v=>pct(v))}</div>
+   ${exp("市場集中度與計算說明",`<p>HHI 指數 ${Math.round(hhi).toLocaleString("en-US")}（低於 1,500 屬低集中、1,500–2,500 屬中度集中、高於 2,500 屬高度集中）。</p><p>共 ${BL.length} 家保管行。規模＝月底基金規模（新台幣，外幣基金折合）；同一基金不同級別只計 1 檔；並列者名次相同。</p>`)}</div>
+  <div class="sec"><div class="sh2"><h2>保管行排名</h2><span class="psub">點卡片看細節</span></div>${cards("ov"+key,items,5,S.hero)}</div>`}},
+
+structure:{title:"市場結構",sub:"產品類型與 ETF 分布",
+ render(){
+  const byC={};FUNDS.forEach(f=>{const c=byC[f.cat]||(byC[f.cat]={a:0,c:0,y:0});c.a+=f.size;c.c++;if(f.year===CUR)c.y++});
+  const T=Object.entries(byC).sort((a,b)=>b[1].a-a[1].a);
+  const etf=FUNDS.filter(f=>f.etf!=="一般傳統基金"),etfA=sum(etf,f=>f.size);
+  const act=byC["主動式ETF"]||{a:0,c:0,y:0};
+  const ord=CATEGORY_ORDER.filter(k=>byC[k]);
+  return `<div class="sec">${kpis([
+    {l:"ETF 規模占比",v:pct(etfA/TOTAL.aum),d:etf.length+" 檔 ETF"},
+    {l:"最大產品類型",v:T[0][0],d:"占規模 "+pct(T[0][1].a/TOTAL.aum)},
+    {l:"主動式 ETF",v:act.c+" 檔",d:CUR+" 年新增 "+act.y+" 檔",c:act.y?"up":""}])}</div>
+  <div class="sec"><h2 style="margin-bottom:8px">資金主要流向</h2>
+   <div class="box"><p class="msg"><b>${T[0][0]}</b>占全市場規模 <b>${pct(T[0][1].a/TOTAL.aum)}</b>，是最大宗</p>${hbars(T.map(([k,v],i)=>({l:k,v:v.a/TOTAL.aum,hl:i===0})),v=>pct(v))}</div>
+   ${exp("ETF vs 傳統基金",hbars(["被動式ETF","主動式ETF","一般傳統基金"].map(k=>{const fs=FUNDS.filter(f=>f.etf===k);return{l:k,v:sum(fs,f=>f.size),hl:k==="主動式ETF"}}),fmtA)+`<p style="margin-top:8px">依公會類型代號區分：AH＝被動式 ETF、AL＝主動式 ETF。</p>`)}
+   ${exp("改看檔數分布",hbars([...T].sort((a,b)=>b[1].c-a[1].c).map(([k,v])=>({l:k,v:v.c})),v=>v+" 檔"))}
+   ${exp(CUR+" 年新基金類型",hbars(ord.map(k=>({l:k,v:byC[k].y})).filter(r=>r.v).sort((a,b)=>b.v-a.v),v=>v+" 檔"))}</div>`}},
+
+newfunds:{title:"新案動態",sub:"誰拿到新基金，跟應有市占相比如何",filter:"hero",
+ render(){
+  const yrs=[];for(let y=CUR-9;y<=CUR;y++)yrs.push({l:String(y).slice(2),v:FUNDS.filter(f=>f.year===y).length,hl:y===CUR});
+  const curN=FUNDS.filter(f=>f.year===CUR).length;
+  const lastSame=FUNDS.filter(f=>f.year===CUR-1&&f.date.slice(5)<=CUTOFF_MD).length,yoy=lastSame?curN/lastSame-1:NaN;
+  const m=S.nm,U=m==="count"?"檔":"億",nk=m==="count"?"newC":"newA",sk=m==="count"?"count":"aum";
+  const nt=sum(BL,b=>b[nk]),st=TOTAL[sk];
+  const R=rankBy(BL,nk),champ=R[0];
+  const ex=b=>b[sk]/st*nt,df=b=>b[nk]-ex(b);
+  const h=BS[S.hero],hd=df(h);
+  const fmtV=v=>m==="count"?Math.round(v)+" 檔":fmtA(v);
+  const items=R.map(b=>{const d=df(b);return{rank:b.rank,name:b.name,hl:b.name===S.hero,tag:b.name===S.hero?"主角":"",
+    sub:`實拿 ${fmtV(b[nk])}｜應拿 ${fmtV(ex(b))}`,val:pct(b[nk]/nt),delta:(d>=0?"多拿 ":"少拿 ")+(m==="count"?Math.round(Math.abs(d))+" 檔":fmtA(Math.abs(d))),cls:Math.round(d*10)===0?"":d>0?"up":"down",on:`openBank('${esc(b.name)}')`}});
+  const down=[...BL].sort((a,b)=>df(a)-df(b))[0];
+  return `<div class="sec">${kpis([
+    {l:CUR+" 年新基金",v:curN+" 檔",d:isFinite(yoy)?"較去年 "+(yoy>=0?"+":"")+pct(yoy,0):"",c:yoy>=0?"up":"down"},
+    {l:"近 3 年新案最多",v:champ.name,d:fmtV(champ[nk])},
+    {l:"主角行 vs 應拿",v:signedN(hd,U),d:h.name+" "+(hd>=0?"超前":"落後"),c:hd>=0?"up":"down"}])}</div>
+  <div class="sec"><h2 style="margin-bottom:8px">逐年新基金檔數</h2>
+   <div class="box"><p class="msg">${CUR} 年至 ${CUTOFF_MD.replace("-","/")} 已成立 <b>${curN} 檔</b>${isFinite(yoy)?`，較去年同期 ${lastSame} 檔${yoy>=0?"增加":"減少"} ${pct(Math.abs(yoy),0)}`:""}</p>${vbars(yrs)}</div>
+   ${exp("計算方式",`<p>僅計目前仍存續的基金，所以愈早的年份數字愈偏低（已清算者不計）。成立日採「基金」成立日，不採級別成立日，避免老基金新增級別被誤算成新基金。</p>`)}</div>
+  <div class="sec"><div class="sh2"><h2>新案競爭力</h2>${seg("nm",[["count","看檔數"],["aum","看規模"]])}</div>
+   <p class="msg">近 3 年（${CUR-2} 年起）共 ${fmtV(nt)} 新案。照現有市占 ${pct(h[sk]/st)}，<b>${h.name}</b> 應拿約 ${fmtV(ex(h))}，實拿 <b>${fmtV(h[nk])}</b>（<span class="${hd>=0?"up":"down"}">${hd>=0?"多拿":"少拿"} ${m==="count"?Math.round(Math.abs(hd))+" 檔":fmtA(Math.abs(hd))}</span>）。落後最多的是 <b>${down.name}</b>，新案正流向別家。</p>
+   ${cards("nf"+m,items,5,S.hero)}
+   ${exp("「應拿」怎麼算",`<p>應拿＝該行現有${m==="count"?"檔數":"規模"}市占 × 近 3 年新案總${m==="count"?"檔數":"規模"}。實拿多於應拿，代表最近的競爭力比過去強。與桌機版第 06 區同一算法。</p>`)}</div>`}},
+
+relations:{title:"往來關係",sub:"投信 × 保管行往來版圖",filter:"rel",
+ render(){
+  const isT=S.relMode==="trust";let k,items,rows,head,listTitle;
+  if(isT){
+    const fs=FUNDS.filter(f=>f.trust===S.relTrust),g={};
+    fs.forEach(f=>{const x=g[f.bank]||(g[f.bank]={name:f.bank,c:0,a:0});x.c++;x.a+=f.size});
+    const L=rankBy(Object.values(g),"c"),top=L[0],top3=sum(L.slice(0,3),x=>x.c)/fs.length;
+    const hero=g[S.hero];
+    head=`<p class="msg"><b>${html(S.relTrust)}</b> 有 <b>${pct(top.c/fs.length,0)}</b> 的基金交給 <b>${top.name}</b> 保管${hero&&top.name!==S.hero?`；${S.hero}拿到 ${hero.c} 檔`:!hero?`；${S.hero}目前沒有往來`:""}</p>`;
+    k=kpis([{l:"基金檔數",v:fs.length+" 檔",d:fmtA(sum(fs,f=>f.size))},{l:"主力保管行",v:top.name,d:top.c+" 檔"},{l:"前 3 大集中度",v:pct(top3,0),d:"往來 "+L.length+" 家保管行"}]);
+    rows=L.slice(0,5).map(x=>({l:x.name,v:x.c/fs.length,hl:x.name===S.hero}));
+    if(hero&&!rows.some(r=>r.l===S.hero))rows.push({l:S.hero,v:hero.c/fs.length,hl:true});
+    items=L.map(x=>({rank:x.rank,name:x.name,hl:x.name===S.hero,tag:x.name===S.hero?"本行":"",sub:fmtA(x.a),val:x.c+" 檔",delta:"占 "+pct(x.c/fs.length,0),on:`goLookup('${esc(S.relTrust)}','${esc(x.name)}')`}));
+    listTitle="完整往來名單";
+  }else{
+    const b=BS[S.relBank],L=rankBy(Object.entries(b.trusts).map(([n,v])=>({name:n,c:v.c,a:v.a})),"c"),top=L[0],top3=sum(L.slice(0,3),x=>x.c)/b.count;
+    head=`<p class="msg"><b>${S.relBank}</b> 最大投信客戶是 <b>${html(top.name)}</b>，占其保管檔數 <b>${pct(top.c/b.count,0)}</b></p>`;
+    k=kpis([{l:"投信客戶",v:L.length+" 家",d:b.count+" 檔基金"},{l:"最大客戶",v:top.name,d:top.c+" 檔"},{l:"前 3 大客戶占比",v:pct(top3,0),d:top3>.6?"集中度偏高":"客戶分散",c:top3>.6?"down":""}]);
+    rows=L.slice(0,5).map(x=>({l:x.name,v:x.c/b.count}));
+    items=L.map(x=>({rank:x.rank,name:x.name,sub:fmtA(x.a),val:x.c+" 檔",delta:"占 "+pct(x.c/b.count,0),on:`goLookup('${esc(x.name)}','${esc(S.relBank)}')`}));
+    listTitle="完整客戶名單";
+  }
+  return `<div class="sec"><div class="seg full">${[["trust","以投信查保管行"],["bank","以保管行查投信"]].map(([v,l])=>`<button class="${S.relMode===v?"on":""}" onclick="setS('relMode','${v}')">${l}</button>`).join("")}</div>
+   <button class="picker" style="margin-top:10px" onclick="openFilter()">${html(isT?S.relTrust:S.relBank)} <span>切換 ▾</span></button></div>
+  <div class="sec">${k}</div>
+  <div class="sec"><h2 style="margin-bottom:8px">${isT?"最倚重的保管行":"主要投信客戶"}</h2><div class="box">${head}${hbars(rows,v=>pct(v,0))}</div></div>
+  <div class="sec"><div class="sh2"><h2>${listTitle}</h2><span class="psub">點卡片看基金明細</span></div>${cards("rel"+S.relMode+(isT?S.relTrust:S.relBank),items)}</div>`}},
+
+lookup:{title:"條件查詢",sub:"投信 × 保管行基金明細",filter:"q",
+ render(){
+  const r=filtered(),q=S.q,act=activeChips();
+  const quick=[[CUR+" 年新基金",q.from===`${CUR}-01-01`&&!q.to,"qThisYear()"],["主動式 ETF",q.cat==="主動式ETF","qActive()"],[`新案期間（${CUR-2} 起）`,q.from===WIN_START&&q.to===META.aumAsOf,"qWindow()"]];
+  const shown=r.slice(0,S.qLimit);
+  return `<div class="sec">${kpis([{l:"符合檔數",v:r.length+" 檔"},{l:"合計規模",v:fmtA(sum(r,f=>f.size))},{l:"涉及保管行",v:new Set(r.map(f=>f.bank)).size+" 家"}])}</div>
+  <div class="sec"><div class="chips">${quick.map(([l,on,fn])=>`<button class="chip ${on?"on":""}" onclick="${fn}">${l}</button>`).join("")}${act.length?`<button class="chip" onclick="clearQ()">清除條件</button>`:""}</div>
+   ${act.length?`<div class="chips" style="margin-top:8px">${act.map(([k,l])=>`<button class="chip x" onclick="rmQ('${k}')">${html(l)}</button>`).join("")}</div>`:""}</div>
+  <div class="sec"><div class="sh2"><h2>基金明細</h2><span class="psub">依規模排序</span></div>
+   ${r.length?`<div class="list">${shown.map((f,i)=>card({rank:i+1,name:f.name,sub:`${f.trust}・${f.bank}・${f.cat}`,val:fmtA(f.size),delta:f.date,hl:f.bank===S.hero&&S.q.bank!==S.hero,on:`openFund(${f.i})`})).join("")}</div>
+   ${r.length>S.qLimit?`<button class="more" onclick="S.qLimit+=20;render()">再顯示 20 檔（剩 ${r.length-S.qLimit} 檔）</button>`:""}
+   <button class="dl" onclick="dlCSV()">⬇ 下載 CSV（${r.length} 檔）</button>`:`<div class="empty">沒有符合條件的基金，試著放寬篩選</div>`}</div>`}}
+};
+
+/* ========== 查詢 ========== */
+function filtered(){const q=S.q,kw=q.kw.trim();return FUNDS.filter(f=>(!q.trust||f.trust===q.trust)&&(!q.bank||f.bank===q.bank)&&(!q.cat||f.cat===q.cat)&&(!q.from||f.date>=q.from)&&(!q.to||f.date<=q.to)&&(!kw||f.full.includes(kw))).sort((a,b)=>b.size-a.size)}
+function activeChips(){const q=S.q,a=[];if(q.trust)a.push(["trust",q.trust]);if(q.bank)a.push(["bank",q.bank]);if(q.cat)a.push(["cat",q.cat]);if(q.from)a.push(["from",q.from+" 起"]);if(q.to)a.push(["to","至 "+q.to]);if(q.kw)a.push(["kw","「"+q.kw+"」"]);return a}
+function rmQ(k){S.q[k]="";S.qLimit=20;render()}
+function clearQ(){S.q={trust:"",bank:"",cat:"",from:"",to:"",kw:""};S.qLimit=20;render()}
+function qThisYear(){const on=S.q.from===`${CUR}-01-01`&&!S.q.to;S.q.from=on?"":`${CUR}-01-01`;S.q.to="";S.qLimit=20;render()}
+function qActive(){S.q.cat=S.q.cat==="主動式ETF"?"":"主動式ETF";S.qLimit=20;render()}
+function qWindow(){const on=S.q.from===WIN_START&&S.q.to===META.aumAsOf;S.q.from=on?"":WIN_START;S.q.to=on?"":META.aumAsOf;S.qLimit=20;render()}
+function goLookup(trust,bank){closeSheet();clearQ();S.q.trust=trust;S.q.bank=bank;go("lookup")}
+function dlCSV(){
+  const rows=[["基金統編","基金名稱","經理公司","保管銀行","分類","ETF分類","成立日","規模(新台幣元)","級別數"]].concat(filtered().map(f=>[f.id,f.full,f.trust,f.bankFull,f.cat,f.etf,f.date,Math.round(f.size*1e8),f.nc]));
+  const csv="﻿"+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download=`基金保管查詢_${META.dataMonth.replace("/","")}.csv`;document.body.appendChild(a);a.click();a.remove()}
+
+/* ========== 底部面板 ========== */
+function openSheet(t,h){$("#stitle").textContent=t;$("#sbody").innerHTML=h;$("#sheet").scrollTop=0;$("#ov").classList.add("open");$("#sheet").classList.add("open")}
+function closeSheet(){$("#ov").classList.remove("open");$("#sheet").classList.remove("open")}
+const opts=(list,cur,all)=>`<option value="">${all}</option>`+list.map(x=>`<option value="${html(x)}" ${x===cur?"selected":""}>${html(x)}</option>`).join("");
+const optList=(list,cur,fn,note)=>list.map(x=>`<button class="opt ${x===cur?"on":""}" onclick="${fn}('${esc(x)}')"><span>${html(x)} ${note?`<small>${note(x)}</small>`:""}</span></button>`).join("");
+
+function openFilter(){
+  const f=PAGES[S.page].filter;
+  if(f==="q"){const q=S.q,cats=CATEGORY_ORDER.filter(c=>FUNDS.some(x=>x.cat===c));openSheet("篩選條件",`
+    <div class="fld"><label>投信</label><select id="f_trust">${opts(TRUSTS,q.trust,"全部投信")}</select></div>
+    <div class="fld"><label>保管行</label><select id="f_bank">${opts(BANKNAMES,q.bank,"全部保管行")}</select></div>
+    <div class="fld"><label>產品類型</label><select id="f_cat">${opts(cats,q.cat,"全部類型")}</select></div>
+    <div class="row2"><div class="fld"><label>成立日（起）</label><input type="date" id="f_from" value="${q.from}"></div>
+    <div class="fld"><label>成立日（迄）</label><input type="date" id="f_to" value="${q.to}"></div></div>
+    <div class="fld"><label>基金名稱關鍵字</label><input id="f_kw" placeholder="例如：高股息、半導體" value="${html(q.kw)}"></div>
+    <div class="btns"><button class="bs" onclick="clearQ();closeSheet()">清除</button><button class="bp" onclick="applyQ()">查看結果</button></div>`)}
+  else if(f==="hero")openSheet("選擇主角保管行",`<p class="msg">選定後，新案競爭力和其他頁面都會以這家銀行為比較基準並標示紅色（會記住你的選擇）。</p>`+optList(BANKNAMES,S.hero,"setHero",n=>"規模第 "+RANKA[n]+" 名"));
+  else if(f==="rel"){if(S.relMode==="trust")openSheet("選擇投信",optList(TRUSTS,S.relTrust,"setRelT"));else openSheet("選擇保管行",optList(BANKNAMES,S.relBank,"setRelB"))}
+}
+function applyQ(){["trust","bank","cat","from","to","kw"].forEach(k=>S.q[k]=$("#f_"+k).value);S.qLimit=20;closeSheet();render()}
+function setHero(n){S.hero=n;try{localStorage.setItem("fcd_hero",n)}catch(e){}closeSheet();render()}
+function setRelT(n){S.relTrust=n;closeSheet();render()}
+function setRelB(n){S.relBank=n;closeSheet();render()}
+
+function openBank(n){const b=BS[n],topT=Object.entries(b.trusts).sort((x,y)=>y[1].c-x[1].c).slice(0,5);
+  const cats=Object.entries(b.cats).sort((x,y)=>y[1]-x[1]);
+  openSheet(b.full,`<div class="stat"><div><span>月底規模</span><b>${fmtA(b.aum)}</b></div><div><span>規模名次</span><b>第 ${RANKA[n]} 名</b>／${BL.length}</div>
+   <div><span>保管檔數</span><b>${b.count} 檔</b>（第 ${RANKC[n]} 名）</div><div><span>投信客戶</span><b>${b.clients.size} 家</b></div>
+   <div><span>近 3 年新案</span><b>${b.newC} 檔</b></div><div><span>${CUR} 年新案</span><b>${b.yC} 檔</b></div></div>
+   <h2 style="font-size:14px;margin-bottom:4px">前 5 大投信客戶（檔數）</h2>${hbars(topT.map(([k,v])=>({l:k,v:v.c})),v=>v+" 檔")}
+   ${exp("產品類型分布",hbars(cats.map(([k,v])=>({l:k,v})),v=>v+" 檔"))}
+   <button class="dl" onclick="goLookup('','${esc(n)}')">查看這家的基金明細 →</button>
+   ${n!==S.hero?`<button class="dl" onclick="setHero('${esc(n)}')">設為主角保管行</button>`:""}`)}
+function openFund(i){const f=FUNDS.find(x=>x.i===i);openSheet("基金資訊",`<h2 style="margin-bottom:8px">${html(f.name)}</h2>${f.full!==f.name?`<p class="fullname">${html(f.full)}</p>`:""}<div class="stat">
+  <div><span>經理公司</span><b>${html(f.trust)}</b></div><div><span>保管行</span><b>${f.bank}</b></div>
+  <div><span>產品類型</span><b>${f.cat}</b></div><div><span>ETF 分類</span><b>${f.etf}</b></div>
+  <div><span>成立日</span><b>${f.date||"—"}</b></div><div><span>規模</span><b>${fmtA(f.size)}</b></div>
+  <div><span>級別數</span><b>${f.nc}</b></div><div><span>基金統編</span><b>${f.id}</b></div></div>
+  <button class="dl" onclick="openBank('${esc(f.bank)}')">看 ${f.bank} 概況 →</button>`)}
+
+/* ========== 安裝提示 ========== */
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;if(FUNDS&&S.page==="overview")render()});
+const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent);
+function installBanner(){
+  let dismissed=false;try{dismissed=localStorage.getItem("fcd_install_dismissed")==="1"}catch(e){}
+  if(isStandalone()||dismissed)return "";
+  if(deferredPrompt)return `<div class="install"><div><b>安裝到主畫面</b>像 app 一樣開啟，離線也能看最近一次資料</div><button onclick="doInstall()">安裝</button><button onclick="dismissInstall()" aria-label="關閉">✕</button></div>`;
+  if(isIOS())return `<div class="install"><div><b>加入主畫面</b>點 Safari 下方的「分享」→「加入主畫面」，之後就能像 app 一樣開啟</div><button onclick="dismissInstall()" aria-label="關閉">✕</button></div>`;
+  return "";
+}
+async function doInstall(){if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;render()}
+function dismissInstall(){try{localStorage.setItem("fcd_install_dismissed","1")}catch(e){}render()}
+
+/* ========== 導覽 ========== */
+function go(p){S.page=p;closeSheet();try{history.replaceState(null,"","#"+p)}catch(e){}render();window.scrollTo(0,0)}
+function setS(k,v){S[k]=v;render()}
+function toggleAll(id){S.showAll[id]=!S.showAll[id];render()}
+function render(){
+  const P=PAGES[S.page];
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.p===S.page));
+  $("#ptitle").textContent=P.title;$("#psub").textContent=P.sub;
+  $("#fbtn").style.visibility=P.filter?"visible":"hidden";
+  $("#flabel").textContent=P.filter==="hero"?"主角行":P.filter==="rel"?"切換":"篩選";
+  const n=P.filter==="q"?activeChips().length:0,bd=$("#fbadge");bd.hidden=!n;bd.textContent=n;
+  $("#main").innerHTML=P.render()+`<div class="foot">資料來源：中華民國證券投資信託暨顧問商業同業公會（sitca.org.tw）公開資料，僅使用公開資料整理，不含保管費資訊。同一基金之不同級別僅計 1 檔；基金規模為新台幣（含外幣基金折合）。本頁為內部商機研判用途，非投資建議。<br><a href="../">開啟桌機完整版 →</a></div>`;
+}
+
+/* ========== 啟動 ========== */
+fetch("../data.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(init).catch(err=>{
+  $("#ptitle").textContent="無法載入資料";
+  $("#meta").textContent="請確認網路連線後重新整理";
+  $("#main").innerHTML=`<div class="loading">讀取資料失敗（${html(err.message||err)}）。<br>連上網路後重新開啟即可；成功載入過一次後，離線也能看最近的資料。</div>`;
+});
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
