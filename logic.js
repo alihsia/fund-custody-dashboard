@@ -863,9 +863,9 @@ applyFilters();
 // ======================================================================
 (function renderCompetitiveness(){
   var DEFAULT_FOCUS = '永豐商業銀行';
-  // 「近 3 年新案」＝資料月份的下個月 1 號往回推 3 年起成立（2026-09 → 2023-10-01）；隨資料月份自動推進
-  var end = META.aumAsOf.split('-').map(Number);
-  var NEWFROM = new Date(Date.UTC(end[0]-3, end[1], 1)).toISOString().slice(0,10);
+  // 「近 3 個年度新案」＝與第四部分同一個年度視窗（資料年份往前 2 年的 1/1 起，目前為 2024 年起）；隨資料年份自動滾動
+  var NEWFROM = WINDOW_START;
+  var FROM_YEAR = YEARS[0];
 
   var banks = {}, TOT_AUM = 0, TOT_CNT = 0, NEW_AUM = 0, NEW_CNT = 0;
   FUNDS.forEach(function(f){
@@ -912,11 +912,11 @@ applyFilters();
 
     document.getElementById('cmpTitle').textContent = byCnt ? '照家底該拿幾檔，實際拿了幾檔？' : '照家底該拿多少規模，實際拿了多少？';
     document.getElementById('cmpLead').textContent =
-      '近 3 年新案＝' + NEWFROM + ' 起成立、目前仍存續的基金。照各行現有' + what + '市占換算「應拿」，對照實際拿到多少。';
+      '近 3 個年度新案＝' + FROM_YEAR + ' 年起（' + NEWFROM + ' 起）成立、目前仍存續的基金，與第四部分的年度區間一致。照各行現有' + what + '市占換算「應拿」，對照實際拿到多少。';
     var head = document.getElementById('cmpHeadline');
     head.classList.toggle('is-behind', M.diff < 0);
     head.innerHTML =
-      '如果照現有' + what + '市占 <b>' + fmtPct(M.stock) + '</b> 來分，近 3 年 ' + fmtN(total) + ' ' + U + '新案，' + me + '應該拿到約 <b>' + fmtN(M.exp) + ' ' + U + '</b>，' +
+      '如果照現有' + what + '市占 <b>' + fmtPct(M.stock) + '</b> 來分，近 3 個年度（' + FROM_YEAR + ' 年起）' + fmtN(total) + ' ' + U + '新案，' + me + '應該拿到約 <b>' + fmtN(M.exp) + ' ' + U + '</b>，' +
       '實際拿到 <b>' + fmtN(M.act) + ' ' + U + '</b>，<b class="' + cls(M) + '">' + say(M, U) + '</b>。<br>' +
       '超前最多的是 <b>' + shortBank(up.name) + '</b>（<span class="pos">' + say(up, U) + '</span>）；' +
       '落後最多的是 <b>' + shortBank(down.name) + '</b>（<span class="neg">' + say(down, U) + '</span>），新案正流向別家，它的客戶最可能鬆動。';
@@ -924,7 +924,7 @@ applyFilters();
       '<span><i class="sw a"></i>實拿超過應拿</span><span><i class="sw b"></i>實拿不到應拿</span>' +
       '<span><i class="tick"></i>應拿（照現有' + what + '市占換算）</span>';
     document.getElementById('cmpNote').textContent =
-      '應拿＝該行現有' + what + '市占 × 近 3 年新案總' + what + '。實拿多於應拿，代表最近的競爭力比過去強。規模單位為新台幣億元。';
+      '應拿＝該行現有' + what + '市占 × 近 3 個年度新案總' + what + '。實拿多於應拿，代表最近的競爭力比過去強。規模單位為新台幣億元。';
 
     var max = Math.max.apply(null, data.map(function(d){ return Math.max(d.exp, d.act); }).concat([1]));
     var rowsEl = document.getElementById('cmpRows');
