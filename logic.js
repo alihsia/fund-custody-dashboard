@@ -863,9 +863,9 @@ applyFilters();
 // ======================================================================
 (function renderCompetitiveness(){
   var DEFAULT_FOCUS = '永豐商業銀行';
-  // 「近 3 年新案」＝資料月底往回推 3 年的隔日起成立（2026-09-30 → 2023-10-01）；隨資料月份自動推進
+  // 「近 3 年新案」＝資料月份的下個月 1 號往回推 3 年起成立（2026-09 → 2023-10-01）；隨資料月份自動推進
   var end = META.aumAsOf.split('-').map(Number);
-  var NEWFROM = new Date(Date.UTC(end[0]-3, end[1]-1, end[2]+1)).toISOString().slice(0,10);
+  var NEWFROM = new Date(Date.UTC(end[0]-3, end[1], 1)).toISOString().slice(0,10);
 
   var banks = {}, TOT_AUM = 0, TOT_CNT = 0, NEW_AUM = 0, NEW_CNT = 0;
   FUNDS.forEach(function(f){
