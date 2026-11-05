@@ -27,7 +27,7 @@
     --sec3:#8F73F0; --sec3-ink:#6A47D0;
     --sec4:#7F91FA; --sec4-ink:#3F5CD6;
     --sec5:#6B8BFF; --sec5-ink:#2F55D4;
-    --title-grad: linear-gradient(100deg, #D9560B, #F28A2E);
+    --title-grad: linear-gradient(90deg, var(--behind), var(--behind-2));
     --bg-wash: radial-gradient(ellipse 900px 620px at 4% -6%, color-mix(in srgb, var(--sec1) 10%, transparent), transparent 70%),
       radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec4) 10%, transparent), transparent 70%);
     --shadow: 0 1px 2px rgba(34,28,100,0.05), 0 4px 16px rgba(34,28,100,0.06);
@@ -64,7 +64,7 @@
       --sec3:#96A3FF; --sec3-ink:#B0BAFF;
       --sec4:#86A0FF; --sec4-ink:#A5BAFF;
       --sec5:#7896FF; --sec5-ink:#9BB4FF;
-      --title-grad: linear-gradient(100deg, #D9560B, #F28A2E);
+      --title-grad: linear-gradient(90deg, var(--behind), var(--behind-2));
       --bg-wash: radial-gradient(ellipse 900px 620px at 4% -6%, color-mix(in srgb, var(--sec1) 10%, transparent), transparent 70%),
         radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec4) 8%, transparent), transparent 70%);
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
@@ -98,7 +98,7 @@
     --sec3:#96A3FF; --sec3-ink:#B0BAFF;
     --sec4:#86A0FF; --sec4-ink:#A5BAFF;
     --sec5:#7896FF; --sec5-ink:#9BB4FF;
-    --title-grad: linear-gradient(100deg, #D9560B, #F28A2E);
+    --title-grad: linear-gradient(90deg, var(--behind), var(--behind-2));
     --bg-wash: radial-gradient(ellipse 900px 620px at 4% -6%, color-mix(in srgb, var(--sec1) 10%, transparent), transparent 70%),
       radial-gradient(ellipse 820px 640px at 97% 18%, color-mix(in srgb, var(--sec4) 8%, transparent), transparent 70%);
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
@@ -413,6 +413,7 @@
   }
   .block-head h2{
     margin:0 0 6px; font-size:25px; font-weight:700; letter-spacing:-0.016em; text-wrap:balance;
+    width:fit-content; max-width:100%;
     background-image: var(--title-grad);
     -webkit-background-clip: text; background-clip: text;
     color: transparent; -webkit-text-fill-color: transparent;
