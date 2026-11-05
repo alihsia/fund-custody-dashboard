@@ -292,6 +292,61 @@
   .eyebrow.c4{ color:var(--sec4-ink); } .eyebrow.c4::before{ background:linear-gradient(90deg, var(--sec4), var(--sec5)); }
   .eyebrow.c5{ color:var(--sec5-ink); } .eyebrow.c5::before{ background:linear-gradient(90deg, var(--sec5), var(--sec3)); }
   .eyebrow.c6{ color:var(--sec1-ink); } .eyebrow.c6::before{ background:linear-gradient(90deg, var(--sec5), var(--sec1)); }
+  .eyebrow.c7{ color:var(--sec2-ink); } .eyebrow.c7::before{ background:linear-gradient(90deg, var(--sec2), var(--sec3)); }
+  /* ---------- 06 保管行新案競爭力：超前＝紫、落後＝橙橘 ---------- */
+  :root{ --ahead:#6652E0; --ahead-2:#8F73F0; --ahead-ink:#4B3BC4; --behind:#F07A2E; --behind-2:#FFB070; --behind-ink:#C2570F; }
+  .cmp-controls{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .cmp-focus{ display:flex; align-items:center; gap:10px; font-size:13px; font-weight:600; color:var(--ink-2); }
+  .cmp-focus select{
+    font-family:inherit; font-size:14px; font-weight:600; color:var(--ink); min-width:170px;
+    appearance:none; -webkit-appearance:none; padding:9px 34px 9px 14px; border:1px solid var(--line); border-radius:10px; cursor:pointer;
+    background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%238B8FAE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 11px center / 15px;
+    transition: border-color .25s var(--ease-spring-soft), outline-color .2s var(--ease-spring);
+  }
+  .cmp-focus select:hover{ border-color:var(--line-strong); }
+  .cmp-focus select:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+  .cmp-card{ padding:20px 22px 18px; }
+  .cmp-headline{
+    padding:14px 18px; border-radius:12px; border-left:3px solid var(--ahead);
+    background:var(--accent-soft); font-size:14.5px; line-height:1.85; color:var(--ink);
+  }
+  .cmp-headline b{ font-weight:700; }
+  .cmp-headline .pos, .cmp-val .pos{ color:var(--ahead-ink); }
+  .cmp-headline .neg, .cmp-val .neg{ color:var(--behind-ink); }
+  .cmp-headline.is-behind{ border-left-color:var(--behind); }
+  .cmp-legend{ display:flex; flex-wrap:wrap; gap:6px 18px; margin:16px 0 8px; font-size:12.5px; color:var(--ink-2); }
+  .cmp-legend span{ display:inline-flex; align-items:center; gap:7px; }
+  .cmp-legend .sw{ width:14px; height:10px; border-radius:3px; display:inline-block; }
+  .cmp-legend .sw.a{ background:linear-gradient(90deg, var(--ahead), var(--ahead-2)); }
+  .cmp-legend .sw.b{ background:linear-gradient(90deg, var(--behind), var(--behind-2)); }
+  .cmp-legend .tick{ width:2px; height:14px; background:var(--ink); display:inline-block; border-radius:1px; }
+  .cmp-rows{ display:flex; flex-direction:column; }
+  .cmp-row{
+    display:grid; grid-template-columns:minmax(104px,160px) 1fr 104px; gap:4px 16px; align-items:center;
+    padding:10px 12px; border-bottom:1px solid var(--line); border-radius:10px;
+    transition: background .2s var(--ease-spring-soft);
+  }
+  .cmp-row:last-child{ border-bottom:none; }
+  .cmp-row:hover{ background:var(--surface-2); }
+  .cmp-row.me{ background:var(--accent-soft); }
+  .cmp-name{ font-size:14px; font-weight:600; line-height:1.3; }
+  .cmp-row.me .cmp-nm::after{ content:"主角"; margin-left:6px; font-size:10.5px; font-weight:700; color:var(--accent); border:1px solid var(--accent); border-radius:4px; padding:0 5px; vertical-align:1px; }
+  .cmp-name small{ display:block; margin-top:2px; font-size:11.5px; font-weight:500; color:var(--ink-muted); font-variant-numeric:tabular-nums; }
+  .cmp-track{ position:relative; height:12px; border-radius:6px; background:var(--surface-sunken); }
+  .cmp-fill{ position:absolute; left:0; top:0; bottom:0; width:0; border-radius:6px; transition:width .6s var(--ease-spring-soft); }
+  .cmp-fill.a{ background:linear-gradient(90deg, var(--ahead), var(--ahead-2)); }
+  .cmp-fill.b{ background:linear-gradient(90deg, var(--behind), var(--behind-2)); }
+  .cmp-exp{ position:absolute; top:-4px; bottom:-4px; width:2px; margin-left:-1px; border-radius:1px; background:var(--ink); }
+  .cmp-val{ text-align:right; font-size:13.5px; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  @media (max-width:720px){
+    .cmp-card{ padding:16px 12px 14px; }
+    .cmp-row{ grid-template-columns:84px 1fr 84px; gap:4px 10px; padding:9px 6px; }
+    .cmp-name{ font-size:13px; }
+    .cmp-headline{ font-size:14px; padding:12px 14px; }
+    .cmp-focus{ width:100%; }
+    .cmp-focus select{ flex:1; }
+  }
+  @media (prefers-reduced-motion: reduce){ .cmp-fill{ transition:none; } }
   .rel-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
   .rel-bar .rel-search{ position:relative; flex:0 1 280px; min-width:200px; }
   .rel-bar .rel-search input{
@@ -775,7 +830,8 @@
       <a href="#share"><span class="n">03</span>存量市占</a>
       <a href="#newfunds"><span class="n">04</span>新案流向</a>
       <a href="#relations"><span class="n">05</span>往來關係</a>
-      <a href="#lookup"><span class="n">06</span>自訂條件查詢</a>
+      <a href="#competitiveness"><span class="n">06</span>新案競爭力</a>
+      <a href="#lookup"><span class="n">07</span>自訂條件查詢</a>
     </nav>
   </div>
 
@@ -883,9 +939,32 @@
       <div class="table-note" id="relNote"></div>
     </section>
 
+    <section class="block" id="competitiveness">
+      <div class="block-head">
+        <div class="eyebrow c6">06 · 保管行新案競爭力</div>
+        <h2 id="cmpTitle">照家底該拿幾檔，實際拿了幾檔？</h2>
+        <p id="cmpLead"></p>
+      </div>
+      <div class="cmp-controls">
+        <label class="cmp-focus">主角保管行
+          <select id="cmpFocus" aria-label="主角保管行"></select>
+        </label>
+        <div class="toggle" id="cmpMetric" role="group" aria-label="比較口徑">
+          <button type="button" data-v="count" class="active" aria-pressed="true">看檔數</button>
+          <button type="button" data-v="aum" aria-pressed="false">看規模</button>
+        </div>
+      </div>
+      <div class="card cmp-card">
+        <div class="cmp-headline" id="cmpHeadline"></div>
+        <div class="cmp-legend" id="cmpLegend"></div>
+        <div class="cmp-rows" id="cmpRows"></div>
+        <div class="table-note" id="cmpNote"></div>
+      </div>
+    </section>
+
     <section class="block" id="lookup">
       <div class="block-head">
-        <div class="eyebrow c6">06 · 自訂條件查詢</div>
+        <div class="eyebrow c7">07 · 自訂條件查詢</div>
         <h2>投信 × 保管行明細</h2>
       </div>
 

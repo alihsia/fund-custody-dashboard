@@ -859,6 +859,100 @@ applyFilters();
 })();
 
 // ======================================================================
+// Section 6 — 保管行新案競爭力：照現有市占「應拿」多少新案 vs 實際拿多少（超前＝紫、落後＝橙橘）
+// ======================================================================
+(function renderCompetitiveness(){
+  var DEFAULT_FOCUS = '永豐商業銀行';
+  // 「近 3 年新案」＝資料月底往回推 3 年的隔日起成立（2026-09-30 → 2023-10-01）；隨資料月份自動推進
+  var end = META.aumAsOf.split('-').map(Number);
+  var NEWFROM = new Date(Date.UTC(end[0]-3, end[1]-1, end[2]+1)).toISOString().slice(0,10);
+
+  var banks = {}, TOT_AUM = 0, TOT_CNT = 0, NEW_AUM = 0, NEW_CNT = 0;
+  FUNDS.forEach(function(f){
+    if (!f.cu) return;
+    var isNew = !!f.inc && f.inc >= NEWFROM;
+    TOT_AUM += f.a; TOT_CNT += 1;
+    if (isNew){ NEW_AUM += f.a; NEW_CNT += 1; }
+    var b = banks[f.cu] || (banks[f.cu] = { name:f.cu, aum:0, cnt:0, newCnt:0, newAum:0 });
+    b.aum += f.a; b.cnt += 1;
+    if (isNew){ b.newCnt += 1; b.newAum += f.a; }
+  });
+  var BANKS = Object.keys(banks).map(function(k){ return banks[k]; }).sort(function(a,b){ return b.aum - a.aum; });
+
+  var state = { focus: banks[DEFAULT_FOCUS] ? DEFAULT_FOCUS : BANKS[0].name, metric:'count' };
+  var selEl = document.getElementById('cmpFocus');
+  BANKS.forEach(function(b){ selEl.appendChild(el('option', {value:b.name}, [b.name])); });
+  selEl.value = state.focus;
+  selEl.addEventListener('change', function(){ state.focus = selEl.value; draw(); });
+  var btns = Array.prototype.slice.call(document.querySelectorAll('#cmpMetric button'));
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      state.metric = btn.getAttribute('data-v');
+      btns.forEach(function(b){ b.classList.toggle('active', b === btn); b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      draw();
+    });
+  });
+
+  function fmtN(v){ return Math.round(v).toLocaleString('en-US'); }
+  function signed(v, U){ return (v > 0 ? '+' : v < 0 ? '−' : '±') + fmtN(Math.abs(v)) + ' ' + U; }
+  function say(d, U){ return d.diff > 0 ? '多拿 ' + fmtN(d.diff) + ' ' + U : d.diff < 0 ? '少拿 ' + fmtN(-d.diff) + ' ' + U : '剛好持平'; }
+
+  function draw(){
+    var F = state.focus, me = shortBank(F), byCnt = state.metric === 'count';
+    var U = byCnt ? '檔' : '億', what = byCnt ? '檔數' : '規模';
+    var total = byCnt ? NEW_CNT : NEW_AUM / 1e8;
+    var data = BANKS.map(function(b){
+      var stock = byCnt ? b.cnt / (TOT_CNT || 1) : b.aum / (TOT_AUM || 1);
+      var exp = Math.round(stock * total);
+      var act = Math.round(byCnt ? b.newCnt : b.newAum / 1e8);
+      return { name:b.name, stock:stock, exp:exp, act:act, diff:act - exp };
+    }).sort(function(a,b){ return b.diff - a.diff; });
+    var M = data.filter(function(d){ return d.name === F; })[0], up = data[0], down = data[data.length-1];
+    function cls(d){ return d.diff >= 0 ? 'pos' : 'neg'; }
+
+    document.getElementById('cmpTitle').textContent = byCnt ? '照家底該拿幾檔，實際拿了幾檔？' : '照家底該拿多少規模，實際拿了多少？';
+    document.getElementById('cmpLead').textContent =
+      '近 3 年新案＝' + NEWFROM + ' 起成立、目前仍存續的基金。照各行現有' + what + '市占換算「應拿」，對照實際拿到多少。';
+    var head = document.getElementById('cmpHeadline');
+    head.classList.toggle('is-behind', M.diff < 0);
+    head.innerHTML =
+      '如果照現有' + what + '市占 <b>' + fmtPct(M.stock) + '</b> 來分，近 3 年 ' + fmtN(total) + ' ' + U + '新案，' + me + '應該拿到約 <b>' + fmtN(M.exp) + ' ' + U + '</b>，' +
+      '實際拿到 <b>' + fmtN(M.act) + ' ' + U + '</b>，<b class="' + cls(M) + '">' + say(M, U) + '</b>。<br>' +
+      '超前最多的是 <b>' + shortBank(up.name) + '</b>（<span class="pos">' + say(up, U) + '</span>）；' +
+      '落後最多的是 <b>' + shortBank(down.name) + '</b>（<span class="neg">' + say(down, U) + '</span>），新案正流向別家，它的客戶最可能鬆動。';
+    document.getElementById('cmpLegend').innerHTML =
+      '<span><i class="sw a"></i>實拿超過應拿</span><span><i class="sw b"></i>實拿不到應拿</span>' +
+      '<span><i class="tick"></i>應拿（照現有' + what + '市占換算）</span>';
+    document.getElementById('cmpNote').textContent =
+      '應拿＝該行現有' + what + '市占 × 近 3 年新案總' + what + '。實拿多於應拿，代表最近的競爭力比過去強。規模單位為新台幣億元。';
+
+    var max = Math.max.apply(null, data.map(function(d){ return Math.max(d.exp, d.act); }).concat([1]));
+    var rowsEl = document.getElementById('cmpRows');
+    rowsEl.innerHTML = '';
+    var fills = [];
+    data.forEach(function(d){
+      var good = d.diff >= 0;
+      var fill = el('div', {class:'cmp-fill ' + (good ? 'a' : 'b')});
+      if (d.act > 0) fills.push([fill, d.act / max * 100]);
+      var track = el('div', {class:'cmp-track'}, [d.act > 0 ? fill : null,
+        el('span', {class:'cmp-exp', style:'left:' + (d.exp / max * 100) + '%'})]);
+      rowsEl.appendChild(el('div', {
+        class:'cmp-row' + (d.name === F ? ' me' : ''),
+        title: d.name + '：現有' + what + '市占 ' + fmtPct(d.stock) + '，應拿 ' + fmtN(d.exp) + ' ' + U + '，實拿 ' + fmtN(d.act) + ' ' + U
+      }, [
+        el('div', {class:'cmp-name'}, [el('span', {class:'cmp-nm'}, [shortBank(d.name)]), el('small', {}, ['實拿 ' + fmtN(d.act) + '｜應拿 ' + fmtN(d.exp)])]),
+        track,
+        el('div', {class:'cmp-val'}, [el('span', {class:good ? 'pos' : 'neg'}, [signed(d.diff, U)])])
+      ]));
+    });
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ fills.forEach(function(p){ p[0].style.width = p[1].toFixed(1) + '%'; }); });
+    });
+  }
+  draw();
+})();
+
+// ======================================================================
 // section nav active state on scroll
 // ======================================================================
 (function(){
