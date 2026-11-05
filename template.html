@@ -508,6 +508,24 @@
   .cat-bar-cell .mini-fill{ height:100%; background:linear-gradient(90deg, var(--sec1), var(--sec4)); border-radius:4px; width:0; transition:width .6s var(--ease-spring-soft); }
   .pie-wrap{ display:flex; flex-direction:column; align-items:stretch; padding:18px; }
   .pie-wrap-body{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; }
+  .pie-wrap-body{ position:relative; }
+  #allPieSvg{ width:min(100%, 290px); height:auto; overflow:visible; }
+  .pie-seg{ cursor:pointer; transition: stroke-width .25s var(--ease-spring-soft), opacity .25s var(--ease-spring-soft); }
+  #allPieSvg.has-hover .pie-seg:not(.hot){ opacity:.4; }
+  .pie-seg.hot{ stroke-width:32; }
+  .pie-legend-row.hot{ background:var(--surface-2); }
+  .pie-tip{
+    position:absolute; z-index:5; pointer-events:none; left:0; top:0;
+    padding:9px 12px; border-radius:10px; white-space:nowrap;
+    background:var(--ink); color:var(--surface); font-size:12.5px; line-height:1.5;
+    box-shadow:var(--shadow-lift);
+    opacity:0; transform:translateY(4px); transition: opacity .15s var(--ease-spring-soft), transform .15s var(--ease-spring-soft);
+  }
+  .pie-tip.show{ opacity:1; transform:none; }
+  .pie-tip .tn{ display:flex; align-items:center; gap:7px; font-weight:700; }
+  .pie-tip .tn i{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .pie-tip .tv{ font-variant-numeric:tabular-nums; margin-top:1px; }
+  @media (prefers-reduced-motion: reduce){ .pie-seg, .pie-tip{ transition:none; } }
   .pie-legend{ display:flex; flex-direction:column; gap:6px; width:100%; max-width:340px; }
   .pie-legend-row{
     display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px;
@@ -785,7 +803,7 @@
         <div class="card pie-wrap">
           <div class="panel-title">市場組成｜主要資金流向</div>
           <div class="pie-wrap-body">
-            <svg id="allPieSvg" width="168" height="168" viewBox="0 0 168 168"></svg>
+            <svg id="allPieSvg" viewBox="0 0 168 168" role="img" aria-label="全市場規模組成圓環圖"></svg>
             <div class="pie-legend" id="allPieLegend"></div>
           </div>
         </div>

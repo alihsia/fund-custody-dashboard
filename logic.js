@@ -490,6 +490,8 @@ function renderPie(funds, svgId, legendId, centerSubtext){
     circle.setAttribute('stroke-dashoffset', -offsetAcc);
     circle.setAttribute('transform', 'rotate(-90 '+cx+' '+cy+')');
     circle.setAttribute('stroke-linecap','butt');
+    circle.setAttribute('class','pie-seg');
+    circle.setAttribute('data-key', key);
     svg.appendChild(circle);
     offsetAcc += len;
   });
@@ -507,14 +509,56 @@ function renderPie(funds, svgId, legendId, centerSubtext){
   subText.textContent = centerSubtext;
   svg.appendChild(subText);
 
+  function valueText(key){
+    var g = groups[key] || {count:0,aum:0};
+    return g.count + ' 檔・' + fmtAUMShort(g.aum) + '（' + fmtPct(g.aum/total) + '）';
+  }
   var legend = document.getElementById(legendId);
   legend.innerHTML = '';
+  var rowByKey = {};
   byRank.forEach(function(key){
-    var g = groups[key] || {count:0,aum:0};
-    legend.appendChild(el('div', {class:'pie-legend-row'}, [
+    var row = el('div', {class:'pie-legend-row'}, [
       el('div', {class:'lk'}, [el('span',{class:'dot', style:'background:'+colors[key]}), key]),
-      el('div', {class:'lv num'}, [g.count + ' 檔・' + fmtAUMShort(g.aum) + '（' + fmtPct(g.aum/total) + '）'])
-    ]));
+      el('div', {class:'lv num'}, [valueText(key)])
+    ]);
+    rowByKey[key] = row;
+    legend.appendChild(row);
+  });
+
+  // hover：圓環與圖例互相對應，圓環上顯示資料提示框
+  var body = svg.parentNode;
+  var tip = el('div', {class:'pie-tip', role:'tooltip'});
+  body.appendChild(tip);
+  var segByKey = {};
+  Array.prototype.forEach.call(svg.querySelectorAll('.pie-seg'), function(seg){ segByKey[seg.getAttribute('data-key')] = seg; });
+  function setHot(key){
+    svg.classList.toggle('has-hover', !!key);
+    Object.keys(segByKey).forEach(function(k){
+      segByKey[k].classList.toggle('hot', k === key);
+      rowByKey[k].classList.toggle('hot', k === key);
+    });
+  }
+  function showTip(key, clientX, clientY){
+    tip.innerHTML = '';
+    tip.appendChild(el('div', {class:'tn'}, [el('i', {style:'background:'+colors[key]}), key]));
+    tip.appendChild(el('div', {class:'tv'}, [valueText(key)]));
+    var b = body.getBoundingClientRect();
+    var x = clientX - b.left + 14, y = clientY - b.top - tip.offsetHeight - 12;
+    if (y < 0) y = clientY - b.top + 18;
+    x = Math.max(0, Math.min(x, b.width - tip.offsetWidth));
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+    tip.classList.add('show');
+  }
+  function hideTip(){ tip.classList.remove('show'); setHot(null); }
+  Object.keys(segByKey).forEach(function(key){
+    var seg = segByKey[key];
+    function move(e){ setHot(key); showTip(key, e.clientX, e.clientY); }
+    seg.addEventListener('pointerenter', move);
+    seg.addEventListener('pointermove', move);
+    seg.addEventListener('pointerleave', hideTip);
+    var row = rowByKey[key];
+    row.addEventListener('pointerenter', function(){ setHot(key); });
+    row.addEventListener('pointerleave', hideTip);
   });
 }
 renderPie(FUNDS, 'allPieSvg', 'allPieLegend', '全市場規模');
